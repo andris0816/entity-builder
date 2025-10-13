@@ -1,7 +1,12 @@
-<script setup>
+<script setup lang="ts">
     import {ref} from "vue";
 
-    const links = ref([
+    interface Link {
+        title: string;
+        path: string;
+    }
+
+    const links = ref<Link[]>([
         { title: "Profile", path: "/profile"},
         { title: "Sign in", path: "/register"},
     ]);

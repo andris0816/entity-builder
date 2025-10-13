@@ -1,12 +1,15 @@
-<script setup>
+<script setup lang="ts">
 
 import Card from "./Card.vue";
 import EntityCard from "./EntityCard.vue";
 import Button from "./Button.vue";
+import type { Entity } from "../data/entityData.ts"
 
-defineProps({
-   entities: Object
-});
+interface Props {
+    entities: Entity[];
+}
+
+const props = defineProps<Props>();
 
 </script>
 
@@ -58,7 +61,7 @@ defineProps({
                     <Button customClass="border-gray-600 g-gray-800/50 hover:bg-gray-800" text="Sign In" />
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <EntityCard v-for="entity in entities" :entity="entity" />
+                    <EntityCard v-for="entity in props.entities" :entity="entity" />
                 </div>
                 <div>
                     <Card customClass="mt-6">

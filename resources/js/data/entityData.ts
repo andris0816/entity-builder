@@ -1,4 +1,10 @@
-export const entities = [
+interface Entity {
+    title: string;
+    subtitle: string;
+    gradient: string;
+}
+
+export const entities: Entity[] = [
     {
         title: 'Character',
         subtitle: 'Heroes & Villains',
