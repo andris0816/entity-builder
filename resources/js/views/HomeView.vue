@@ -1,8 +1,9 @@
-<script setup>
+<script setup lang="ts">
     import Card from "../components/Card.vue";
-    import {entities} from "../data/entityData.js";
+    import {entities} from "../data/entityData.ts";
     import Button from "../components/Button.vue";
     import HeroSection from "../components/HeroSection.vue";
+    import {cardData} from "../data/homeCardData.ts";
 
 </script>
 
@@ -16,33 +17,10 @@
                     Just a simple tool for organizing your fictional stuff. Nothing fancy.
                 </p>
                 <div class="grid md:grid-cols-2 gap-6">
-                    <Card customClass="hover:border-gray-700">
-                        <h3 class="card-title">Create entities</h3>
+                    <Card v-for="card in cardData" customClass="hover:border-gray-700">
+                        <h3 class="card-title">{{ card.title }}</h3>
                         <p class="card-desc">
-                            Add characters, locations, items, events—whatever exists in your world.
-                            Each type gets a different color so you can tell them apart.
-                        </p>
-                    </Card>
-                    <Card customClass="hover:border-gray-700">
-                        <h3 class="card-title">Draw connections</h3>
-                        <p class="card-desc">
-                            ink entities together. Who owns what, where things happen, how characters know each other.
-                            The relationships make your world feel more real.
-                        </p>
-                    </Card>
-                    <Card customClass="hover:border-gray-700">
-                        <h3 class="card-title">Move things around</h3>
-                        <p class="card-desc">
-                            Drag nodes wherever you want.
-                            There's no "right" way to organize it— just arrange things in a way that makes sense to you.
-                        </p>
-                    </Card>
-                    <Card customClass="hover:border-gray-700">
-                        <h3 class="card-title">Keep track of multiple worlds</h3>
-                        <p class="card-desc">
-                            Working on different stories or campaigns?
-                            Each world is separate.
-                            No worrying about accidentally mixing up your sci-fi and fantasy universes.
+                            {{ card.description }}
                         </p>
                     </Card>
                 </div>
