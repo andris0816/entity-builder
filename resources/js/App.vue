@@ -1,12 +1,9 @@
 <template>
-<!--    <h1>Hello App!</h1>-->
-<!--    <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>-->
-<!--    <nav>-->
-<!--        <RouterLink to="/">Go to Home</RouterLink>-->
-<!--    </nav>-->
     <main class="text-gray-50">
+        <Navigation />
         <RouterView />
     </main>
 </template>
 <script setup lang="ts">
+    import Navigation from "./components/Navigation.vue";
 </script>
