@@ -1,8 +1,8 @@
 <script setup>
 
-import TextInput from "../components/TextInput.vue";
-import Card from "../components/Card.vue";
 import Button from "../components/Button.vue";
+import Card from "../components/Card.vue";
+import TextInput from "../components/TextInput.vue";
 </script>
 
 <template>
@@ -12,8 +12,8 @@ import Button from "../components/Button.vue";
                 <div class="h-16 w-16 bg-gradient-to-br from-blue-400 to-purple-600 rounded-2xl p-6 flex items-center justify-center mb-4">
                     <span class="text-white text-3xl">L</span>
                 </div>
-                <h2 class="text-3xl text-white mb-1">Lore Explorer</h2>
-                <p class="text-gray-400">Map your fictional worlds</p>
+                <h2 class="text-3xl text-white mb-1">Welcome Back</h2>
+                <p class="text-gray-400">Sign in to your account to continue</p>
             </div>
             <Card>
                 <div class="mb-6 px-6">
@@ -22,16 +22,11 @@ import Button from "../components/Button.vue";
                 </div>
                 <form>
                     <div class="px-6 [&:last-child]:pb-6 space-y-4">
-                        <TextInput v-model="name" type="text" label="Name" placeholder="Your Name" required></TextInput>
                         <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>
                         <TextInput v-model="password" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <TextInput v-model="password_confirmation" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <Button variant="gradient" class="w-full mt-3">Create Account</Button>
+                        <Button variant="gradient" class="w-full mt-3">Sign In</Button>
                     </div>
                 </form>
-                <div class="flex justify-center">
-                    <p class="text-md text-gray-400">Already have an account? <RouterLink to="/login" class="underline text-blue-500 hover:text-blue-200">Sign In</RouterLink></p>
-                </div>
             </Card>
         </div>
     </div>
