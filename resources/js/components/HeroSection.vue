@@ -45,20 +45,12 @@ const props = defineProps<Props>();
                     The ultimate tool for writers, game designers, and creators to visualize and organize complex story universes with beautiful interactive graphs.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 py-8 mb-16">
-                    <Button
-                        customClass="
-                            bg-gradient-to-r
-                            from-blue-500
-                            to-purple-400
-                            hover:from-blue-600
-                            hover:to-purple-700
-                            shadow-2xl
-                            shadow-blue-500/50
-                            text-black"
-
-                        text="Get Started Free"
-                    />
-                    <Button customClass="border-gray-600 g-gray-800/50 hover:bg-gray-800" text="Sign In" />
+                    <Button variant="gradient">
+                        Get Started Free
+                    </Button>
+                    <Button variant="dark">
+                        Sign In
+                    </Button>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <EntityCard v-for="entity in props.entities" :entity="entity" />

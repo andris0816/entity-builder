@@ -46,18 +46,10 @@
                 <h2 class="text-white mb-6">Ready to Start Building?</h2>
                 <p class="text-gray-400 text-xl mb-6">Join creators worldwide who use Lore Explorer to bring their fictional worlds to life.</p>
                 <Button
-                    customClass="
-                    bg-gradient-to-r
-                    from-blue-500
-                    to-purple-400
-                    hover:from-blue-600
-                    hover:to-purple-700
-                    shadow-2xl
-                    shadow-blue-500/50
-                    text-black"
-
-                    text="Create Your First World"
-                />
+                    variant="gradient"
+                >
+                    Create Your First World
+                </Button>
             </div>
         </section>
     </div>
