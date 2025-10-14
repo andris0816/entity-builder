@@ -49,10 +49,11 @@
         'focus-visible:ring-[3px]',
         'aria-invalid:ring-destructive',
         'aria-invalid:border-destructive',
-        'bg-gray-950/50',
+        'bg-gray-950/80',
         'border-gray-700',
         'text-white',
-        'placeholder:text-gray-500'
+        'placeholder:text-gray-500',
+        'mt-1'
     ];
 
     const inputClasses = computed(() => [...baseInputClasses, props.customClass]);
