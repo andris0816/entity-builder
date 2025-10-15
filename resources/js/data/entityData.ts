@@ -1,4 +1,4 @@
-interface Entity {
+export interface Entity {
     title: string;
     subtitle: string;
     gradient: string;
