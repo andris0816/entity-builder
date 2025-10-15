@@ -1,8 +1,28 @@
-<script setup>
-
+<script setup lang="ts">
 import TextInput from "../components/TextInput.vue";
 import Card from "../components/Card.vue";
 import Button from "../components/Button.vue";
+import {ref} from "vue";
+import axios from "axios";
+
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const passwordConfirmation = ref('');
+const token = ref(null);
+const message = ref('');
+
+const register = async () => {
+    try {
+        console.log('register clicked');
+        const res = await axios.post('/api/register', { name: name.value, email: email.value, password: password.value, password_confirmation: passwordConfirmation.value });
+        token.value = res.data.token;
+        localStorage.setItem('token', token.value);
+        message.value = 'Registration successful!';
+    } catch (err) {
+        message.value = 'Registration failed!';
+    }
+};
 </script>
 
 <template>
@@ -20,13 +40,13 @@ import Button from "../components/Button.vue";
                     <h4 class="leading-none card-title text-medium">Create an account</h4>
                     <p class="card-desc">Start mapping your stories today</p>
                 </div>
-                <form>
+                <form @submit.prevent="register" method="POST">
                     <div class="px-6 [&:last-child]:pb-6 space-y-4">
                         <TextInput v-model="name" type="text" label="Name" placeholder="Your Name" required></TextInput>
                         <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>
                         <TextInput v-model="password" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <TextInput v-model="password_confirmation" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <Button variant="gradient" class="w-full mt-3">Create Account</Button>
+                        <TextInput v-model="passwordConfirmation" type="password" label="Password" placeholder="*******" required></TextInput>
+                        <Button type="submit" variant="gradient" class="w-full mt-3">Create Account</Button>
                     </div>
                 </form>
                 <div class="flex justify-center">
