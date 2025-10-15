@@ -1,5 +1,4 @@
-<script setup>
-
+<script setup lang="ts">
 import Button from "../components/Button.vue";
 import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
