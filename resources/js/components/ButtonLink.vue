@@ -1,34 +1,30 @@
 <script setup lang="ts">
-    import {computed} from "vue";
     import {getButtonClasses} from "../data/buttonClasses";
+    import {computed} from "vue";
 
     interface Props {
-        type?: 'button' | 'submit' | 'reset';
-        disabled: boolean
+        href: string;
         customClass?: string
         variant?: 'default' | 'gradient' | 'dark'
     }
 
     const props = withDefaults(defineProps<Props>(), {
-        customClass: '',
-        disabled: false,
-        variant: "default"
+       customClass: '',
+       variant: 'default'
     });
 
     const buttonClasses = computed(() =>
-       getButtonClasses(props.variant, props.customClass)
+        getButtonClasses(props.variant, props.customClass)
     );
 </script>
 
 <template>
-    <button
+    <RouterLink
+        :to="href"
         :class="buttonClasses"
-        :type="type"
-        :disabled="disabled"
-        v-bind="$attrs"
     >
-        <slot />
-    </button>
+    <slot />
+    </RouterLink>
 </template>
 
 <style scoped>

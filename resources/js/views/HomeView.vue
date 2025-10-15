@@ -1,9 +1,9 @@
 <script setup lang="ts">
     import Card from "../components/Card.vue";
     import {entities} from "../data/entityData.ts";
-    import Button from "../components/Button.vue";
     import HeroSection from "../components/HeroSection.vue";
     import {cardData} from "../data/homeCardData.ts";
+    import ButtonLink from "../components/ButtonLink.vue";
 
 </script>
 
@@ -45,11 +45,12 @@
                 </svg>
                 <h2 class="text-white mb-6">Ready to Start Building?</h2>
                 <p class="text-gray-400 text-xl mb-6">Join creators worldwide who use Lore Explorer to bring their fictional worlds to life.</p>
-                <Button
+                <ButtonLink
+                    href="/register"
                     variant="gradient"
                 >
                     Create Your First World
-                </Button>
+                </ButtonLink>
             </div>
         </section>
     </div>

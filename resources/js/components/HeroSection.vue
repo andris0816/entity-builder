@@ -2,8 +2,8 @@
 
 import Card from "./Card.vue";
 import EntityCard from "./EntityCard.vue";
-import Button from "./Button.vue";
 import type { Entity } from "../data/entityData.ts"
+import ButtonLink from "./ButtonLink.vue";
 
 interface Props {
     entities: Entity[];
@@ -45,12 +45,12 @@ const props = defineProps<Props>();
                     The ultimate tool for writers, game designers, and creators to visualize and organize complex story universes with beautiful interactive graphs.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 py-8 mb-16">
-                    <Button variant="gradient">
+                    <ButtonLink href="/register" variant="gradient">
                         Get Started Free
-                    </Button>
-                    <Button variant="dark">
+                    </ButtonLink>
+                    <ButtonLink href="/login" variant="dark">
                         Sign In
-                    </Button>
+                    </ButtonLink>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <EntityCard v-for="entity in props.entities" :entity="entity" />
