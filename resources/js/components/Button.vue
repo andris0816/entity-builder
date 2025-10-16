@@ -4,7 +4,7 @@
 
     interface Props {
         type?: 'button' | 'submit' | 'reset';
-        disabled: boolean
+        disabled?: boolean
         customClass?: string
         variant?: 'default' | 'gradient' | 'dark'
     }
