@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import {computed, defineProps} from "vue";
+    import {Entity} from "../data/entityData";
 
     interface Props {
         entity: Entity;
