@@ -14,6 +14,7 @@ export const variantClasses = {
         'text-black'
     ],
     'dark': [
+        'border',
         'border-gray-600',
         'g-gray-800/50',
         'hover:bg-gray-800'
@@ -23,7 +24,6 @@ export const variantClasses = {
 export const baseClasses = [
     'px-3',
     'py-2',
-    'border',
     'rounded-lg',
     'text-lg',
     'font-medium'
