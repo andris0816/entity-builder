@@ -1,7 +1,8 @@
 <script setup lang="ts">
 
-import Button from "../components/Button.vue";
-import WorldCard from "../components/WorldCard.vue";
+import WorldCard from "../components/Dashboard/WorldCard.vue";
+import DashboardHeader from "../components/Dashboard/DashboardHeader.vue";
+
 </script>
 
 <template>

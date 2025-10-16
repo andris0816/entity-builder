@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import Card from "./Card.vue";
-    import {getRandomGradient} from "../utils/gradient";
+    import Card from "../Card.vue";
+    import {getRandomGradient} from "../../utils/gradient";
 
     interface Props {
         customClass?: string;
