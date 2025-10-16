@@ -3,24 +3,41 @@ import TextInput from "../components/TextInput.vue";
 import Card from "../components/Card.vue";
 import Button from "../components/Button.vue";
 import {ref} from "vue";
-import axios from "axios";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const name = ref('');
 const email = ref('');
 const password = ref('');
 const passwordConfirmation = ref('');
-const token = ref(null);
-const message = ref('');
 
 const register = async () => {
     try {
-        console.log('register clicked');
-        const res = await axios.post('/api/register', { name: name.value, email: email.value, password: password.value, password_confirmation: passwordConfirmation.value });
-        token.value = res.data.token;
-        localStorage.setItem('token', token.value);
-        message.value = 'Registration successful!';
+        const response = await fetch('api/register', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name.value,
+                email: email.value,
+                password: password.value,
+                password_confirmation: passwordConfirmation.value
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        localStorage.setItem('auth_token', data.token);
+
+        await router.push('/dashboard');
     } catch (err) {
-        message.value = 'Registration failed!';
+        console.error("Registration failed: ", err)
     }
 };
 </script>
@@ -46,7 +63,7 @@ const register = async () => {
                         <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>
                         <TextInput v-model="password" type="password" label="Password" placeholder="*******" required></TextInput>
                         <TextInput v-model="passwordConfirmation" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <Button type="submit" variant="gradient" class="w-full mt-3">Create Account</Button>
+                        <Button type="submit" variant="gradient" customClass="w-full mt-3">Create Account</Button>
                     </div>
                 </form>
                 <div class="flex justify-center">

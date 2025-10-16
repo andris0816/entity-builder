@@ -2,6 +2,41 @@
 import Button from "../components/Button.vue";
 import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
+import { useRouter } from "vue-router";
+import {ref} from "vue";
+
+const router = useRouter();
+
+const email = ref('');
+const password = ref('');
+
+const login = async () => {
+    try {
+        const response = await fetch('api/login', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email.value,
+                password: password.value,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        localStorage.setItem('auth_token', data.token);
+
+        await router.push('/dashboard');
+    } catch (err) {
+        console.error("Login failed: ", err)
+    }
+};
 </script>
 
 <template>
@@ -19,13 +54,16 @@ import TextInput from "../components/TextInput.vue";
                     <h4 class="leading-none card-title text-medium">Create an account</h4>
                     <p class="card-desc">Start mapping your stories today</p>
                 </div>
-                <form>
+                <form @submit.prevent="login" method="POST">
                     <div class="px-6 [&:last-child]:pb-6 space-y-4">
                         <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>
                         <TextInput v-model="password" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <Button variant="gradient" class="w-full mt-3">Sign In</Button>
+                        <Button type="submit" variant="gradient" customClass="w-full mt-3">Sign In</Button>
                     </div>
                 </form>
+                <div class="flex justify-center">
+                    <p class="text-md text-gray-400">Don't have an account? <RouterLink to="/register" class="underline text-blue-500 hover:text-blue-200">Sign Up</RouterLink></p>
+                </div>
             </Card>
         </div>
     </div>
