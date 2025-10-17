@@ -29,7 +29,6 @@ const baseInputClasses = [
     'selection:bg-primary',
     'selection:text-primary-foreground',
     'flex',
-    'h-9',
     'w-full',
     'min-w-0',
     'rounded-md',
