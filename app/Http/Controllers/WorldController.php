@@ -22,6 +22,8 @@ class WorldController extends Controller
 
         $world = World::create($data);
 
+//        $worldWithEntityCount = wor
+
         return response()->json([
             'message' => 'World created',
             'world' => $world
@@ -35,8 +37,6 @@ class WorldController extends Controller
         $worlds = $user->worlds()
             ->withCount('entities')
             ->get();
-
-        logger($worlds);
 
         return response()->json([
             'worlds' => $worlds

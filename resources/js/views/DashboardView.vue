@@ -28,11 +28,14 @@ onMounted(async () => {
     }
 });
 
+function onWorldSaved(newWorld: World) {
+    worlds.value.push(newWorld);
+}
 </script>
 
 <template>
     <div class="max-w-7xl mx-auto px-6 py-12">
-        <DashboardHeader />
+        <DashboardHeader @saved="onWorldSaved" />
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <WorldCard v-for="world in worlds" :world="world" :key="world.id"></WorldCard>
         </div>

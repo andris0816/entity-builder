@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 
 class SessionController extends Controller
 {
@@ -27,8 +28,10 @@ class SessionController extends Controller
         ], 401);
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
-        Auth::logout();
+        $user = User::where('email', $request->id)->first();
+
+
     }
 }
