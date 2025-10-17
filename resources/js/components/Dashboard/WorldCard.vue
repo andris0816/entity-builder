@@ -1,8 +1,11 @@
 <script setup lang="ts">
     import Card from "../Card.vue";
     import {getRandomGradient} from "../../utils/gradient";
+    import {World} from "../../types/world";
+    import {timeAgo} from "../../utils/timeAgo";
 
     interface Props {
+        world: World;
         customClass?: string;
     }
 
@@ -10,6 +13,7 @@
         customClass: '',
     });
 
+    const { world, customClass } = props;
     const gradientClass = getRandomGradient();
 </script>
 
@@ -33,8 +37,8 @@
                     <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"></path>
                 </svg>
             </div>
-            <h4 class="text-white mb-1">World Name</h4>
-            <p class="text-gray-400">Description for the world.</p>
+            <h4 class="text-white mb-1">{{ world.name }}</h4>
+            <p class="text-gray-400">{{ world.desc }}</p>
         </div>
         <div class="mt-auto">
             <div class="flex items-center gap-4 text-sm text-gray-400">
@@ -58,7 +62,7 @@
                         </svg>
                     </span>
                     <span>
-                        X Entities
+                        {{ world.entities_count }}
                     </span>
                 </div>
                 <div class="flex items-center gap-1">
@@ -83,7 +87,7 @@
                         </svg>
                     </span>
                     <span>
-                        X time ago
+                        {{ timeAgo(world.created_at) }}
                     </span>
                 </div>
             </div>

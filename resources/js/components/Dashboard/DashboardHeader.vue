@@ -5,10 +5,38 @@ import Modal from "../Modal.vue";
 import {ref} from "vue";
 import TextInput from "../TextInput.vue";
 import TextArea from "../TextArea.vue";
+import {useAuthStore} from "../../auth";
 
 const name = ref('');
 const desc = ref('');
+const formRef = ref(null);
 let showModal = ref(false);
+
+function submitForm() {
+    formRef.value.requestSubmit();
+}
+
+const saveWorld = async () => {
+    try {
+        const authStore = useAuthStore();
+        await fetch('api/world', {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name.value,
+                desc: desc.value,
+                user_id: authStore.user.id
+            }),
+        });
+        showModal.value = false;
+    } catch (err) {
+
+    }
+}
 </script>
 
 <template>
@@ -47,7 +75,7 @@ let showModal = ref(false);
                 <p class="text-gray-400 text-sm mt-2">Start building a new fictional universe</p>
             </template>
             <template #default>
-                <form>
+                <form ref="formRef" @submit.prevent="saveWorld" method="POST">
                     <div class="space-y-6">
                         <TextInput v-model="name" type="text" label="World Name" placeholder="The Forgotten Shores" required></TextInput>
                         <TextArea v-model="desc" label="World Description" placeholder="A brief description of your world..." rows="3" required></TextArea>
@@ -63,7 +91,7 @@ let showModal = ref(false);
                     >
                         Cancel
                     </Button>
-                    <Button type="submit" variant="gradient" customClass="text-sm">Save World</Button>
+                    <Button @click="submitForm" type="submit" variant="gradient" customClass="text-sm">Save World</Button>
                 </div>
             </template>
         </Modal>

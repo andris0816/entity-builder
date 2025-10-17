@@ -20,7 +20,27 @@ class WorldController extends Controller
             'user_id' => ['required', 'integer'],
         ]);
 
-        return World::create($data);
+        $world = World::create($data);
+
+        return response()->json([
+            'message' => 'World created',
+            'world' => $world
+        ], 201);
+    }
+
+    public function indexByUserId(Request $request)
+    {
+        $user = $request->user();
+
+        $worlds = $user->worlds()
+            ->withCount('entities')
+            ->get();
+
+        logger($worlds);
+
+        return response()->json([
+            'worlds' => $worlds
+        ]);
     }
 
     public function show(World $world)
