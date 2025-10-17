@@ -14,7 +14,7 @@ class SessionController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth-token', ['*'], now()->addDays(7))->plainTextToken;
 
             return response()->json([
                 'user' => $user,
