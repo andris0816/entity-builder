@@ -4,6 +4,7 @@ import Card from "../components/Card.vue";
 import Button from "../components/Button.vue";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
+import {useAuthStore} from "../auth";
 
 const router = useRouter();
 const name = ref('');
@@ -13,6 +14,8 @@ const passwordConfirmation = ref('');
 
 const register = async () => {
     try {
+        const authStore = useAuthStore();
+
         const response = await fetch('api/register', {
             method: "POST",
             headers: {
@@ -31,9 +34,10 @@ const register = async () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const { user, token } = await response.json();
 
-        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('auth_token', token);
+        authStore.user = user;
 
         await router.push('/dashboard');
     } catch (err) {

@@ -4,6 +4,7 @@ import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
 import { useRouter } from "vue-router";
 import {ref} from "vue";
+import {useAuthStore} from "../auth";
 
 const router = useRouter();
 
@@ -12,6 +13,8 @@ const password = ref('');
 
 const login = async () => {
     try {
+        const authStore = useAuthStore();
+
         const response = await fetch('api/login', {
             method: "POST",
             headers: {
@@ -28,9 +31,10 @@ const login = async () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const { user, token } = await response.json();
 
-        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('auth_token', token);
+        authStore.user = user;
 
         await router.push('/dashboard');
     } catch (err) {
