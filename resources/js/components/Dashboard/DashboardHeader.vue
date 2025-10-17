@@ -54,6 +54,18 @@ let showModal = ref(false);
                     </div>
                 </form>
             </template>
+            <template #footer>
+                <div class="flex justify-end gap-4">
+                    <Button
+                        @click="showModal = false"
+                        variant="dark"
+                        customClass="text-white text-sm"
+                    >
+                        Cancel
+                    </Button>
+                    <Button type="submit" variant="gradient" customClass="text-sm">Save World</Button>
+                </div>
+            </template>
         </Modal>
     </Teleport>
 </template>
