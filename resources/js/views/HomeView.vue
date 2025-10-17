@@ -1,8 +1,8 @@
 <script setup lang="ts">
     import Card from "../components/Card.vue";
-    import {entities} from "../data/entityData.ts";
+    import {entities} from "../data/entityData";
     import HeroSection from "../components/HeroSection.vue";
-    import {cardData} from "../data/homeCardData.ts";
+    import {cardData} from "../data/homeCardData";
     import ButtonLink from "../components/ButtonLink.vue";
 
 </script>
