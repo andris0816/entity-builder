@@ -1,7 +1,11 @@
 <template>
     <main class="text-gray-50">
-        <Navigation />
-        <RouterView />
+        <div class="size-full dark">
+            <div class="min-h-screen bg-gray-950">
+                <Navigation />
+                <RouterView />
+            </div>
+        </div>
     </main>
 </template>
 <script setup lang="ts">
