@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import {createMemoryHistory, createRouter, createWebHistory} from 'vue-router'
 
 import HomeView from '../views/HomeView.vue'
 import RegisterView from "../views/RegisterView.vue";
@@ -33,6 +33,6 @@ const routes = [
 ]
 
 export const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     routes,
 })
