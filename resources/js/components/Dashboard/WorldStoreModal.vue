@@ -45,7 +45,7 @@ const saveWorld = async () => {
         name.value = '';
         desc.value = '';
     } catch (err) {
-
+        console.error("There was an error while storing new world", err);
     }
 }
 </script>

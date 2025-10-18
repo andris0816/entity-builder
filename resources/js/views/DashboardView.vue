@@ -24,7 +24,7 @@ onMounted(async () => {
         const data = await response.json();
         worlds.value = data.worlds;
     } catch (err) {
-
+        console.error("There was an error while loading in worlds", err);
     }
 });
 

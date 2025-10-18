@@ -27,6 +27,7 @@ export const useAuthStore = defineStore('auth', () => {
 
             user.value = await response.json();
         } catch (err) {
+            console.error("There was an error fetching user data", err);
             clearAuth();
         }
     }
