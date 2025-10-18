@@ -20,9 +20,7 @@ class WorldController extends Controller
             'user_id' => ['required', 'integer'],
         ]);
 
-        $world = World::create($data);
-
-//        $worldWithEntityCount = wor
+        $world = World::create($data)->loadCount('entities');
 
         return response()->json([
             'message' => 'World created',
