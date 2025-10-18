@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\World;
+use Auth;
 use Illuminate\Http\Request;
 
 class WorldController extends Controller
@@ -17,10 +18,11 @@ class WorldController extends Controller
         $data = $request->validate([
             'name' => ['required'],
             'desc' => ['required'],
-            'user_id' => ['required', 'integer'],
         ]);
 
-        $world = World::create($data)->loadCount('entities');
+        $user = Auth::user();
+
+        $world = $user->worlds()->create($data)->loadCount('entities');
 
         return response()->json([
             'message' => 'World created',

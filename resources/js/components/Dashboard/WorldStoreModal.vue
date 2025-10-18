@@ -23,7 +23,6 @@ function submitForm() {
 
 const saveWorld = async () => {
     try {
-        const authStore = useAuthStore();
         const response = await fetch('api/world', {
             method: "POST",
             headers: {
@@ -34,7 +33,6 @@ const saveWorld = async () => {
             body: JSON.stringify({
                 name: name.value,
                 desc: desc.value,
-                user_id: authStore.user.id
             }),
         });
 
