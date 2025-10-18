@@ -4,6 +4,9 @@
     import HeroSection from "../components/HeroSection.vue";
     import {cardData} from "../data/homeCardData";
     import ButtonLink from "../components/ButtonLink.vue";
+    import {useAuthStore} from "../auth";
+
+    const authStore = useAuthStore();
 
 </script>
 
@@ -45,7 +48,7 @@
                 </svg>
                 <h2 class="text-white mb-6">Ready to Start Building?</h2>
                 <p class="text-gray-400 text-xl mb-6">Join creators worldwide who use Lore Explorer to bring their fictional worlds to life.</p>
-                <ButtonLink
+                <ButtonLink v-if="! authStore.user"
                     href="/register"
                     variant="gradient"
                 >

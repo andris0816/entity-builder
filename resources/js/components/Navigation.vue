@@ -10,8 +10,8 @@ import {computed, ref} from "vue";
 
     const links = ref<Link[]>([
         {
-            title: "Profile",
-            path: "/profile",
+            title: "Dashboard",
+            path: "/dashboard",
             auth: 'user',
         },
         {

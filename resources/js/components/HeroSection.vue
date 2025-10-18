@@ -4,6 +4,9 @@ import Card from "./Card.vue";
 import EntityCard from "./EntityCard.vue";
 import type { Entity } from "../data/entityData.ts"
 import ButtonLink from "./ButtonLink.vue";
+import {useAuthStore} from "../auth";
+
+const authStore = useAuthStore();
 
 interface Props {
     entities: Entity[];
@@ -45,10 +48,10 @@ const props = defineProps<Props>();
                     The ultimate tool for writers, game designers, and creators to visualize and organize complex story universes with beautiful interactive graphs.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 py-8 mb-16">
-                    <ButtonLink href="/register" variant="gradient">
+                    <ButtonLink v-if="! authStore.user" href="/register" variant="gradient">
                         Get Started Free
                     </ButtonLink>
-                    <ButtonLink href="/login" variant="dark">
+                    <ButtonLink v-if="! authStore.user" href="/login" variant="dark">
                         Sign In
                     </ButtonLink>
                 </div>
