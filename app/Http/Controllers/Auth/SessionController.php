@@ -13,13 +13,13 @@ class SessionController extends Controller
 {
     public function store(LoginRequest $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
             $user = User::where('email', $request->email)->first();
-            $token = $user->createToken('auth-token', ['*'], now()->addDays(7))->plainTextToken;
+
+            $request->session()->regenerate();
 
             return response()->json([
                 'user' => $user,
-                'token' => $token
             ]);
         }
 
@@ -30,8 +30,10 @@ class SessionController extends Controller
 
     public function destroy(Request $request)
     {
-        $user = User::where('email', $request->id)->first();
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-
+        return response()->noContent();
     }
 }

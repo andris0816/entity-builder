@@ -6,44 +6,17 @@ import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {useAuthStore} from "../auth";
 
-const router = useRouter();
 const name = ref('');
 const email = ref('');
 const password = ref('');
 const passwordConfirmation = ref('');
+const authStore = useAuthStore();
 
-const register = async () => {
-    try {
-        const authStore = useAuthStore();
+const handleRegister = async () => {
+    await authStore.register(name.value, email.value, password.value, passwordConfirmation.value);
 
-        const response = await fetch('api/register', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                name: name.value,
-                email: email.value,
-                password: password.value,
-                password_confirmation: passwordConfirmation.value
-            }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const { user, token } = await response.json();
-
-        localStorage.setItem('auth_token', token);
-        authStore.user = user;
-
-        await router.push('/dashboard');
-    } catch (err) {
-        console.error("Registration failed: ", err)
-    }
-};
+    if (!authStore.error) console.error("Logged in as", authStore.user?.name);
+}
 </script>
 
 <template>
@@ -61,7 +34,7 @@ const register = async () => {
                     <h4 class="leading-none card-title text-medium">Create an account</h4>
                     <p class="card-desc">Start mapping your stories today</p>
                 </div>
-                <form @submit.prevent="register" method="POST">
+                <form @submit.prevent="handleRegister" method="POST">
                     <div class="px-6 [&:last-child]:pb-6 space-y-4">
                         <TextInput v-model="name" type="text" label="Name" placeholder="Your Name" required></TextInput>
                         <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>

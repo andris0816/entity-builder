@@ -12,4 +12,10 @@ export default defineConfig({
         tailwindcss(),
         vue(),
     ],
+    server: {
+        proxy: {
+            '/api': 'http://localhost:8000',
+            '/sanctum': 'http://localhost:8000'
+        }
+    }
 });
