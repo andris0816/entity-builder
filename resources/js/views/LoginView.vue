@@ -32,9 +32,27 @@ const handleLogin = async () => {
                 </div>
                 <form @submit.prevent="handleLogin" method="POST">
                     <div class="px-6 [&:last-child]:pb-6 space-y-4">
-                        <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>
-                        <TextInput v-model="password" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <Button type="submit" variant="gradient" customClass="w-full mt-3">Sign In</Button>
+                        <TextInput
+                            v-model="email"
+                            type="email"
+                            label="Email Address"
+                            placeholder="Your email"
+                            required
+                        />
+                        <TextInput
+                            v-model="password"
+                            type="password"
+                            label="Password"
+                            placeholder="*******"
+                            required
+                        />
+                        <Button
+                            type="submit"
+                            variant="gradient"
+                            customClass="w-full mt-3"
+                        >
+                            Sign In
+                        </Button>
                     </div>
                 </form>
                 <div class="flex justify-center">

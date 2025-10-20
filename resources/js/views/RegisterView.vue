@@ -34,15 +34,53 @@ const handleRegister = async () => {
                 </div>
                 <form @submit.prevent="handleRegister" method="POST">
                     <div class="px-6 [&:last-child]:pb-6 space-y-4">
-                        <TextInput v-model="name" type="text" label="Name" placeholder="Your Name" required></TextInput>
-                        <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>
-                        <TextInput v-model="password" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <TextInput v-model="passwordConfirmation" type="password" label="Password" placeholder="*******" required></TextInput>
-                        <Button type="submit" variant="gradient" customClass="w-full mt-3">Create Account</Button>
+                        <TextInput
+                            v-model="name"
+                            type="text"
+                            label="Name"
+                            placeholder="Your Name"
+                            required
+                        />
+                        <TextInput
+                            v-model="email"
+                            type="email"
+                            label="Email Address"
+                            placeholder="Your email"
+                            required
+                        />
+                        <TextInput
+                            v-model="password"
+                            type="password"
+                            label="Password"
+                            placeholder="*******"
+                            required
+                        />
+                        <TextInput
+                            v-model="passwordConfirmation"
+                            type="password"
+                            label="Password"
+                            placeholder="*******"
+                            required
+                        />
+                        <Button
+                            type="submit"
+                            variant="gradient"
+                            customClass="w-full mt-3"
+                        >
+                            Create Account
+                        </Button>
                     </div>
                 </form>
                 <div class="flex justify-center">
-                    <p class="text-md text-gray-400">Already have an account? <RouterLink to="/login" class="underline text-blue-500 hover:text-blue-200">Sign In</RouterLink></p>
+                    <p class="text-md text-gray-400">
+                        Already have an account?
+                        <RouterLink
+                            to="/login"
+                            class="underline text-blue-500 hover:text-blue-200"
+                        >
+                            Sign In
+                        </RouterLink>
+                    </p>
                 </div>
             </Card>
         </div>

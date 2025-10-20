@@ -85,4 +85,3 @@ const inputClasses = computed(() => [...baseInputClasses, props.customClass]);
 <style scoped>
 
 </style>
-textarea

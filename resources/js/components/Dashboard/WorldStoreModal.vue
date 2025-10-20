@@ -45,7 +45,12 @@ const saveWorld = async () => {
 </script>
 
 <template>
-    <Button @click="showModal = true" type="button" variant="gradient" customClass="text-sm inline-flex items-center justify-center gap-2">
+    <Button
+        @click="showModal = true"
+        type="button"
+        variant="gradient"
+        customClass="text-sm inline-flex items-center justify-center gap-2"
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -74,8 +79,19 @@ const saveWorld = async () => {
             <template #default>
                 <form ref="formRef" @submit.prevent="saveWorld" method="POST">
                     <div class="space-y-6">
-                        <TextInput v-model="name" type="text" label="World Name" placeholder="The Forgotten Shores" required></TextInput>
-                        <TextArea v-model="desc" label="World Description" placeholder="A brief description of your world..." rows="3" required></TextArea>
+                        <TextInput
+                            v-model="name"
+                            type="text"
+                            label="World Name"
+                            placeholder="The Forgotten Shores" required
+                        />
+                        <TextArea
+                            v-model="desc"
+                            label="World Description"
+                            placeholder="A brief description of your world..."
+                            rows="3"
+                            required
+                        />
                     </div>
                 </form>
             </template>
@@ -88,7 +104,14 @@ const saveWorld = async () => {
                     >
                         Cancel
                     </Button>
-                    <Button @click="submitForm" type="submit" variant="gradient" customClass="text-sm">Save World</Button>
+                    <Button
+                        @click="submitForm"
+                        type="submit"
+                        variant="gradient"
+                        customClass="text-sm"
+                    >
+                        Save World
+                    </Button>
                 </div>
             </template>
         </Modal>
