@@ -14,8 +14,6 @@ const authStore = useAuthStore();
 
 const handleRegister = async () => {
     await authStore.register(name.value, email.value, password.value, passwordConfirmation.value);
-
-    if (!authStore.error) console.error("Logged in as", authStore.user?.name);
 }
 </script>
 

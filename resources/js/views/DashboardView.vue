@@ -4,6 +4,7 @@ import WorldCard from "../components/Dashboard/WorldCard.vue";
 import DashboardHeader from "../components/Dashboard/DashboardHeader.vue";
 import {onMounted, ref} from "vue";
 import {World} from "../types/world";
+import {apiFetch} from "../utils/api";
 
 
 // const authStore = useAuthStore();
@@ -12,13 +13,8 @@ const worlds = ref<World[]>([]);
 
 onMounted(async () => {
     try {
-        const response = await fetch('api/world', {
+        const response = await apiFetch('/world', {
             method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
-                'Accept': 'application/json'
-            },
-            credentials: 'include',
         });
 
         const data = await response.json();

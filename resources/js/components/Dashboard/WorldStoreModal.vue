@@ -7,6 +7,7 @@ import TextArea from "../TextArea.vue";
 import {ref} from "vue";
 import {useAuthStore} from "../../auth";
 import {World} from "../../types/world";
+import {apiFetch} from "../../utils/api";
 
 const name = ref('');
 const desc = ref('');
@@ -23,13 +24,8 @@ function submitForm() {
 
 const saveWorld = async () => {
     try {
-        const response = await fetch('api/world', {
+        const response = await apiFetch('/world', {
             method: "POST",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
             body: JSON.stringify({
                 name: name.value,
                 desc: desc.value,

@@ -23,9 +23,8 @@ export const useAuthStore = defineStore('auth', () => {
         loading.value = true;
         error.value = null;
         try {
-            const response = await fetch('/api/login', {
+            const response = await apiFetch('/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
@@ -49,7 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
         loading.value = true;
         error.value = null;
         try {
-            const response = await fetch('/api/register', {
+            const response = await apiFetch('/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -78,12 +77,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     const logout = async () => {
         if (token.value) {
-            await fetch('/api/logout', {
+            await apiFetch('/logout', {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token.value}`,
-                    'Content-Type': 'application/json',
-                },
             });
         }
 
