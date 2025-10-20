@@ -19,7 +19,7 @@ class SessionController extends Controller
 
             return response()->json([
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
             ]);
         }
 
@@ -30,8 +30,7 @@ class SessionController extends Controller
 
     public function destroy(Request $request)
     {
-        $user = User::where('email', $request->id)->first();
-
-
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out']);
     }
 }

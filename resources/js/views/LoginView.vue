@@ -2,45 +2,17 @@
 import Button from "../components/Button.vue";
 import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
-import { useRouter } from "vue-router";
 import {ref} from "vue";
 import {useAuthStore} from "../auth";
 
-const router = useRouter();
+const authStore = useAuthStore();
 
 const email = ref('');
 const password = ref('');
 
-const login = async () => {
-    try {
-        const authStore = useAuthStore();
-
-        const response = await fetch('api/login', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email.value,
-                password: password.value,
-            }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const { user, token } = await response.json();
-
-        localStorage.setItem('auth_token', token);
-        authStore.user = user;
-
-        await router.push('/dashboard');
-    } catch (err) {
-        console.error("Login failed: ", err)
-    }
-};
+const handleLogin = async () => {
+    await authStore.login(email.value, password.value);
+}
 </script>
 
 <template>
@@ -58,7 +30,7 @@ const login = async () => {
                     <h4 class="leading-none card-title text-medium">Create an account</h4>
                     <p class="card-desc">Start mapping your stories today</p>
                 </div>
-                <form @submit.prevent="login" method="POST">
+                <form @submit.prevent="handleLogin" method="POST">
                     <div class="px-6 [&:last-child]:pb-6 space-y-4">
                         <TextInput v-model="email" type="email" label="Email Address" placeholder="Your email" required></TextInput>
                         <TextInput v-model="password" type="password" label="Password" placeholder="*******" required></TextInput>
