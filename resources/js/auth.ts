@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import {apiFetch} from "./utils/api";
 
 interface User {
     id: bigint;
@@ -90,23 +91,6 @@ export const useAuthStore = defineStore('auth', () => {
         token.value = null;
         user.value = null;
         await router.push('/login');
-    };
-
-    const apiFetch = async (url: string, options: RequestInit = {}) => {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            ...options.headers,
-        };
-
-        if (token.value) {
-            (headers as any)['Authorization'] = `Bearer ${token.value}`;
-        }
-
-        return fetch(`/api${url}`, {
-            ...options,
-            headers,
-        });
     };
 
     const fetchUser = async () => {
