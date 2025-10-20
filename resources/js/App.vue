@@ -17,15 +17,6 @@
     const authStore = useAuthStore();
 
     onMounted(async () => {
-        const token = localStorage.getItem('token');
-
-        if (token) {
-            try {
-                await authStore.fetchUser();
-            } catch (err) {
-                console.error("Something went wrong while fetching user", err);
-                authStore.clearAuth();
-            }
-        }
+        await authStore.fetchUser();
     });
 </script>
