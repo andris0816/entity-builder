@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\WorldMapResource;
 use App\Models\World;
 use Auth;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class WorldController extends Controller
 
     public function show(World $world)
     {
-        return $world;
+        return new WorldMapResource($world);
     }
 
     public function update(Request $request, World $world)
