@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
 import DashboardView from "../views/DashboardView.vue";
+import WorldView from "../views/WorldView.vue";
 
 const routes = [
     {
@@ -30,6 +31,12 @@ const routes = [
         component: DashboardView,
         meta: { requiresAuth: true }
     },
+    {
+        path: '/world',
+        name: 'World',
+        component: WorldView,
+        meta: { requiresAuth: true }
+    }
 ]
 
 export const router = createRouter({
