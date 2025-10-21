@@ -2,6 +2,17 @@ export const variantClasses = {
     'default': [
         'text-black',
         'bg-white',
+        'disabled:pointer-events-none',
+        'disabled:opacity-50',
+        'hover:bg-white/90',
+        'h-9',
+        'w-full',
+        'inline-flex',
+        'items-center',
+        'justify-center',
+        'text-sm',
+        'font-medium',
+        'transition-all'
     ],
     'gradient': [
         'bg-gradient-to-r',
