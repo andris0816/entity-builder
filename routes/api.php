@@ -13,6 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('/logout', [SessionController::class, 'destroy']);
    Route::post('/world', [WorldController::class, 'store']);
    Route::get('/world', [WorldController::class, 'indexByUserId']);
+   Route::get('/worlds/{world}', [WorldController::class, 'show']);
 });
 
 Route::get('/user', function (Request $request) {

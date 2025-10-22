@@ -32,8 +32,8 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/world',
-        name: 'World',
+        path: '/worlds/:id',
+        name: 'world.show',
         component: WorldView,
         meta: { requiresAuth: true }
     }

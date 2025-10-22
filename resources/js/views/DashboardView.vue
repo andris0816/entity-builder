@@ -5,11 +5,9 @@ import DashboardHeader from "../components/Dashboard/DashboardHeader.vue";
 import {onMounted, ref} from "vue";
 import {World} from "../types/world";
 import {apiFetch} from "../utils/api";
+import {useRouter} from "vue-router";
 
-
-// const authStore = useAuthStore();
 const worlds = ref<World[]>([]);
-
 
 onMounted(async () => {
     try {
@@ -24,8 +22,14 @@ onMounted(async () => {
     }
 });
 
-function onWorldSaved(newWorld: World) {
+const router = useRouter();
+
+const onWorldSaved = (newWorld: World) => {
     worlds.value.push(newWorld);
+}
+
+const handleClickedWorld = (clickedWorld: World) => {
+    router.push({name: 'world.show', params: { id: clickedWorld.id }})
 }
 </script>
 
@@ -33,7 +37,7 @@ function onWorldSaved(newWorld: World) {
     <div class="max-w-7xl mx-auto px-6 py-12">
         <DashboardHeader @saved="onWorldSaved" />
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <WorldCard v-for="world in worlds" :world="world" :key="world.id"></WorldCard>
+            <WorldCard v-for="world in worlds" :world="world" :key="world.id" @click="handleClickedWorld(world)"></WorldCard>
         </div>
     </div>
 </template>
