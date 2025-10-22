@@ -21,7 +21,9 @@ class EntityController extends Controller
             'world_id' => ['required', 'integer'],
         ]);
 
-        return Entity::create($data);
+        $entity = Entity::create($data);
+
+        return response()->json($entity, 201);
     }
 
     public function show(Entity $entity)

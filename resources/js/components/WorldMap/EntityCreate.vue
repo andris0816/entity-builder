@@ -6,9 +6,13 @@ import Button from "../Button.vue";
 import {ref} from "vue";
 import SelectInput from "../SelectInput.vue";
 
-const name = ref('');
-const desc = ref('');
-const type = ref('');
+const form = ref({
+    name: '',
+    type: '',
+    desc: ''
+});
+
+const emit = defineEmits(['submit']);
 
 const items = [
     'Character',
@@ -16,21 +20,25 @@ const items = [
     'Item',
     'Event'
 ];
+
+const submitForm = () => {
+    emit('submit', {...form.value})
+}
 </script>
 
 <template>
     <h2>Add Entity</h2>
-    <form method="POST">
+    <form @submit.prevent="submitForm" method="POST">
         <div class="space-y-6">
             <TextInput
-                v-model="name"
+                v-model="form.name"
                 type="text"
                 label="Entity Name"
                 placeholder="The hero" required
             />
-            <SelectInput v-model="type" :items="items" placeholder="Select a type"></SelectInput>
+            <SelectInput v-model="form.type" :items="items" placeholder="Select a type"></SelectInput>
             <TextArea
-                v-model="desc"
+                v-model="form.desc"
                 label="Entity Description"
                 placeholder="This hero is a..."
                 rows="3"

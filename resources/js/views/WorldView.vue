@@ -9,14 +9,36 @@ const route = useRoute()
 onMounted(async() => {
    const response = await apiFetch(`/worlds/${route.params.id}`);
 
+   if (response.status === 404) {
+       return;
+   }
+
    const data = await response.json();
 });
+
+const saveEntity = async (formData: any) => {
+    try {
+        formData.world_id = route.params.id;
+        const response = await apiFetch('/entity', {
+            method: "POST",
+            body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) throw new Error('Failed to save item');
+
+        const data = await response.json();
+
+        console.log(data);
+    } catch (err) {
+        console.error(err);
+    }
+}
 </script>
 
 <template>
     <div class="w-[280px] bg-gray-900 border-r border-gray-800 h-full overflow-y-auto p-6 space-y-8">
         <div class="space-y-4">
-            <EntityCreate></EntityCreate>
+            <EntityCreate @submit="saveEntity"></EntityCreate>
         </div>
     </div>
 </template>
