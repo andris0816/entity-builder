@@ -1,7 +1,16 @@
 <script setup lang="ts">
-
-
 import EntityCreate from "../components/WorldMap/EntityCreate.vue";
+import {onMounted} from "vue";
+import {apiFetch} from "../utils/api";
+import {useRoute} from "vue-router";
+
+const route = useRoute()
+
+onMounted(async() => {
+   const response = await apiFetch(`/worlds/${route.params.id}`);
+
+   const data = await response.json();
+});
 </script>
 
 <template>

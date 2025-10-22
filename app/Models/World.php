@@ -27,6 +27,13 @@ class World extends Model
 
     public function relationships(): HasManyThrough
     {
-        return $this->HasManyThrough(Relationship::class, Entity::class, 'world_id', 'entity_from', 'id', 'id');
+        return $this->HasManyThrough(
+            Relationship::class,
+            Entity::class,
+            'world_id',
+            'entity_from',
+            'id',
+            'id'
+        );
     }
 }

@@ -46,7 +46,7 @@ class WorldController extends Controller
 
     public function show(World $world)
     {
-        return new WorldMapResource($world);
+        return new WorldMapResource($world->load('entities', 'relationships'));
     }
 
     public function update(Request $request, World $world)
