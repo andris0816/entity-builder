@@ -21,7 +21,9 @@ class RelationshipController extends Controller
             'desc' => ['required'],
         ]);
 
-        return Relationship::create($data);
+        $relationship = Relationship::create($data);
+
+        return response()->json($relationship, 201);
     }
 
     public function show(Relationship $relationship)
