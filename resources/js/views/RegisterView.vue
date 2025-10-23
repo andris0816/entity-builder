@@ -10,10 +10,15 @@ const name = ref('');
 const email = ref('');
 const password = ref('');
 const passwordConfirmation = ref('');
+const errorMessage = ref('');
 const authStore = useAuthStore();
 
 const handleRegister = async () => {
     await authStore.register(name.value, email.value, password.value, passwordConfirmation.value);
+
+    if (authStore.error !== null) {
+        errorMessage.value = authStore.error;
+    }
 }
 </script>
 
@@ -69,6 +74,9 @@ const handleRegister = async () => {
                         >
                             Create Account
                         </Button>
+                        <p v-if="errorMessage" class="text-red-700 mt-2 text-medium">
+                            {{ errorMessage }}
+                        </p>
                     </div>
                 </form>
                 <div class="flex justify-center">

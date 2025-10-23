@@ -9,9 +9,14 @@ const authStore = useAuthStore();
 
 const email = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 const handleLogin = async () => {
     await authStore.login(email.value, password.value);
+
+    if (authStore.error !== null) {
+        errorMessage.value = authStore.error;
+    }
 }
 </script>
 
@@ -53,6 +58,9 @@ const handleLogin = async () => {
                         >
                             Sign In
                         </Button>
+                        <p v-if="errorMessage" class="text-red-700 mt-2 text-medium">
+                            {{ errorMessage }}
+                        </p>
                     </div>
                 </form>
                 <div class="flex justify-center">

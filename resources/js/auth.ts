@@ -28,9 +28,9 @@ export const useAuthStore = defineStore('auth', () => {
                 body: JSON.stringify({ email, password }),
             });
 
-            if (!response.ok) throw new Error('Invalid credentials');
-
             const data = await response.json();
+
+            if (!response.ok) throw new Error(data.message);
 
             localStorage.setItem('auth_token', data.token);
             token.value = data.token;
@@ -59,9 +59,9 @@ export const useAuthStore = defineStore('auth', () => {
                 }),
             });
 
-            if (!response.ok) throw new Error('Registration failed');
-
             const data = await response.json();
+
+            if (!response.ok) throw new Error(data.message);
 
             localStorage.setItem('auth_token', data.token);
             token.value = data.token;
