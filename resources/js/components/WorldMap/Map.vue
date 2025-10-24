@@ -23,9 +23,27 @@
             .attr('width', width)
             .attr('height', height);
 
-        simulation = d3.forceSimulation(nodes);
+        simulation = d3.forceSimulation(nodes)
+            .force("charge", d3.forceManyBody())
+            .force("center", d3.forceCenter(width/2, height/2));
 
         zoomG = svg.append('g');
+
+        const node = zoomG.selectAll('circle')
+            .data(nodes)
+            .enter()
+            .append('circle')
+            .attr('r', 10)
+            .attr('fill', '#69b3a2')
+            .join('circle');
+
+        function ticked() {
+            node
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y);
+        }
+
+        simulation.on("tick", ticked)
     });
 
     onUnmounted(() => {
