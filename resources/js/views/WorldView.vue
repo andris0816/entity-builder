@@ -3,8 +3,9 @@ import EntityCreate from "../components/WorldMap/EntityCreate.vue";
 import {onMounted} from "vue";
 import {apiFetch} from "../utils/api";
 import {useRoute} from "vue-router";
+import Map from "../components/WorldMap/Map.vue";
 
-const route = useRoute()
+const route = useRoute();
 
 onMounted(async() => {
    const response = await apiFetch(`/worlds/${route.params.id}`);
@@ -36,9 +37,14 @@ const saveEntity = async (formData: any) => {
 </script>
 
 <template>
-    <div class="w-[280px] bg-gray-900 border-r border-gray-800 h-full overflow-y-auto p-6 space-y-8">
-        <div class="space-y-4">
-            <EntityCreate @submit="saveEntity"></EntityCreate>
+    <div class="flex-1 flex overflow-hidden">
+        <div class="w-[280px] bg-gray-900 border-r border-gray-800 h-full overflow-y-auto p-6 space-y-8">
+            <div class="space-y-4">
+                <EntityCreate @submit="saveEntity"></EntityCreate>
+            </div>
+        </div>
+        <div class="flex-1 bg-gray-950 h-full relative">
+            <Map></Map>
         </div>
     </div>
 </template>
