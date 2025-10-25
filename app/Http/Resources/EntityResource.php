@@ -20,7 +20,7 @@ class EntityResource extends JsonResource
             'desc' => $this->desc,
             'type' => $this->type,
             'created_at' => $this->created_at,
-            'updated-at' => $this->updated_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
