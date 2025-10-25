@@ -22,7 +22,13 @@ const items = [
 ];
 
 const submitForm = () => {
-    emit('submit', {...form.value})
+    emit('submit', {...form.value});
+
+    form.value = {
+        name: '',
+        type: '',
+        desc: ''
+    }
 }
 </script>
 
@@ -36,7 +42,7 @@ const submitForm = () => {
                 label="Entity Name"
                 placeholder="The hero" required
             />
-            <SelectInput v-model="form.type" :items="items" placeholder="Select a type"></SelectInput>
+            <SelectInput v-model="form.type" :items="items" placeholder="Select a type" label="Type"></SelectInput>
             <TextArea
                 v-model="form.desc"
                 label="Entity Description"
