@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import EntityCreate from "../components/WorldMap/EntityCreate.vue";
-import {onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {apiFetch} from "../utils/api";
 import {useRoute} from "vue-router";
 import Map from "../components/WorldMap/Map.vue";
+import RelationshipCreate from "../components/WorldMap/RelationshipCreate.vue";
+import {Entity} from "../types/entity";
+import {Relationship} from "../types/relationship";
 
 const route = useRoute();
+const entities = ref<Entity[]>([]);
+const relationships = ref<Relationship[]>([]);
 
 onMounted(async() => {
    const response = await apiFetch(`/worlds/${route.params.id}`);
@@ -15,6 +20,9 @@ onMounted(async() => {
    }
 
    const data = await response.json();
+
+   entities.value = data.data.entities;
+   relationships.value = data.data.relationships
 });
 
 const saveEntity = async (formData: any) => {
@@ -34,6 +42,15 @@ const saveEntity = async (formData: any) => {
         console.error(err);
     }
 }
+
+const saveRelationship = async (formData: any) => {
+
+}
+
+const simplifiedEntities = computed(() => {
+    return entities.value.map(({ id, name }) => ({ id, name }))
+});
+
 </script>
 
 <template>
@@ -41,6 +58,9 @@ const saveEntity = async (formData: any) => {
         <div class="w-[280px] bg-gray-900 border-r border-gray-800 h-full overflow-y-auto p-6 space-y-8">
             <div class="space-y-4">
                 <EntityCreate @submit="saveEntity"></EntityCreate>
+            </div>
+            <div class="space-y-4">
+                <RelationshipCreate @submit="saveRelationship" :entities="simplifiedEntities"></RelationshipCreate>
             </div>
         </div>
         <div class="flex-1 bg-gray-950 h-full relative">
