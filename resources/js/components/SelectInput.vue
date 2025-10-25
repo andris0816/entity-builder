@@ -8,7 +8,7 @@ interface Props {
     label?: string;
     error?: string;
     placeholder?: string;
-    items: string[];
+    items: (string | {id: number; name: string })[]
 }
 
 const isOpen = ref(false);
@@ -70,10 +70,11 @@ const inputClasses = [
     'mt-1'
 ];
 
-const selectItem = (item: string) => {
-    value.value = item;
+const selectItem = (item: string | { id: number; name: string }) => {
+    const val = typeof item === 'string' ? item : String(item.id);
+    emit('update:modelValue', val);
     isOpen.value = false;
-}
+};
 
 function onClickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -81,6 +82,17 @@ function onClickOutside(event: MouseEvent) {
         isOpen.value = false;
     }
 }
+
+const selectedLabel = computed(() => {
+    const current = props.items.find(i =>
+        typeof i === 'string'
+            ? i === props.modelValue
+            : String(i.id) === props.modelValue
+    );
+    return typeof current === 'string'
+        ? current
+        : current?.name ?? props.placeholder ?? '';
+});
 
 onMounted(() => document.addEventListener('click', onClickOutside));
 onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
@@ -97,7 +109,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
             @click="! disabled && (isOpen = !isOpen)"
             :class="inputClasses"
         >
-            <span data-slot="select-value" style="pointer-events: none;">{{ value || placeholder }}</span>
+            <span data-slot="select-value" style="pointer-events: none;">{{ selectedLabel }}</span>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -121,12 +133,12 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
              border-gray-700 bg-gray-800 shadow-lg text-gray-100"
         >
             <li
-                v-for="item in items"
-                :key="item"
+                v-for="(item, index) in items"
+                :key="index"
                 @click="selectItem(item)"
                 :class="['cursor-pointer px-3 py-2 hover:bg-blue-600 hover:text-white', value === item ? 'bg-blue-600' : '']"
             >
-                {{ item }}
+                {{ typeof item === 'string' ? item : item.name }}
             </li>
         </ul>
 
