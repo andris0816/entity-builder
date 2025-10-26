@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRelationshipRequest;
 use App\Models\Relationship;
 use Illuminate\Http\Request;
 
@@ -12,15 +13,9 @@ class RelationshipController extends Controller
         return Relationship::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreRelationshipRequest $request)
     {
-        $data = $request->validate([
-            'entity_from' => ['required', 'integer'],
-            'entity_to' => ['required', 'integer'],
-            'type' => ['required'],
-            'desc' => ['required'],
-        ]);
-
+        $data = $request->validated();
         $relationship = Relationship::create($data);
 
         return response()->json($relationship, 201);
