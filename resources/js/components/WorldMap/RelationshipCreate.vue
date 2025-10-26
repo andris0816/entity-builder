@@ -30,15 +30,13 @@ const submitForm = () => {
 
 const filteredEntitiesTo = computed(() => {
     return props.entities.filter(entity =>
-        entity.id === form.value.entityTo ||
-        entity.id !== form.value.entityFrom
+        !form.value.entityTo ? entity.id !== form.value.entityFrom : entity
     );
 })
 
 const filteredEntitiesFrom = computed(() => {
     return props.entities.filter(entity =>
-        entity.id === form.value.entityFrom ||
-        entity.id !== form.value.entityTo
+        !form.value.entityFrom ? entity.id !== form.value.entityTo : entity
     );
 });
 
