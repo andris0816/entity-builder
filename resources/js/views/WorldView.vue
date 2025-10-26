@@ -33,7 +33,7 @@ const saveEntity = async (formData: any) => {
             body: JSON.stringify(formData)
         });
 
-        if (!response.ok) throw new Error('Failed to save item');
+        if (!response.ok) throw new Error('Failed to save entity');
 
         const data = await response.json();
 
@@ -44,7 +44,21 @@ const saveEntity = async (formData: any) => {
 }
 
 const saveRelationship = async (formData: any) => {
+    try {
+        formData.world_id = route.params.id;
+        const response = await apiFetch('/relationship', {
+            method: "POST",
+            body: JSON.stringify(formData)
+        });
 
+        if (!response.ok) throw new Error('Failed to save relationsip');
+
+        const data = await response.json();
+
+        console.log(data);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 const simplifiedEntities = computed(() => {
