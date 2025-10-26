@@ -3,7 +3,7 @@ import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 
 interface Props {
     disabled?: boolean;
-    modelValue: string;
+    modelValue: string | number | null;
     customClass?: string;
     label?: string;
     error?: string;
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-    'update:modelValue': [value: string]
+    'update:modelValue': [value: string | number | null]
 }>();
 
 const value = computed({
@@ -71,7 +71,7 @@ const inputClasses = [
 ];
 
 const selectItem = (item: string | { id: number; name: string }) => {
-    const val = typeof item === 'string' ? item : String(item.id);
+    const val = typeof item === 'string' ? item : item.id;
     emit('update:modelValue', val);
     isOpen.value = false;
 };
@@ -87,7 +87,7 @@ const selectedLabel = computed(() => {
     const current = props.items.find(i =>
         typeof i === 'string'
             ? i === props.modelValue
-            : String(i.id) === props.modelValue
+            : i.id === props.modelValue
     );
     return typeof current === 'string'
         ? current
@@ -133,10 +133,11 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
              border-gray-700 bg-gray-800 shadow-lg text-gray-100"
         >
             <li
-                v-for="(item, index) in items"
-                :key="index"
+                v-for="item in items"
+                :key="typeof item === 'string' ? item : item.id"
                 @click="selectItem(item)"
-                :class="['cursor-pointer px-3 py-2 hover:bg-blue-600 hover:text-white', value === item ? 'bg-blue-600' : '']"
+                :class="['cursor-pointer px-3 py-2 hover:bg-blue-600 hover:text-white',
+                        value === item ? 'bg-blue-600' : '']"
             >
                 {{ typeof item === 'string' ? item : item.name }}
             </li>

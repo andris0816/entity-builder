@@ -2,19 +2,19 @@
 
 import Button from "../Button.vue";
 import SelectInput from "../SelectInput.vue";
-import {ref} from "vue";
+import {computed, ref, watch} from "vue";
 
 
-defineProps<{
+const props = defineProps<{
     entities: { id: number; name: string }[]
 }>();
 
 const emit = defineEmits(['submit']);
 
 const form = ref({
-    entityFrom: '',
+    entityFrom: null as number | null,
     type: '',
-    entityTo: ''
+    entityTo: null as number | null
 });
 
 const items = [
@@ -27,15 +27,43 @@ const items = [
 const submitForm = () => {
     emit('submit', {...form.value})
 }
+
+const filteredEntitiesTo = computed(() => {
+    return props.entities.filter(entity =>
+        entity.id === form.value.entityTo ||
+        entity.id !== form.value.entityFrom
+    );
+})
+
+const filteredEntitiesFrom = computed(() => {
+    return props.entities.filter(entity =>
+        entity.id === form.value.entityFrom ||
+        entity.id !== form.value.entityTo
+    );
+});
+
+watch(
+    () => form.value.entityFrom,
+    (newVal, oldVal) => {
+        if (newVal === form.value.entityTo) form.value.entityTo = oldVal
+    }
+)
+
+watch(
+    () => form.value.entityTo,
+    (newVal, oldVal) => {
+        if (newVal === form.value.entityFrom) form.value.entityFrom = oldVal
+    }
+)
 </script>
 
 <template>
     <h2>Add Relationship</h2>
     <form @submit.prevent="submitForm" method="POST">
         <div class="space-y-6">
-            <SelectInput v-model="form.entityFrom" :items="entities" placeholder="Select entity" label="Entity From"></SelectInput>
+            <SelectInput :key="form.entityTo" v-model="form.entityFrom" :items="filteredEntitiesFrom" placeholder="Select entity" label="Entity From"></SelectInput>
             <SelectInput v-model="form.type" :items="items" placeholder="Select a type" label="Relationship Type"></SelectInput>
-            <SelectInput v-model="form.entityTo" :items="entities" placeholder="Select entity" label="Entity To"></SelectInput>
+            <SelectInput :key="form.entityFrom" v-model="form.entityTo" :items="filteredEntitiesTo" placeholder="Select entity" label="Entity To"></SelectInput>
             <Button type="submit" variant="default">Add</Button>
         </div>
     </form>
