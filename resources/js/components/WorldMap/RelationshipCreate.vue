@@ -3,6 +3,7 @@
 import Button from "../Button.vue";
 import SelectInput from "../SelectInput.vue";
 import {computed, ref, watch} from "vue";
+import TextArea from "../TextArea.vue";
 
 
 const props = defineProps<{
@@ -14,18 +15,27 @@ const emit = defineEmits(['submit']);
 const form = ref({
     entityFrom: null as number | null,
     type: '',
-    entityTo: null as number | null
+    entityTo: null as number | null,
+    desc: ''
 });
 
 const items = [
-    'Character',
-    'Location',
-    'Item',
-    'Event'
+    'Own',
+    'Fights',
+    'Occurs in',
+    'Allies with',
+    'Located in'
 ];
 
 const submitForm = () => {
-    emit('submit', {...form.value})
+    emit('submit', {...form.value});
+
+    form.value = {
+        entityFrom: null as number | null,
+        type: '',
+        entityTo: null as number | null,
+        desc: ''
+    }
 }
 
 const filteredEntitiesTo = computed(() => {
@@ -62,6 +72,13 @@ watch(
             <SelectInput :key="form.entityTo" v-model="form.entityFrom" :items="filteredEntitiesFrom" placeholder="Select entity" label="Entity From"></SelectInput>
             <SelectInput v-model="form.type" :items="items" placeholder="Select a type" label="Relationship Type"></SelectInput>
             <SelectInput :key="form.entityFrom" v-model="form.entityTo" :items="filteredEntitiesTo" placeholder="Select entity" label="Entity To"></SelectInput>
+            <TextArea
+                v-model="form.desc"
+                label="Entity Description"
+                placeholder="These 2 entities are related because..."
+                rows="3"
+                required
+            />
             <Button type="submit" variant="default">Add</Button>
         </div>
     </form>
