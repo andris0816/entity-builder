@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Relationship;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -24,9 +25,9 @@ class StoreRelationshipRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'entity_from' => ['required', 'integer'],
-            'entity_to' => ['required', 'integer'],
-            'type' => ['required'],
+            'entity_from' => ['required', 'exists:entities,id', 'different:entity_to'],
+            'entity_to' => ['required', 'exists:entities,id', 'different:entity_from'],
+            'type' => ['required', 'string'],
             'desc' => ['required'],
         ];
     }
@@ -38,5 +39,26 @@ class StoreRelationshipRequest extends FormRequest
                 ->mapWithKeys(fn ($value, $key) => [Str::snake($key) => $value])
                 ->all()
         );
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $from = $this->input('entity_from');
+            $to = $this->input('entity_to');
+
+            $exists = Relationship::where('entity_from', $from)
+                ->where('entity_to', $to)
+                ->orWhere('entity_from', $to)
+                ->where('entity_to', $from)
+                ->exists();
+
+            if ($exists) {
+                $validator->errors()->add(
+                    'entity_from',
+                    'A relationship between these entities already exists.'
+                );
+            }
+        });
     }
 }
