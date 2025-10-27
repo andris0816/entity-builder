@@ -54,14 +54,18 @@ const filteredEntitiesFrom = computed(() => {
 watch(
     () => form.value.entityFrom,
     (newVal, oldVal) => {
-        if (newVal === form.value.entityTo) form.value.entityTo = oldVal
+        if (newVal !== null && newVal === form.value.entityTo) {
+            form.value.entityTo = oldVal
+        }
     }
 )
 
 watch(
     () => form.value.entityTo,
     (newVal, oldVal) => {
-        if (newVal === form.value.entityFrom) form.value.entityFrom = oldVal
+        if (newVal !== null && form.value.entityFrom && newVal === form.value.entityFrom) {
+            form.value.entityFrom = oldVal
+        }
     }
 )
 </script>
