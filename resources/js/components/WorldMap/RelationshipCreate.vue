@@ -4,10 +4,11 @@ import Button from "../Button.vue";
 import SelectInput from "../SelectInput.vue";
 import {computed, ref, watch} from "vue";
 import TextArea from "../TextArea.vue";
-
+import {ValidationErrors} from "../../types/ValidationErrors";
 
 const props = defineProps<{
-    entities: { id: number; name: string }[]
+    entities: { id: number; name: string }[];
+    errors: ValidationErrors;
 }>();
 
 const emit = defineEmits(['submit']);
@@ -69,15 +70,34 @@ watch(
     <h2>Add Relationship</h2>
     <form @submit.prevent="submitForm" method="POST">
         <div class="space-y-6">
-            <SelectInput :key="form.entityTo" v-model="form.entityFrom" :items="filteredEntitiesFrom" placeholder="Select entity" label="Entity From"></SelectInput>
-            <SelectInput v-model="form.type" :items="items" placeholder="Select a type" label="Relationship Type"></SelectInput>
-            <SelectInput :key="form.entityFrom" v-model="form.entityTo" :items="filteredEntitiesTo" placeholder="Select entity" label="Entity To"></SelectInput>
+            <SelectInput
+                v-model="form.entityFrom"
+                :items="filteredEntitiesFrom"
+                placeholder="Select entity"
+                label="Entity From"
+                :error="props.errors?.entity_from?.[0]"
+            />
+            <SelectInput
+                v-model="form.type"
+                :items="items"
+                placeholder="Select a type"
+                label="Relationship Type"
+                :error="props.errors?.type?.[0]"
+            />
+            <SelectInput
+                v-model="form.entityTo"
+                :items="filteredEntitiesTo"
+                placeholder="Select entity"
+                label="Entity To"
+                :error="props.errors?.entity_to?.[0]"
+            />
             <TextArea
                 v-model="form.desc"
                 label="Entity Description"
                 placeholder="These 2 entities are related because..."
                 rows="3"
                 required
+                :error="props.errors?.desc?.[0]"
             />
             <Button type="submit" variant="default">Add</Button>
         </div>

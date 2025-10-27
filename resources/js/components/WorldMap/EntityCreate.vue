@@ -5,12 +5,17 @@ import TextArea from "../TextArea.vue";
 import Button from "../Button.vue";
 import {ref} from "vue";
 import SelectInput from "../SelectInput.vue";
+import { ValidationErrors } from "../../types/ValidationErrors";
 
 const form = ref({
     name: '',
     type: '',
     desc: ''
 });
+
+const props = defineProps<{
+    errors: ValidationErrors;
+}>();
 
 const emit = defineEmits(['submit']);
 
@@ -40,15 +45,24 @@ const submitForm = () => {
                 v-model="form.name"
                 type="text"
                 label="Entity Name"
-                placeholder="The hero" required
+                placeholder="The hero"
+                required
+                :error="props.errors?.name?.[0]"
             />
-            <SelectInput v-model="form.type" :items="items" placeholder="Select a type" label="Type"></SelectInput>
+            <SelectInput
+                v-model="form.type"
+                :items="items"
+                placeholder="Select a type"
+                label="Type"
+                :error="props.errors?.type?.[0]"
+            />
             <TextArea
                 v-model="form.desc"
                 label="Entity Description"
                 placeholder="This hero is a..."
                 rows="3"
                 required
+                :error="props.errors?.desc?.[0]"
             />
 
             <Button type="submit" variant="default">Add</Button>
