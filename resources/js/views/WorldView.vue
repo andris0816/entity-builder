@@ -28,7 +28,7 @@ const saveEntity = async (formData: any) => {
 
         const data = await response.json();
 
-        worldStore.addRelationship(data);
+        worldStore.addEntity(data);
     } catch (err) {
         console.error(err);
     }
@@ -55,13 +55,12 @@ const saveRelationship = async (formData: any) => {
             return;
         }
 
-        worldStore.addEntity(data)
+        worldStore.addRelationship(data);
         errors.value = {};
     } catch (err) {
         console.error(err);
     }
 }
-
 </script>
 
 <template>
