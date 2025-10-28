@@ -22,7 +22,7 @@ export const useWorldStore = defineStore('world', {
         },
         entityRelationships: (state) => (entityId: number): Relationship[] => {
             return state.relationships.filter(
-                rel => rel.entityFrom === entityId || rel.entityTo === entityId
+                rel => rel.source === entityId || rel.target === entityId
             );
         },
         simplifiedEntities: (state): { id: number, name: string }[] => {

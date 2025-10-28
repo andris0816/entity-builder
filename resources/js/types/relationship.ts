@@ -1,7 +1,7 @@
 export interface Relationship {
     id: number;
-    entityFrom: number;
-    entityTo: number;
+    source: number;
+    target: number;
     type: string;
     desc: string;
     createdAt: Date;

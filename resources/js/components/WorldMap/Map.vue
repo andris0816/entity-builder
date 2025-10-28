@@ -1,16 +1,13 @@
 <script setup lang="ts">
     import * as d3 from 'd3';
-    import {onMounted, onUnmounted, ref} from "vue";
+    import {computed, onMounted, onUnmounted, ref} from "vue";
+    import {useWorldStore} from "../../stores/world";
 
     const graphContainer = ref(null);
+    const worldStore = useWorldStore();
 
-    const nodes = [
-        {index: 0, x: 12, y: 12, vx: 10, vy: 10},
-        {index: 1, x: 2, y: 1, vx: 41, vy: 21},
-        {index: 2, x: 43, y: 23, vx: 10, vy: 10},
-        {index: 3, x: 32, y: 7, vx: 10, vy: 10},
-        {index: 4, x: 21, y: 12, vx: 10, vy: 10},
-    ];
+    const entities = computed(() => worldStore.entities);
+    const relationships = computed(() => worldStore.relationships);
 
     let simulation, svg, zoomG;
 
@@ -23,21 +20,36 @@
             .attr('width', width)
             .attr('height', height);
 
-        simulation = d3.forceSimulation(nodes)
+        simulation = d3.forceSimulation(entities.value)
             .force("charge", d3.forceManyBody())
-            .force("center", d3.forceCenter(width/2, height/2));
+            .force("center", d3.forceCenter(width/2, height/2))
+            .force("link", d3.forceLink(relationships.value).id((d): any => d.id));
 
         zoomG = svg.append('g');
 
         const node = zoomG.selectAll('circle')
-            .data(nodes)
+            .data(entities.value)
             .enter()
             .append('circle')
             .attr('r', 10)
             .attr('fill', '#69b3a2')
             .join('circle');
 
+        const link = zoomG.append('g')
+            .selectAll('line')
+            .data(relationships.value)
+            .enter()
+            .append('line')
+            .attr('stroke', '#999')
+            .attr('stroke-width', 2);
+
         function ticked() {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+
             node
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y);

@@ -16,12 +16,12 @@ class RelationshipResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'entity_from' => $this->entity_from,
-            'entity_to' => $this->entity_to,
+            'target' => $this->entity_from,
+            'source' => $this->entity_to,
             'type' => $this->type,
             'desc' => $this->desc,
-            'created_at' => $this->created_at,
-            'updated-at' => $this->updated_at,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }
