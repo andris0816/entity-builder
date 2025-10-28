@@ -3,6 +3,7 @@ import {WorldState} from "../types/worldState";
 import {Entity} from "../types/entity";
 import {Relationship} from "../types/relationship";
 import {apiFetch} from "../utils/api";
+import {ViewPort} from "../types/ViewPort";
 
 export const useWorldStore = defineStore('world', {
     state: (): WorldState => ({
@@ -25,6 +26,25 @@ export const useWorldStore = defineStore('world', {
         }
     },
     actions: {
+        async loadWorld(worldId: number): Promise<void> {
+            this.isLoading = true;
+            try {
+                const response = await apiFetch(`/worlds/${worldId}`);
+                const data = await response.json();
 
+                this.entities = data.entities;
+                this.relationships = data.relationships;
+            } catch (err) {
+                console.error(err);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        selectEntity(entityId: number): void {
+            this.selectedEntityId = entityId;
+        },
+        updateViewport(viewport: Partial<ViewPort>): void {
+            this.viewport = { ...this.viewport, ...viewport };
+        }
     },
 })

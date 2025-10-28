@@ -5,4 +5,6 @@ export interface Entity {
     type: string;
     createdAt: Date;
     updatedAt: Date;
+    x?: number;
+    y?: number;
 }
