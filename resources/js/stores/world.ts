@@ -1,12 +1,14 @@
 import {defineStore} from "pinia";
 import {WorldState} from "../types/worldState";
-import {Entity} from "../types/entity";
 import {Relationship} from "../types/relationship";
+import {Entity} from "../types/entity";
 import {apiFetch} from "../utils/api";
 import {ViewPort} from "../types/ViewPort";
+import {RouteParamValue} from "vue-router";
 
 export const useWorldStore = defineStore('world', {
     state: (): WorldState => ({
+        worldId: null,
         entities: [],
         relationships: [],
         selectedEntityId: null,
@@ -18,18 +20,21 @@ export const useWorldStore = defineStore('world', {
         selectedEntity: (state): Entity | undefined => {
             return state.entities.find(e => e.id === state.selectedEntityId);
         },
-
         entityRelationships: (state) => (entityId: number): Relationship[] => {
             return state.relationships.filter(
                 rel => rel.entityFrom === entityId || rel.entityTo === entityId
             );
+        },
+        simplifiedEntities: (state): { id: number, name: string }[] => {
+            return state.entities.map(({ id, name }) => ({ id, name }));
         }
     },
     actions: {
-        async loadWorld(worldId: number): Promise<void> {
+        async loadWorld(worldId: string | RouteParamValue[]): Promise<void> {
             this.isLoading = true;
             try {
-                const response = await apiFetch(`/worlds/${worldId}`);
+                this.worldId = worldId;
+                const response = await apiFetch(`/worlds/${this.worldId}`);
                 const data = await response.json();
 
                 this.entities = data.entities;
@@ -45,6 +50,12 @@ export const useWorldStore = defineStore('world', {
         },
         updateViewport(viewport: Partial<ViewPort>): void {
             this.viewport = { ...this.viewport, ...viewport };
+        },
+        addEntity(entity: Entity): void {
+            this.entities.push(entity);
+        },
+        addRelationship(relationship: Relationship): void {
+            this.relationships.push(relationship);
         }
     },
 })

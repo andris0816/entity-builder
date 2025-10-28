@@ -3,6 +3,7 @@ import {Relationship} from "./relationship";
 import {ViewPort} from "./ViewPort";
 
 export interface WorldState {
+    worldId: string;
     entities: Entity[];
     relationships: Relationship[];
     selectedEntityId: number;

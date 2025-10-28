@@ -5,26 +5,15 @@ import {apiFetch} from "../utils/api";
 import {useRoute} from "vue-router";
 import Map from "../components/WorldMap/Map.vue";
 import RelationshipCreate from "../components/WorldMap/RelationshipCreate.vue";
-import {Entity} from "../types/entity";
-import {Relationship} from "../types/relationship";
 import {ValidationErrors} from "../types/ValidationErrors";
+import {useWorldStore} from "../stores/world";
 
 const route = useRoute();
-const entities = ref<Entity[]>([]);
-const relationships = ref<Relationship[]>([]);
 const errors = ref<ValidationErrors>({});
+const worldStore = useWorldStore();
 
 onMounted(async() => {
-   const response = await apiFetch(`/worlds/${route.params.id}`);
-
-   if (response.status === 404) {
-       return;
-   }
-
-   const data = await response.json();
-
-   entities.value = data.data.entities;
-   relationships.value = data.data.relationships
+   await worldStore.loadWorld(route.params.id);
 });
 
 const saveEntity = async (formData: any) => {
@@ -39,7 +28,7 @@ const saveEntity = async (formData: any) => {
 
         const data = await response.json();
 
-        entities.value.push(data);
+        worldStore.addRelationship(data);
     } catch (err) {
         console.error(err);
     }
@@ -66,17 +55,12 @@ const saveRelationship = async (formData: any) => {
             return;
         }
 
-        relationships.value.push(data);
-
+        worldStore.addEntity(data)
         errors.value = {};
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
 }
-
-const simplifiedEntities = computed(() => {
-    return entities.value.map(({ id, name }) => ({ id, name }))
-});
 
 </script>
 
@@ -92,7 +76,7 @@ const simplifiedEntities = computed(() => {
             <div class="space-y-4">
                 <RelationshipCreate
                     @submit="saveRelationship"
-                    :entities="simplifiedEntities"
+                    :entities="worldStore.simplifiedEntities"
                     :errors="errors"
                 />
             </div>
