@@ -23,17 +23,9 @@
         simulation = d3.forceSimulation(entities.value)
             .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter(width/2, height/2))
-            .force("link", d3.forceLink(relationships.value).id((d): any => d.id));
+            .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(120));
 
         zoomG = svg.append('g');
-
-        const node = zoomG.selectAll('circle')
-            .data(entities.value)
-            .enter()
-            .append('circle')
-            .attr('r', 10)
-            .attr('fill', '#69b3a2')
-            .join('circle');
 
         const link = zoomG.append('g')
             .selectAll('line')
@@ -43,6 +35,23 @@
             .attr('stroke', '#999')
             .attr('stroke-width', 2);
 
+        const nodeGroups = zoomG.selectAll('g.entity-group')
+            .data(entities.value, d => d.id)
+            .enter()
+            .append('g')
+            .attr('class', 'entity-group');
+
+        nodeGroups.append('circle')
+            .attr('r', 25)
+            .attr('fill', '#69b3a2') // TODO change this to randomized later
+            .join('circle');
+
+        nodeGroups.append('text')
+            .text(d => d.name)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '.3em')
+
+
         function ticked() {
             link
                 .attr('x1', d => d.source.x)
@@ -50,9 +59,7 @@
                 .attr('x2', d => d.target.x)
                 .attr('y2', d => d.target.y);
 
-            node
-                .attr('cx', d => d.x)
-                .attr('cy', d => d.y);
+            nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
         }
 
         simulation.on("tick", ticked)
