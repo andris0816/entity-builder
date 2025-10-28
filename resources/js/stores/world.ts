@@ -37,8 +37,8 @@ export const useWorldStore = defineStore('world', {
                 const response = await apiFetch(`/worlds/${this.worldId}`);
                 const data = await response.json();
 
-                this.entities = data.entities;
-                this.relationships = data.relationships;
+                this.entities = data.data.entities;
+                this.relationships = data.data.relationships;
             } catch (err) {
                 console.error(err);
             } finally {
