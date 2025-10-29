@@ -12,8 +12,8 @@
     let simulation, svg, zoomG;
 
     onMounted(() => {
-        const width = 800;
-        const height = 600;
+        const width = 1400;
+        const height = 900;
 
         svg = d3.select(graphContainer.value)
             .append('svg')
@@ -58,6 +58,13 @@
         dragBehavior.on('drag', dragged);
         nodeGroups.call(dragBehavior);
 
+        const zoom = d3.zoom();
+        zoom.extent([[0, 0], [width, height]]);
+        zoom.scaleExtent([1, 8]);
+        zoom.on('zoom', zoomed);
+
+        zoomG.call(zoom);
+
         function ticked() {
             link
                 .attr('x1', d => d.source.x)
@@ -77,6 +84,10 @@
         function dragged(event: any) {
             event.subject.fx = event.x;
             event.subject.fy = event.y;
+        }
+
+        function zoomed({ transform }) {
+            zoomG.attr('transform', transform);
         }
 
         simulation.on("tick", ticked)
