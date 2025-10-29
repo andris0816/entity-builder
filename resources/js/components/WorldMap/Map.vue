@@ -9,10 +9,10 @@
     const entities = computed(() => worldStore.entities);
     const relationships = computed(() => worldStore.relationships);
 
-    let simulation, svg, zoomG;
+    let simulation: any, svg: any, zoomG: any;
 
     onMounted(() => {
-        const width = 1400;
+        const width = 1200;
         const height = 900;
 
         svg = d3.select(graphContainer.value)
@@ -43,7 +43,7 @@
             .attr('style', 'cursor: pointer;');
 
         nodeGroups.append('circle')
-            .attr('r', 25)
+            .attr('r', 50)
             .attr('fill', '#69b3a2') // TODO change this to randomized later
             .join('circle');
 
