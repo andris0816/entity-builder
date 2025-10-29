@@ -21,7 +21,7 @@
             .attr('height', height);
 
         simulation = d3.forceSimulation(entities.value)
-            .force("charge", d3.forceManyBody())
+            .force("charge", d3.forceManyBody().strength(-30))
             .force("center", d3.forceCenter(width/2, height/2))
             .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(120));
 
@@ -39,7 +39,8 @@
             .data(entities.value, d => d.id)
             .enter()
             .append('g')
-            .attr('class', 'entity-group');
+            .attr('class', 'entity-group')
+            .attr('style', 'cursor: pointer;');
 
         nodeGroups.append('circle')
             .attr('r', 25)
@@ -50,7 +51,12 @@
             .text(d => d.name)
             .attr('text-anchor', 'middle')
             .attr('dy', '.3em')
+            .attr('fill', 'white');
 
+        const dragBehavior = d3.drag();
+        dragBehavior.on('start', dragStarted);
+        dragBehavior.on('drag', dragged);
+        nodeGroups.call(dragBehavior);
 
         function ticked() {
             link
@@ -60,6 +66,17 @@
                 .attr('y2', d => d.target.y);
 
             nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
+        }
+
+        function dragStarted(event: any) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+        }
+
+        function dragged(event: any) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
         }
 
         simulation.on("tick", ticked)
