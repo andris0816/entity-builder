@@ -7,6 +7,7 @@ import Map from "../components/WorldMap/Map.vue";
 import RelationshipCreate from "../components/WorldMap/RelationshipCreate.vue";
 import {ValidationErrors} from "../types/ValidationErrors";
 import {useWorldStore} from "../stores/world";
+import EntityShow from "../components/WorldMap/EntityShow.vue";
 
 const route = useRoute();
 const errors = ref<ValidationErrors>({});
@@ -82,6 +83,9 @@ const saveRelationship = async (formData: any) => {
         </div>
         <div class="flex-1 bg-gray-950 h-full relative">
             <Map></Map>
+        </div>
+        <div class="w-[280px] bg-gray-900 border-l border-gray-800 h-auto overflow-y-auto p-6 space-y-6">
+            <EntityShow />
         </div>
     </div>
 </template>
