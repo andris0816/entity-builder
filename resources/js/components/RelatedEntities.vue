@@ -12,13 +12,15 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-<div class="flex items-center justify-between">
+<div class="p-3 rounded-lg bg-gray-800/50 border border-gray-700 space-y-1">
+    <div class="flex items-center justify-between">
     <span class="text-sm text-gray-200">
         {{ entity.name }}
     </span>
-    <EntityType :type="entity.type" />
+        <EntityType :type="entity.type" />
+    </div>
+    <p class="text-xs text-gray-500">{{ relationship.source === entity.id ? '→' : '←' }} {{ relationship.type }}</p>
 </div>
-<p class="text-xs text-gray-500">{{ relationship.source === entity.id ? '→' : '←' }} {{ relationship.type }}</p>
 </template>
 
 <style scoped>

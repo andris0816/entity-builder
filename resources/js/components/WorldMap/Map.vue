@@ -90,7 +90,11 @@
             zoomG.attr('transform', transform);
         }
 
-        simulation.on("tick", ticked)
+        simulation.on("tick", ticked);
+
+        nodeGroups.on('click', function(event, d) {
+            worldStore.selectEntity(d.id);
+        })
     });
 
     onUnmounted(() => {

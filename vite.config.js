@@ -12,6 +12,9 @@ export default defineConfig({
         tailwindcss(),
         vue(),
     ],
+    optimizeDeps: {
+        include: ['resources/js/**/*.{vue,ts}']
+    },
     server: {
         proxy: {
             '/api': 'http://localhost:8000',

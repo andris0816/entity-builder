@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import {entityColorClasses} from "../data/entityColor";
+import {defaultColorClasses, entityColorClasses} from "../data/entityColor";
 import {computed} from "vue";
 
 const props = defineProps<{
     type: string;
 }>();
 
-const colorClass = computed(() => entityColorClasses[props.type] || "gray-500");
+const colorClasses = computed(() => entityColorClasses[props.type] || defaultColorClasses);
 </script>
 
 <template>
     <span
         :class="[
-                `inline-flex items-center justify-center rounder-md
-                    border px-2 py-0.5 text-xs font-medium w-fit
-                    whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none`,
-                `bg-${colorClass}/20`,
-                `text-${colorClass}/50`,
-                `border-${colorClass}`,
+            'inline-flex items-center justify-center rounded-md transition-[color,box-shadow] border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none',
+            colorClasses.bg,
+            colorClasses.text,
+            colorClasses.border
         ]"
     >
         {{ type }}
