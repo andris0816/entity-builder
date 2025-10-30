@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import {useWorldStore} from "../../stores/world";
+import EntityType from "../EntityType.vue";
+import RelatedEntities from "../RelatedEntities.vue";
+import {computed} from "vue";
+import {Relationship} from "../../types/relationship";
+import {Entity} from "../../types/entity";
 
 const worldStore = useWorldStore();
 
-const selectedEntity = worldStore.selectedEntity;
+const selectedEntity = computed(() => worldStore.selectedEntity);
+const relatedEntities = computed<
+    { relationship: Relationship; entity?: Entity }[]
+>(() => {
+    if (!selectedEntity.value) return [];
+
+    return worldStore.relatedEntities(selectedEntity.value.id);
+});
 </script>
 
 <template>
@@ -56,14 +68,19 @@ const selectedEntity = worldStore.selectedEntity;
                 </button>
             </div>
         </div>
-        <!-- TODO: create component for entity type tags -->
+        <EntityType :type="selectedEntity.type" />
         <div class="space-y-3">
             <h4 class="text-gray-400">Description</h4>
             <p class="card-desc">{{ selectedEntity.desc }}</p>
         </div>
         <div class="space-y-3">
             <h4 class="text-gray-400">Related Entities</h4>
-            <!-- TODO: Component for relationships -->
+            <RelatedEntities
+                v-for="item in relatedEntities"
+                :key="item.relationship.id"
+                :entity="item.entity"
+                :relationship="item.relationship"
+            />
         </div>
     </div>
 </template>

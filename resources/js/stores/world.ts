@@ -27,7 +27,17 @@ export const useWorldStore = defineStore('world', {
         },
         simplifiedEntities: (state): { id: number, name: string }[] => {
             return state.entities.map(({ id, name }) => ({ id, name }));
-        }
+        },
+        relatedEntities: (state) => (entityId: number): { relationship: Relationship, entity?: Entity }[] => {
+          return state.relationships
+              .filter(rel => rel.source === entityId || rel.target === entityId)
+              .map(rel => ({
+                  relationship: rel,
+                  entity: state.entities.find(
+                      e => e.id === (rel.source === entityId ? rel.target : rel.source)
+                  ),
+              }));
+        },
     },
     actions: {
         async loadWorld(worldId: string | RouteParamValue[]): Promise<void> {
