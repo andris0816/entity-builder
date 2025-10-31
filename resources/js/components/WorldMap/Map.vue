@@ -94,7 +94,7 @@
 
         nodeGroups.on('click', function(event, d) {
             worldStore.selectEntity(d.id);
-        })
+        });
     });
 
     onUnmounted(() => {

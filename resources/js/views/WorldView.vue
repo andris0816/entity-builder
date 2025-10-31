@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import EntityCreate from "../components/WorldMap/EntityCreate.vue";
-import {computed, onMounted, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import {apiFetch} from "../utils/api";
 import {useRoute} from "vue-router";
 import Map from "../components/WorldMap/Map.vue";
@@ -13,7 +13,7 @@ const route = useRoute();
 const errors = ref<ValidationErrors>({});
 const worldStore = useWorldStore();
 
-onMounted(async() => {
+onBeforeMount(async() => {
    await worldStore.loadWorld(route.params.id);
 });
 
@@ -82,7 +82,7 @@ const saveRelationship = async (formData: any) => {
             </div>
         </div>
         <div class="flex-1 bg-gray-950 h-full relative">
-            <Map></Map>
+            <Map v-if="!worldStore.isLoading"></Map>
         </div>
         <div class="w-[280px] bg-gray-900 border-l border-gray-800 h-auto overflow-y-auto p-6 space-y-6">
             <EntityShow />
