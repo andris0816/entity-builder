@@ -26,3 +26,10 @@ export const defaultColorClasses = {
     text: "text-gray-400",
     border: "border-gray-500/50"
 };
+
+export const colorHexCodes: Record<string, string> = {
+    Character: "#3B82F6",
+    Location: "#22C55E",
+    Item: "#EAB308",
+    Event: "#F97316",
+}

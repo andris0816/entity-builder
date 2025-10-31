@@ -2,6 +2,7 @@
     import * as d3 from 'd3';
     import {computed, onMounted, onUnmounted, ref} from "vue";
     import {useWorldStore} from "../../stores/world";
+    import {colorHexCodes} from "../../data/entityColor";
 
     const graphContainer = ref(null);
     const worldStore = useWorldStore();
@@ -44,7 +45,7 @@
 
         nodeGroups.append('circle')
             .attr('r', 50)
-            .attr('fill', '#69b3a2') // TODO change this to randomized later
+            .attr('fill', d => colorHexCodes[d.type])
             .join('circle');
 
         nodeGroups.append('text')
