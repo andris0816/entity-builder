@@ -22,9 +22,16 @@
             .attr('height', height);
 
         simulation = d3.forceSimulation(entities.value)
-            .force("charge", d3.forceManyBody().strength(-30))
+            .force("charge", d3.forceManyBody().strength(-50).distanceMax(150))
             .force("center", d3.forceCenter(width/2, height/2))
             .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(120));
+
+        simulation.alphaDecay(0.05);
+        simulation.on("tick", ticked);
+
+        simulation.alpha(1).restart();
+
+        setTimeout(() => simulation.stop(), 2000);
 
         zoomG = svg.append('g');
 
@@ -57,6 +64,7 @@
         const dragBehavior = d3.drag();
         dragBehavior.on('start', dragStarted);
         dragBehavior.on('drag', dragged);
+        dragBehavior.on('end', dragEnded);
         nodeGroups.call(dragBehavior);
 
         const zoom = d3.zoom();
@@ -67,13 +75,15 @@
         zoomG.call(zoom);
 
         function ticked() {
-            link
-                .attr('x1', d => d.source.x)
-                .attr('y1', d => d.source.y)
-                .attr('x2', d => d.target.x)
-                .attr('y2', d => d.target.y);
+            requestAnimationFrame(() => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
 
-            nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
+                nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
         }
 
         function dragStarted(event: any) {
@@ -87,11 +97,17 @@
             event.subject.fy = event.y;
         }
 
+        function dragEnded(event: any) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+
+            setTimeout(() => simulation.stop(), 300);
+        }
+
         function zoomed({ transform }) {
             zoomG.attr('transform', transform);
         }
-
-        simulation.on("tick", ticked);
 
         nodeGroups.on('click', function(event, d) {
             worldStore.selectEntity(d.id);
