@@ -7,6 +7,7 @@ import TextArea from "../TextArea.vue";
 import SelectInput from "../SelectInput.vue";
 import {ValidationErrors} from "../../types/ValidationErrors";
 import Button from "../Button.vue";
+import {entityTypes} from "../../data/entityTypes";
 
 const worldStore = useWorldStore();
 
@@ -15,13 +16,6 @@ const props = defineProps<{
 }>();
 
 const selectedEntity = computed(() => worldStore.selectedEntity);
-
-const items = [
-    'Character',
-    'Location',
-    'Item',
-    'Event'
-];
 
 const form = ref({
     name: selectedEntity.value.name,
@@ -80,7 +74,7 @@ const submitForm = () => {
                         />
                         <SelectInput
                             v-model="form.type"
-                            :items="items"
+                            :items="entityTypes"
                             placeholder="Select a type"
                             label="Type"
                             :error="props.errors?.type?.[0]"

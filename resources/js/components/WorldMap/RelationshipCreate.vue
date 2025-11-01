@@ -5,6 +5,7 @@ import SelectInput from "../SelectInput.vue";
 import {computed, ref, watch} from "vue";
 import TextArea from "../TextArea.vue";
 import {ValidationErrors} from "../../types/ValidationErrors";
+import {relationshipTypes} from "../../data/relationshipTypes";
 
 const props = defineProps<{
     entities: { id: number; name: string }[];
@@ -19,14 +20,6 @@ const form = ref({
     entityTo: null as number | null,
     desc: ''
 });
-
-const items = [
-    'Own',
-    'Fights',
-    'Occurs in',
-    'Allies with',
-    'Located in'
-];
 
 const submitForm = () => {
     emit('submit', {...form.value});
@@ -83,7 +76,7 @@ watch(
             />
             <SelectInput
                 v-model="form.type"
-                :items="items"
+                :items="relationshipTypes"
                 placeholder="Select a type"
                 label="Relationship Type"
                 :error="props.errors?.type?.[0]"

@@ -6,6 +6,7 @@ import Button from "../Button.vue";
 import {ref} from "vue";
 import SelectInput from "../SelectInput.vue";
 import { ValidationErrors } from "../../types/ValidationErrors";
+import {entityTypes} from "../../data/entityTypes";
 
 const form = ref({
     name: '',
@@ -18,13 +19,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['submit']);
-
-const items = [
-    'Character',
-    'Location',
-    'Item',
-    'Event'
-];
 
 const submitForm = () => {
     emit('submit', {...form.value});
@@ -51,7 +45,7 @@ const submitForm = () => {
             />
             <SelectInput
                 v-model="form.type"
-                :items="items"
+                :items="entityTypes"
                 placeholder="Select a type"
                 label="Type"
                 :error="props.errors?.type?.[0]"
