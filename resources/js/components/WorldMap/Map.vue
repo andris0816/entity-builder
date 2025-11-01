@@ -22,7 +22,7 @@
             .attr('height', height);
 
         simulation = d3.forceSimulation(entities.value)
-            .force("charge", d3.forceManyBody().strength(-50).distanceMax(150))
+            .force("charge", d3.forceManyBody().strength(-50).distanceMax(200))
             .force("center", d3.forceCenter(width/2, height/2))
             .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(120));
 
@@ -30,9 +30,6 @@
         simulation.on("tick", ticked);
 
         simulation.alpha(1).restart();
-
-        setTimeout(() => simulation.stop(), 2000);
-
         zoomG = svg.append('g');
 
         const link = zoomG.append('g')
@@ -101,8 +98,6 @@
             if (!event.active) simulation.alphaTarget(0);
             event.subject.fx = null;
             event.subject.fy = null;
-
-            setTimeout(() => simulation.stop(), 300);
         }
 
         function zoomed({ transform }) {
