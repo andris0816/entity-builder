@@ -100,7 +100,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
 
 <template>
     <div class="custom-select relative">
-        <label v-if="label" class="block space-y-2">
+        <label v-if="label" class="block space-y-2 text-gray-300 text-sm font-medium">
             {{ label }}
         </label>
 
