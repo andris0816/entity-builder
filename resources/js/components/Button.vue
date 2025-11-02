@@ -6,7 +6,7 @@
         type?: 'button' | 'submit' | 'reset';
         disabled?: boolean
         customClass?: string
-        variant?: 'default' | 'gradient' | 'dark'
+        variant?: 'default' | 'gradient' | 'dark' | 'danger'
     }
 
     const props = withDefaults(defineProps<Props>(), {

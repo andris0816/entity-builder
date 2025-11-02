@@ -27,8 +27,14 @@ export const variantClasses = {
     'dark': [
         'border',
         'border-gray-600',
-        'g-gray-800/50',
+        'bg-gray-800/50',
         'hover:bg-gray-800'
+    ],
+    'danger': [
+        'bg-red-600',
+        'hover:bg-red-400',
+        'text-white',
+        'transition-all'
     ]
 };
 
