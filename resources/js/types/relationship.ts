@@ -1,7 +1,9 @@
+import {Entity} from "./entity";
+
 export interface Relationship {
     id: number;
-    source: number;
-    target: number;
+    source: Entity;
+    target: Entity;
     type: string;
     desc: string;
     createdAt: Date;

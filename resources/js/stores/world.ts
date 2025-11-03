@@ -22,7 +22,7 @@ export const useWorldStore = defineStore('world', {
         },
         entityRelationships: (state) => (entityId: number): Relationship[] => {
             return state.relationships.filter(
-                rel => rel.source === entityId || rel.target === entityId
+                rel => rel.source.id === entityId || rel.target.id === entityId
             );
         },
         simplifiedEntities: (state): { id: number, name: string }[] => {
@@ -30,12 +30,10 @@ export const useWorldStore = defineStore('world', {
         },
         relatedEntities: (state) => (entityId: number): { relationship: Relationship, entity?: Entity }[] => {
           return state.relationships
-              .filter(rel => rel.source === entityId || rel.target === entityId)
+              .filter(rel => rel.source?.id === entityId || rel.target?.id === entityId)
               .map(rel => ({
                   relationship: rel,
-                  entity: state.entities.find(
-                      e => e.id === (rel.source === entityId ? rel.target : rel.source)
-                  ),
+                  entity: rel.source.id === entityId ? rel.target : rel.source,
               }));
         },
     },
