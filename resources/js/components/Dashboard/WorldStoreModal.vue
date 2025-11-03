@@ -2,7 +2,7 @@
 
 import TextInput from "../TextInput.vue";
 import Modal from "../Modal.vue";
-import Button from "../Button.vue";
+import CustomButton from "../CustomButton.vue";
 import TextArea from "../TextArea.vue";
 import {ref} from "vue";
 import {useAuthStore} from "../../auth";
@@ -45,7 +45,7 @@ const saveWorld = async () => {
 </script>
 
 <template>
-    <Button
+    <CustomButton
         @click="showModal = true"
         type="button"
         variant="gradient"
@@ -68,7 +68,7 @@ const saveWorld = async () => {
             <path d="M12 5v14"></path>
         </svg>
         New World
-    </Button>
+    </CustomButton>
 
     <Teleport to="body">
         <Modal :show="showModal" @close="showModal = false">
@@ -97,21 +97,21 @@ const saveWorld = async () => {
             </template>
             <template #footer>
                 <div class="flex justify-end gap-4">
-                    <Button
+                    <CustomButton
                         @click="showModal = false"
                         variant="dark"
                         customClass="text-white text-sm"
                     >
                         Cancel
-                    </Button>
-                    <Button
+                    </CustomButton>
+                    <CustomButton
                         @click="submitForm"
                         type="submit"
                         variant="gradient"
                         customClass="text-sm"
                     >
                         Save World
-                    </Button>
+                    </CustomButton>
                 </div>
             </template>
         </Modal>

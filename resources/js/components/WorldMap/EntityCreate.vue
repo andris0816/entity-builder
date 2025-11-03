@@ -2,7 +2,7 @@
 
 import TextInput from "../TextInput.vue";
 import TextArea from "../TextArea.vue";
-import Button from "../Button.vue";
+import CustomButton from "../CustomButton.vue";
 import {ref} from "vue";
 import SelectInput from "../SelectInput.vue";
 import { ValidationErrors } from "../../types/ValidationErrors";
@@ -59,7 +59,7 @@ const submitForm = () => {
                 :error="props.errors?.desc?.[0]"
             />
 
-            <Button type="submit" variant="default">Add</Button>
+            <CustomButton type="submit" variant="default">Add</CustomButton>
         </div>
     </form>
 </template>

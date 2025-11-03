@@ -2,7 +2,7 @@
 import {useWorldStore} from "../../stores/world";
 import {computed, ref} from "vue";
 import Modal from "../Modal.vue";
-import Button from "../Button.vue";
+import CustomButton from "../CustomButton.vue";
 
 const worldStore = useWorldStore();
 
@@ -24,12 +24,12 @@ const submitForm = () => {
 </script>
 
 <template>
-    <button
+    <custom-button
         @click="showModal = true"
         type="button"
         class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium h-8 w-8 rounded-md transition-all text-red-500 hover:text-red-300 hover:bg-gray-800"
     >
-        <button>
+        <custom-button>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -49,8 +49,8 @@ const submitForm = () => {
                 <path d="M3 6h18"></path>
                 <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
             </svg>
-        </button>
-    </button>
+        </custom-button>
+    </custom-button>
 
     <Teleport to="body">
         <Modal :show="showModal" @close="showModal = false">
@@ -67,21 +67,21 @@ const submitForm = () => {
             </template>
             <template #footer>
                 <div class="flex justify-end gap-4">
-                    <Button
+                    <CustomButton
                         @click="showModal = false"
                         variant="dark"
                         customClass="text-white text-sm"
                     >
                         Cancel
-                    </Button>
-                    <Button
+                    </CustomButton>
+                    <CustomButton
                         @click="submitForm"
                         type="submit"
                         variant="danger"
                         customClass="text-sm"
                     >
                         Delete Entity
-                    </Button>
+                    </CustomButton>
                 </div>
             </template>
         </Modal>

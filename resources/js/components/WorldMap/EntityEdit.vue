@@ -6,7 +6,7 @@ import Modal from "../Modal.vue";
 import TextArea from "../TextArea.vue";
 import SelectInput from "../SelectInput.vue";
 import {ValidationErrors} from "../../types/ValidationErrors";
-import Button from "../Button.vue";
+import CustomButton from "../CustomButton.vue";
 import {entityTypes} from "../../data/entityTypes";
 
 const worldStore = useWorldStore();
@@ -33,7 +33,7 @@ const submitForm = () => {
 </script>
 
 <template>
-    <button
+    <custom-button
         @click="showModal = true"
         type="button"
         class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium h-8 w-8 rounded-md transition-all text-gray-400 hover:text-white hover:bg-gray-800"
@@ -53,7 +53,7 @@ const submitForm = () => {
         >
             <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path>
         </svg>
-    </button>
+    </custom-button>
 
     <Teleport to="body">
         <Modal :show="showModal" @close="showModal = false">
@@ -92,21 +92,21 @@ const submitForm = () => {
             </template>
             <template #footer>
                 <div class="flex justify-end gap-4">
-                    <Button
+                    <CustomButton
                         @click="showModal = false"
                         variant="dark"
                         customClass="text-white text-sm"
                     >
                         Cancel
-                    </Button>
-                    <Button
+                    </CustomButton>
+                    <CustomButton
                         @click="submitForm"
                         type="submit"
                         variant="gradient"
                         customClass="text-sm"
                     >
                         Save Changes
-                    </Button>
+                    </CustomButton>
                 </div>
             </template>
         </Modal>

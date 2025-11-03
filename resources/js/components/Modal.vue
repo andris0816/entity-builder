@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Button from "./Button.vue";
+import CustomButton from "./CustomButton.vue";
 import Card from "./Card.vue";
 
 interface Props {
@@ -38,12 +38,12 @@ const props = withDefaults(defineProps<Props>(), {
 
                 <footer class="pt-2 mt-2">
                     <slot name="footer">
-                        <Button
+                        <CustomButton
                             @click="$emit('close')"
                             variant="dark"
                         >
                             Cancel
-                        </Button>
+                        </CustomButton>
                     </slot>
                 </footer>
             </Card>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Button from "../components/Button.vue";
+import CustomButton from "../components/CustomButton.vue";
 import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
 import {ref} from "vue";
@@ -51,13 +51,13 @@ const handleLogin = async () => {
                             placeholder="*******"
                             required
                         />
-                        <Button
+                        <CustomButton
                             type="submit"
                             variant="gradient"
                             customClass="w-full mt-3"
                         >
                             Sign In
-                        </Button>
+                        </CustomButton>
                         <p v-if="errorMessage" class="text-red-700 mt-2 text-medium">
                             {{ errorMessage }}
                         </p>

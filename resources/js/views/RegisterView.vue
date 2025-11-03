@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import TextInput from "../components/TextInput.vue";
 import Card from "../components/Card.vue";
-import Button from "../components/Button.vue";
+import CustomButton from "../components/CustomButton.vue";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {useAuthStore} from "../auth";
@@ -67,13 +67,13 @@ const handleRegister = async () => {
                             placeholder="*******"
                             required
                         />
-                        <Button
+                        <CustomButton
                             type="submit"
                             variant="gradient"
                             customClass="w-full mt-3"
                         >
                             Create Account
-                        </Button>
+                        </CustomButton>
                         <p v-if="errorMessage" class="text-red-700 mt-2 text-medium">
                             {{ errorMessage }}
                         </p>

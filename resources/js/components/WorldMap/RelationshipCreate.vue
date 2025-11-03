@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import Button from "../Button.vue";
+import CustomButton from "../CustomButton.vue";
 import SelectInput from "../SelectInput.vue";
 import {computed, ref, watch} from "vue";
 import TextArea from "../TextArea.vue";
@@ -96,7 +96,7 @@ watch(
                 required
                 :error="props.errors?.desc?.[0]"
             />
-            <Button type="submit" variant="default">Add</Button>
+            <CustomButton type="submit" variant="default">Add</CustomButton>
         </div>
     </form>
 </template>
