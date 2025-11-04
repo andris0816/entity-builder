@@ -34,11 +34,12 @@ class EntityController extends Controller
 
     public function update(Request $request, Entity $entity)
     {
+        Gate::authorize('update', $entity);
+
         $data = $request->validate([
             'name' => ['required'],
             'desc' => ['required'],
             'type' => ['required'],
-            'world_id' => ['required', 'integer'],
         ]);
 
         $entity->update($data);

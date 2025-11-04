@@ -30,7 +30,7 @@ const relatedEntities = computed<
             <div class="flex items-start justify-between">
                 <h3>{{ selectedEntity.name }}</h3>
                 <div class="flex gap-1">
-<!--                    <EntityEdit />-->
+                    <EntityEdit />
                     <EntityDelete />
                 </div>
             </div>
