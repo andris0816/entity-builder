@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRelationshipRequest;
+use App\Http\Resources\RelationshipResource;
 use App\Models\Relationship;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class RelationshipController extends Controller
         $data = $request->validated();
         $relationship = Relationship::create($data);
 
-        return response()->json($relationship, 201);
+        return response()->json(new RelationshipResource($relationship), 201);
     }
 
     public function show(Relationship $relationship)
