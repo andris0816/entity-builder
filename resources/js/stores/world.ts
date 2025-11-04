@@ -74,7 +74,7 @@ export const useWorldStore = defineStore('world', {
                this.entities.splice(index, 1);
 
                this.relationships = this.relationships.filter(rel =>
-                   rel.target.id !== this.selectedEntityId || rel.source.id !== this.selectedEntityId
+                   rel.target.id !== this.selectedEntityId && rel.source.id !== this.selectedEntityId
                );
 
                this.selectedEntityId = null;

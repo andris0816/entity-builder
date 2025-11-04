@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import * as d3 from 'd3';
-    import {computed, onMounted, onUnmounted, ref} from "vue";
+    import {computed, onMounted, onUnmounted, ref, watch} from "vue";
     import {useWorldStore} from "../../stores/world";
     import {colorHexCodes} from "../../data/entityColor";
 
@@ -10,29 +10,42 @@
     const entities = computed(() => worldStore.entities);
     const relationships = computed(() => worldStore.relationships);
 
-    let simulation: any, svg: any, zoomG: any;
+    let simulation: any, svg: any, zoomG: any, link: any, nodeGroups: any, nodeLayer: any, linkLayer: any;
 
-    onMounted(() => {
-        const width = 1200;
-        const height = 900;
+    const width = 1200;
+    const height = 900;
 
+    const dragBehavior = d3.drag();
+
+    dragBehavior.on('start', (event: any) => {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
+    });
+
+    dragBehavior.on('drag', (event: any) => {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+    });
+
+    dragBehavior.on('end', (event: any) => {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+    });
+
+
+    function initializeGraph() {
         svg = d3.select(graphContainer.value)
             .append('svg')
             .attr('width', width)
             .attr('height', height);
 
-        simulation = d3.forceSimulation(entities.value)
-            .force("charge", d3.forceManyBody().strength(-50).distanceMax(200))
-            .force("center", d3.forceCenter(width/2, height/2))
-            .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(120));
-
-        simulation.alphaDecay(0.05);
-        simulation.on("tick", ticked);
-
-        simulation.alpha(1).restart();
         zoomG = svg.append('g');
+        linkLayer = zoomG.append('g').attr('class', 'links');
+        nodeLayer = zoomG.append('g').attr('class', 'nodes');
 
-        const link = zoomG.append('g')
+        link = linkLayer.append('g')
             .selectAll('line')
             .data(relationships.value)
             .enter()
@@ -40,7 +53,7 @@
             .attr('stroke', '#999')
             .attr('stroke-width', 2);
 
-        const nodeGroups = zoomG.selectAll('g.entity-group')
+        nodeGroups = nodeLayer.selectAll('g.entity-group')
             .data(entities.value, d => d.id)
             .enter()
             .append('g')
@@ -58,60 +71,98 @@
             .attr('dy', '.3em')
             .attr('fill', 'white');
 
-        const dragBehavior = d3.drag();
-        dragBehavior.on('start', dragStarted);
-        dragBehavior.on('drag', dragged);
-        dragBehavior.on('end', dragEnded);
         nodeGroups.call(dragBehavior);
+
+        simulation = d3.forceSimulation(entities.value.slice())
+            .force("charge", d3.forceManyBody().strength(-50).distanceMax(200))
+            .force("center", d3.forceCenter(width/2, height/2))
+            .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(120));
+
+        simulation.alphaDecay(0.05);
+        simulation.on("tick", ticked);
 
         const zoom = d3.zoom();
         zoom.extent([[0, 0], [width, height]]);
         zoom.scaleExtent([1, 8]);
-        zoom.on('zoom', zoomed);
+        zoom.on('zoom', ({transform}) => {
+            zoomG.attr('transform', transform);
+        });
 
         zoomG.call(zoom);
-
-        function ticked() {
-            requestAnimationFrame(() => {
-                link
-                    .attr('x1', d => d.source.x)
-                    .attr('y1', d => d.source.y)
-                    .attr('x2', d => d.target.x)
-                    .attr('y2', d => d.target.y);
-
-                nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
-            });
-        }
-
-        function dragStarted(event: any) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            event.subject.fx = event.subject.x;
-            event.subject.fy = event.subject.y;
-        }
-
-        function dragged(event: any) {
-            event.subject.fx = event.x;
-            event.subject.fy = event.y;
-        }
-
-        function dragEnded(event: any) {
-            if (!event.active) simulation.alphaTarget(0);
-            event.subject.fx = null;
-            event.subject.fy = null;
-        }
-
-        function zoomed({ transform }) {
-            zoomG.attr('transform', transform);
-        }
 
         nodeGroups.on('click', function(event, d) {
             worldStore.selectEntity(d.id);
         });
+
+        simulation.alpha(1).restart();
+    }
+
+    function ticked() {
+        requestAnimationFrame(() => {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+
+            nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
+
+        });
+    }
+
+    onMounted(() => {
+        initializeGraph();
     });
 
     onUnmounted(() => {
        simulation.stop();
     });
+
+    watch([entities, relationships], ([newEntities, newRelationships]) => {
+        link = linkLayer.selectAll('line')
+            .data(newRelationships.slice(), d => `${d.source.id}-${d.target.id}`)
+            .join(
+                enter => enter.append('line')
+                    .attr('stroke', '#999')
+                    .attr('stroke-width', 2),
+                update => update,
+                exit => exit.remove()
+            );
+
+        nodeGroups = nodeLayer.selectAll('g.entity-group')
+            .data(newEntities.slice(), d => d.id)
+            .join(
+                enter => {
+                    const g = enter.append('g');
+
+                    g.attr('class', 'entity-group')
+                        .attr('style', 'cursor: pointer;')
+                        .call(dragBehavior)
+                        .on('click', (event, d) => worldStore.selectEntity(d.id));
+
+                    g.append('circle')
+                        .attr('r', 50)
+                        .attr('fill', (d: any) => colorHexCodes[d.type]);
+
+                    g.append('text')
+                        .text(d => d.name)
+                        .attr('text-anchor', 'middle')
+                        .attr('dy', '.3em')
+                        .attr('fill', 'white');
+
+                    return g;
+                },
+                update => update,
+                exit => exit.remove()
+            );
+
+        simulation.nodes(newEntities);
+        simulation.force('link').links(newRelationships);
+
+        simulation.nodes(newEntities.slice());
+        simulation.force('link').links(newRelationships.slice());
+        simulation.alpha(1).restart();
+    }, { deep: true });
 </script>
 
 <template>
