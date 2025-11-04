@@ -3,24 +3,32 @@ import {useWorldStore} from "../../stores/world";
 import {computed, ref} from "vue";
 import Modal from "../Modal.vue";
 import CustomButton from "../CustomButton.vue";
+import {apiFetch} from "../../utils/api";
 
 const worldStore = useWorldStore();
-
-
 const selectedEntity = computed(() => worldStore.selectedEntity);
-
-const form = ref({
-    entityId: selectedEntity.value.id
-});
 
 let showModal = ref(false);
 
-const emit = defineEmits(['submit']);
+const deleteEntity = async() => {
+    try {
+        const response = await apiFetch(`/entity/${selectedEntity.value.id}`, {
+            method: 'DELETE',
+        });
 
-const submitForm = () => {
-    emit('submit', {...form.value});
+        const data = await response.json();
+
+        if (!response.ok) {
+            const error = data.message;
+            console.error('Failed to delete entity:', error);
+            return;
+        }
+
+        worldStore.removeSelectedEntity();
+    } catch (err) {
+        console.error('Error while deleting entity', err)
+    }
 }
-// TODO: FUNCTIONALITY
 </script>
 
 <template>
@@ -57,10 +65,7 @@ const submitForm = () => {
                 <p class="text-gray-400 text-sm mt-2">Are you sure you want to delete {{ selectedEntity.name }} entity?</p>
             </template>
             <template #default>
-                <form @submit.prevent="submitForm" method="POST">
-                    <div class="space-y-6">
-                        <input type="hidden" :value="form.entityId">
-                    </div>
+                <form @submit.prevent="deleteEntity" method="POST">
                 </form>
             </template>
             <template #footer>
@@ -73,7 +78,7 @@ const submitForm = () => {
                         Cancel
                     </CustomButton>
                     <CustomButton
-                        @click="submitForm"
+                        @click="deleteEntity"
                         type="submit"
                         variant="danger"
                         customClass="text-sm"

@@ -15,7 +15,6 @@ const relatedEntities = computed<
     { relationship: Relationship; entity?: Entity }[]
 >(() => {
     const id = selectedEntity.value?.id;
-    console.log(id);
     if (!id) return [];
 
     return worldStore.relatedEntities(selectedEntity.value.id);
@@ -32,7 +31,7 @@ const relatedEntities = computed<
                 <h3>{{ selectedEntity.name }}</h3>
                 <div class="flex gap-1">
 <!--                    <EntityEdit />-->
-<!--                    <EntityDelete />-->
+                    <EntityDelete />
                 </div>
             </div>
             <EntityType :type="selectedEntity.type" />

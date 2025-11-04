@@ -64,6 +64,21 @@ export const useWorldStore = defineStore('world', {
         },
         addRelationship(relationship: Relationship): void {
             this.relationships.push(relationship);
+        },
+        removeSelectedEntity(): void {
+           if (this.selectedEntityId === null) return;
+
+           const index = this.entities.findIndex(e => e.id === this.selectedEntityId);
+
+           if (index !== -1) {
+               this.entities.splice(index, 1);
+
+               this.relationships = this.relationships.filter(rel =>
+                   rel.target.id !== this.selectedEntityId || rel.source.id !== this.selectedEntityId
+               );
+
+               this.selectedEntityId = null;
+           }
         }
     },
 })

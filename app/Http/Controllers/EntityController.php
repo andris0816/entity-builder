@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Entity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class EntityController extends Controller
 {
@@ -47,8 +48,9 @@ class EntityController extends Controller
 
     public function destroy(Entity $entity)
     {
-        $entity->delete();
+        Gate::authorize('delete', $entity);
 
-        return response()->json();
+        $entity->delete();
+        return response()->json(['message' => 'Deleted successfully']);
     }
 }

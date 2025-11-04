@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/world', [WorldController::class, 'indexByUserId']);
    Route::get('/worlds/{world}', [WorldController::class, 'show']);
    Route::post('/entity', [EntityController::class, 'store']);
+   Route::delete('/entity/{entity}', [EntityController::class, 'destroy']);
    Route::post('/relationship', [RelationshipController::class, 'store']);
 });
 
