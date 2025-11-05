@@ -74,16 +74,16 @@
         nodeGroups.call(dragBehavior);
 
         simulation = d3.forceSimulation(entities.value.slice())
-            .force("charge", d3.forceManyBody().strength(-50).distanceMax(200))
+            .force("charge", d3.forceManyBody().strength(-150).distanceMax(150))
             .force("center", d3.forceCenter(width/2, height/2))
-            .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(120));
+            .force("link", d3.forceLink(relationships.value).id((d): any => d.id).distance(300));
 
         simulation.alphaDecay(0.05);
         simulation.on("tick", ticked);
 
         const zoom = d3.zoom();
         zoom.extent([[0, 0], [width, height]]);
-        zoom.scaleExtent([1, 8]);
+        zoom.scaleExtent([1, 4]);
         zoom.on('zoom', ({transform}) => {
             zoomG.attr('transform', transform);
         });
