@@ -152,7 +152,19 @@
 
                     return g;
                 },
-                update => update,
+                update => {
+                    update.select('circle')
+                        .attr('r', 50)
+                        .attr('fill', d => colorHexCodes[d.type]);
+
+                    update.select('text')
+                        .text(d => d.name)
+                        .attr('text-anchor', 'middle')
+                        .attr('dy', '.3em')
+                        .attr('fill', 'white');
+
+                    return update;
+                },
                 exit => exit.remove()
             );
 

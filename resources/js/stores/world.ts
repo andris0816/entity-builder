@@ -30,7 +30,8 @@ export const useWorldStore = defineStore('world', {
         },
         relatedEntities: (state) => (entityId: number): { relationship: Relationship, entity?: Entity }[] => {
           return state.relationships
-              .filter(rel => rel.source?.id === entityId || rel.target?.id === entityId)
+              .filter(rel => rel.source?.id === entityId ||
+                  rel.target?.id === entityId)
               .map(rel => ({
                   relationship: rel,
                   entity: rel.source.id === entityId ? rel.target : rel.source,
@@ -74,7 +75,8 @@ export const useWorldStore = defineStore('world', {
                this.entities.splice(index, 1);
 
                this.relationships = this.relationships.filter((rel: Relationship) =>
-                   rel.target.id !== this.selectedEntityId && rel.source.id !== this.selectedEntityId
+                   rel.target.id !== this.selectedEntityId &&
+                   rel.source.id !== this.selectedEntityId
                );
 
                this.selectedEntityId = null;
@@ -82,13 +84,19 @@ export const useWorldStore = defineStore('world', {
         },
         updateSelectedEntity(formData: Partial<Entity>): void {
             this.entities = this.entities.map((entity: Entity) =>
-                entity.id === this.selectedEntityId ? { ...entity, ...formData } : entity
+                entity.id === this.selectedEntityId ?
+                    { ...entity, ...formData } :
+                    entity
             );
 
             this.relationships = this.relationships.map((rel: Relationship) => ({
                ...rel,
-               source: rel.source.id === this.selectedEntityId ? { ...rel.source,  ...formData } : rel.source,
-               target: rel.target.id === this.selectedEntityId ? { ...rel.target, ...formData } : rel.target,
+               source: rel.source.id === this.selectedEntityId ?
+                   { ...rel.source,  ...formData } :
+                   rel.source,
+               target: rel.target.id === this.selectedEntityId ?
+                   { ...rel.target, ...formData } :
+                   rel.target,
             }));
         }
     },
