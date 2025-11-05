@@ -37,3 +37,11 @@
     .gradient-pink { @apply bg-gradient-to-br from-pink-300 to-pink-500; }
     .gradient-rose { @apply bg-gradient-to-br from-rose-300 to-rose-500; }
 }
+
+.entity-group.selected circle {
+    stroke: white;
+    stroke-width: 4;
+    r: 54px;
+    transition: all 0.2s ease;
+}
+

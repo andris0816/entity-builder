@@ -91,6 +91,9 @@
         zoomG.call(zoom);
 
         nodeGroups.on('click', function(event, d) {
+            nodeGroups.classed('selected', false);
+            d3.select(this).classed('selected', true);
+
             worldStore.selectEntity(d.id);
         });
 
