@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Entity;
+use App\Models\World;
 use App\Policies\EntityPolicy;
+use App\Policies\WorldPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Entity::class, EntityPolicy::class);
+        Gate::policy(World::class, WorldPolicy::class);
     }
 }

@@ -16,18 +16,18 @@ class EntityPolicy
         //
     }
 
-    public function delete(User $user, Entity $entity)
+    public function delete(User $user, Entity $entity): bool
     {
         return $this->hasOwnership($user, $entity);
     }
 
-    public function update(User $user, Entity $entity)
+    public function update(User $user, Entity $entity): bool
     {
         return $this->hasOwnership($user, $entity);
     }
 
-    protected function hasOwnership(User $user, Entity $entity)
+    protected function hasOwnership(User $user, Entity $entity): bool
     {
-        return $entity->world->user_id === $user->id;
+        return $entity->world->user_id === $user->getKey();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entity;
+use App\Models\World;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -21,6 +22,9 @@ class EntityController extends Controller
             'type' => ['required'],
             'world_id' => ['required', 'integer'],
         ]);
+
+        $world = World::find($data['world_id']);
+        Gate::authorize('createEntity', $world);
 
         $entity = Entity::create($data);
 
