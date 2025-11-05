@@ -168,9 +168,6 @@
                 exit => exit.remove()
             );
 
-        simulation.nodes(newEntities);
-        simulation.force('link').links(newRelationships);
-
         simulation.nodes(newEntities.slice());
         simulation.force('link').links(newRelationships.slice());
         simulation.alpha(1).restart();

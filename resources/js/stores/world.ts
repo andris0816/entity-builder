@@ -83,21 +83,18 @@ export const useWorldStore = defineStore('world', {
            }
         },
         updateSelectedEntity(formData: Partial<Entity>): void {
-            this.entities = this.entities.map((entity: Entity) =>
-                entity.id === this.selectedEntityId ?
-                    { ...entity, ...formData } :
-                    entity
-            );
+            const entity = this.entities.find(e => e.id === this.selectedEntityId);
+            if (entity) Object.assign(entity, formData);
 
-            this.relationships = this.relationships.map((rel: Relationship) => ({
-               ...rel,
-               source: rel.source.id === this.selectedEntityId ?
-                   { ...rel.source,  ...formData } :
-                   rel.source,
-               target: rel.target.id === this.selectedEntityId ?
-                   { ...rel.target, ...formData } :
-                   rel.target,
-            }));
+            for (const rel of this.relationships) {
+                if (rel.source.id === this.selectedEntityId) {
+                    Object.assign(rel.source, formData);
+                }
+
+                if (rel.target.id === this.selectedEntityId) {
+                    Object.assign(rel.target, formData);
+                }
+            }
         }
     },
 })
