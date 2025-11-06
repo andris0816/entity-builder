@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {WorldState} from "../types/worldState";
+import {SelectedItem, WorldState} from "../types/worldState";
 import {Relationship} from "../types/relationship";
 import {Entity} from "../types/entity";
 import {apiFetch} from "../utils/api";
@@ -11,14 +11,22 @@ export const useWorldStore = defineStore('world', {
         worldId: null,
         entities: [],
         relationships: [],
-        selectedEntityId: null,
+        selectedItem: null as SelectedItem,
         viewport: {x: 0, y: 0, zoom: 1},
         isLoading: false,
         dragInProgress: false,
     }),
     getters: {
-        selectedEntity: (state): Entity | undefined => {
-            return state.entities.find(e => e.id === state.selectedEntityId);
+        selectedItemObject: (state): Entity | Relationship | undefined => {
+            const item = state.selectedItem;
+            if (!item) return undefined;
+
+            switch (item.type) {
+                case 'entity':
+                    return state.entities.find(e => e.id === item.id);
+                case 'relationship':
+                    return state.relationships.find(r => r.id === item.id);
+            }
         },
         entityRelationships: (state) => (entityId: number): Relationship[] => {
             return state.relationships.filter(
@@ -54,8 +62,11 @@ export const useWorldStore = defineStore('world', {
                 this.isLoading = false;
             }
         },
-        selectEntity(entityId: number): void {
-            this.selectedEntityId = entityId;
+        selectItem(type: 'entity' | 'relationship', id: number): void {
+            this.selectedItem = { type, id } as SelectedItem;
+        },
+        clearItemSelection(): void {
+            this.selectedItem = null as SelectedItem;
         },
         updateViewport(viewport: Partial<ViewPort>): void {
             this.viewport = { ...this.viewport, ...viewport };
@@ -67,31 +78,31 @@ export const useWorldStore = defineStore('world', {
             this.relationships.push(relationship);
         },
         removeSelectedEntity(): void {
-           if (this.selectedEntityId === null) return;
+           if (this.selectedItem === null) return;
 
-           const index = this.entities.findIndex((e: Entity) => e.id === this.selectedEntityId);
+           const index = this.entities.findIndex((e: Entity) => e.id === this.selectedItemId);
 
            if (index !== -1) {
                this.entities.splice(index, 1);
 
                this.relationships = this.relationships.filter((rel: Relationship) =>
-                   rel.target.id !== this.selectedEntityId &&
-                   rel.source.id !== this.selectedEntityId
+                   rel.target.id !== this.selectedItemId &&
+                   rel.source.id !== this.selectedItemId
                );
 
-               this.selectedEntityId = null;
+               this.selectedItemId = null;
            }
         },
         updateSelectedEntity(formData: Partial<Entity>): void {
-            const entity = this.entities.find(e => e.id === this.selectedEntityId);
+            const entity = this.entities.find(e => e.id === this.selectedItemId);
             if (entity) Object.assign(entity, formData);
 
             for (const rel of this.relationships) {
-                if (rel.source.id === this.selectedEntityId) {
+                if (rel.source.id === this.selectedItemId) {
                     Object.assign(rel.source, formData);
                 }
 
-                if (rel.target.id === this.selectedEntityId) {
+                if (rel.target.id === this.selectedItemId) {
                     Object.assign(rel.target, formData);
                 }
             }

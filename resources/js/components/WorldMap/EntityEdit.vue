@@ -12,7 +12,7 @@ import {apiFetch} from "../../utils/api";
 
 const worldStore = useWorldStore();
 
-const selectedEntity = computed(() => worldStore.selectedEntity);
+const selectedEntity = computed(() => worldStore.selectedItem);
 
 const form = ref({
     name: selectedEntity.value?.name || '',

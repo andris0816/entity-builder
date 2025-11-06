@@ -94,7 +94,7 @@
             nodeGroups.classed('selected', false);
             d3.select(this).classed('selected', true);
 
-            worldStore.selectEntity(d.id);
+            worldStore.selectItem('entity', d.id);
         });
 
         simulation.alpha(1).restart();
@@ -141,7 +141,7 @@
                     g.attr('class', 'entity-group')
                         .attr('style', 'cursor: pointer;')
                         .call(dragBehavior)
-                        .on('click', (event, d) => worldStore.selectEntity(d.id));
+                        .on('click', (event, d) => worldStore.selectItem('entity', d.id));
 
                     g.append('circle')
                         .attr('r', 50)
