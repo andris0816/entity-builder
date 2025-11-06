@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {useWorldStore} from "../../../stores/world";
 import {computed} from "vue";
-import Entity from "./Entity.vue";
-import Relationship from "./Relationship.vue";
+import EntityShow from "./EntityShow.vue";
+import RelationshipShow from "./RelationshipShow.vue";
 
 
 const worldStore = useWorldStore();
@@ -16,8 +16,8 @@ const selectedItem = computed(() => worldStore.selectedItem);
     </div>
     <!-- Két opció: vagy relationship vagy entity -> mindkettő külön component    -->
     <div class="space-y-6">
-        <Entity v-if="selectedItem?.type === 'entity'" />
-        <Relationship v-if="selectedItem?.type === 'relationship'" />
+        <EntityShow v-if="selectedItem?.type === 'entity'" />
+        <RelationshipShow v-if="selectedItem?.type === 'relationship'" />
     </div>
 </template>
 

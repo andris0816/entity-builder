@@ -51,6 +51,8 @@
             .enter()
             .append('line')
             .attr('stroke', '#999')
+            .attr('class', 'relationship-group')
+            .attr('style', 'cursor: pointer;')
             .attr('stroke-width', 2);
 
         nodeGroups = nodeLayer.selectAll('g.entity-group')
@@ -97,6 +99,13 @@
             worldStore.selectItem('entity', d.id);
         });
 
+        link.on('click', function(event, d) {
+            link.classed('selected', false);
+            d3.select(this).classed('selected', true);
+
+            worldStore.selectItem('relationship', d.id);
+        });
+
         simulation.alpha(1).restart();
     }
 
@@ -127,7 +136,8 @@
             .join(
                 enter => enter.append('line')
                     .attr('stroke', '#999')
-                    .attr('stroke-width', 2),
+                    .attr('stroke-width', 2)
+                    .on('click', (event, d) => worldStore.selectItem('relationship', d.id)),
                 update => update,
                 exit => exit.remove()
             );

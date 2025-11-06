@@ -5,7 +5,7 @@ import EntityType from "./EntityType.vue";
 
 interface Props {
     entity: Entity;
-    relationship: Relationship
+    relationship?: Relationship
 }
 
 const props = defineProps<Props>();
@@ -19,7 +19,7 @@ const props = defineProps<Props>();
     </span>
         <EntityType :type="entity.type" />
     </div>
-    <p class="text-xs text-gray-500">{{ relationship.source === entity.id ? '→' : '←' }} {{ relationship.type }}</p>
+    <p v-if="relationship" class="text-xs text-gray-500">{{ relationship && relationship.source.id === entity.id ? '→' : '←' }} {{ relationship ? relationship.type : entity.desc }}</p>
 </div>
 </template>
 

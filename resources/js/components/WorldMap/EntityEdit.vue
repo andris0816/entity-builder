@@ -9,13 +9,14 @@ import {ValidationErrors} from "../../types/ValidationErrors";
 import CustomButton from "../CustomButton.vue";
 import {entityTypes} from "../../data/entityTypes";
 import {apiFetch} from "../../utils/api";
+import {Entity} from "../../types/entity";
 
 const worldStore = useWorldStore();
 
-const selectedEntity = computed(() => worldStore.selectedItem);
+const selectedEntity = computed(() => worldStore.selectedItemObject);
 
 const form = ref({
-    name: selectedEntity.value?.name || '',
+    name: (selectedEntity.value as Entity)?.name || '',
     type: selectedEntity.value?.type || '',
     desc: selectedEntity.value?.desc || '',
 });
@@ -52,7 +53,7 @@ const updateEntity = async() => {
 watch(selectedEntity, (newSelectedEntity) => {
     if (!newSelectedEntity) return;
 
-    form.value.name = newSelectedEntity.name;
+    form.value.name = (newSelectedEntity as Entity).name;
     form.value.type = newSelectedEntity.type;
     form.value.desc = newSelectedEntity.desc;
 }, { immediate: true });
