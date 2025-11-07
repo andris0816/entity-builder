@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::delete('/entity/{entity}', [EntityController::class, 'destroy']);
    Route::patch('/entity/{entity}', [EntityController::class, 'update']);
    Route::post('/relationship', [RelationshipController::class, 'store']);
+   Route::delete('/relationship/{relationship}', [RelationshipController::class, 'destroy']);
 });
 
 Route::get('/user', function (Request $request) {
