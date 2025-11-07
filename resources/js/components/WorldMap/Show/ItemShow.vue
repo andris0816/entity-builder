@@ -14,9 +14,8 @@ const selectedItem = computed(() => worldStore.selectedItem);
     <div v-if="!selectedItem" class="flex items-center justify-center h-full text-center text-gray-500">
         <p>Select an entity to view details</p>
     </div>
-    <!-- Két opció: vagy relationship vagy entity -> mindkettő külön component    -->
-    <div class="space-y-6">
-        <EntityShow v-if="selectedItem?.type === 'entity'" />
+    <div v-else class="space-y-6">
+        <EntityShow v-if="selectedItem.type === 'entity'" />
         <RelationshipShow v-if="selectedItem?.type === 'relationship'" />
     </div>
 </template>

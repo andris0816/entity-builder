@@ -3,6 +3,7 @@ import {useWorldStore} from "../../../stores/world";
 import {computed} from "vue";
 import RelatedEntities from "../../RelatedEntities.vue";
 import {Relationship} from "../../../types/relationship";
+import RelationshipDelete from "../RelationshipDelete.vue";
 
 const worldStore = useWorldStore();
 
@@ -15,7 +16,7 @@ const selectedRelationship = computed(() => worldStore.selectedItemObject);
         <div class="flex items-start justify-between">
             <h3>Relationship</h3>
             <div class="flex gap-1">
-                <!-- TODO EDIT AND DELETE COMPONENT -->
+                <RelationshipDelete />
             </div>
         </div>
     </div>

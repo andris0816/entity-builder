@@ -77,21 +77,29 @@ export const useWorldStore = defineStore('world', {
         addRelationship(relationship: Relationship): void {
             this.relationships.push(relationship);
         },
-        removeSelectedEntity(): void {
+        removeSelectedItem(): void {
+            // TODO: refactor this to a lookup implementation
            if (this.selectedItem === null) return;
+           const selectedId = this.selectedItem.id;
 
-           const index = this.entities.findIndex((e: Entity) => e.id === this.selectedItemId);
+           if (this.selectedItem.type === 'entity') {
+               const index = this.entities.findIndex((e: Entity) => e.id === selectedId);
 
-           if (index !== -1) {
-               this.entities.splice(index, 1);
+               if (index !== -1) {
+                    this.entities.splice(index, 1);
 
+                    this.relationships = this.relationships.filter((rel: Relationship) =>
+                        rel.target.id !== selectedId &&
+                        rel.source.id !== selectedId
+                    );
+                }
+            } else if (this.selectedItem.type === 'relationship') {
                this.relationships = this.relationships.filter((rel: Relationship) =>
-                   rel.target.id !== this.selectedItemId &&
-                   rel.source.id !== this.selectedItemId
+                   rel.id !== selectedId
                );
-
-               this.selectedItemId = null;
            }
+
+            this.selectedItem = null;
         },
         updateSelectedEntity(formData: Partial<Entity>): void {
             const entity = this.entities.find(e => e.id === this.selectedItemId);

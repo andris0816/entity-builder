@@ -4,18 +4,17 @@ import {computed, ref} from "vue";
 import Modal from "../Modal.vue";
 import CustomButton from "../CustomButton.vue";
 import {apiFetch} from "../../utils/api";
-import {Entity} from "../../types/entity";
 
 const worldStore = useWorldStore();
-const selectedEntity = computed(() => worldStore.selectedItemObject);
-
-let showModal = ref(false);
+const selectedRelationship = computed(() => worldStore.selectedItemObject);
 
 // TODO: complete refactor
 
-const deleteEntity = async() => {
+let showModal = ref(false);
+
+const deleteRelationship = async() => {
     try {
-        const response = await apiFetch(`/entity/${selectedEntity.value.id}`, {
+        const response = await apiFetch(`/relationship/${selectedRelationship.value.id}`, {
             method: 'DELETE',
         });
 
@@ -23,13 +22,13 @@ const deleteEntity = async() => {
 
         if (!response.ok) {
             const error = data.message;
-            console.error('Failed to delete entity:', error);
+            console.error('Failed to delete relationship:', error);
             return;
         }
 
         worldStore.removeSelectedItem();
     } catch (err) {
-        console.error('Error while deleting entity', err)
+        console.error('Error while deleting relationship', err)
     }
 }
 </script>
@@ -64,11 +63,11 @@ const deleteEntity = async() => {
     <Teleport to="body">
         <Modal :show="showModal" @close="showModal = false">
             <template #header>
-                <h2 class="text-white text-lg leading-none font-semibold">Deleting Entity</h2>
-                <p class="text-gray-400 text-sm mt-2">Are you sure you want to delete {{ (selectedEntity as Entity).name }} entity?</p>
+                <h2 class="text-white text-lg leading-none font-semibold">Deleting Relationship</h2>
+                <p class="text-gray-400 text-sm mt-2">Are you sure you want to delete this relationship?</p>
             </template>
             <template #default>
-                <form @submit.prevent="deleteEntity" method="POST">
+                <form @submit.prevent="deleteRelationship" method="POST">
                 </form>
             </template>
             <template #footer>
@@ -81,7 +80,7 @@ const deleteEntity = async() => {
                         Cancel
                     </CustomButton>
                     <CustomButton
-                        @click="deleteEntity"
+                        @click="deleteRelationship"
                         type="submit"
                         variant="danger"
                         customClass="text-sm"
