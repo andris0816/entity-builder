@@ -94,12 +94,14 @@
 
         nodeGroups.on('click', function(event, d) {
             nodeGroups.classed('selected', false);
+            link.classed('selected', false);
             d3.select(this).classed('selected', true);
 
             worldStore.selectItem('entity', d.id);
         });
 
         link.on('click', function(event, d) {
+            nodeGroups.classed('selected', false);
             link.classed('selected', false);
             d3.select(this).classed('selected', true);
 
@@ -137,7 +139,13 @@
                 enter => enter.append('line')
                     .attr('stroke', '#999')
                     .attr('stroke-width', 2)
-                    .on('click', (event, d) => worldStore.selectItem('relationship', d.id)),
+                    .attr('style', 'cursor: pointer;')
+                    .on('click', function(event, d) {
+                        nodeGroups.classed('selected', false);
+                        link.classed('selected', false);
+                        d3.select(this).classed('selected', true);
+                        worldStore.selectItem('relationship', d.id);
+                    }),
                 update => update,
                 exit => exit.remove()
             );
@@ -151,7 +159,12 @@
                     g.attr('class', 'entity-group')
                         .attr('style', 'cursor: pointer;')
                         .call(dragBehavior)
-                        .on('click', (event, d) => worldStore.selectItem('entity', d.id));
+                        .on('click', function(event, d) {
+                            nodeGroups.classed('selected', false);
+                            link.classed('selected', false);
+                            d3.select(this).classed('selected', true);
+                            worldStore.selectItem('entity', d.id)
+                        });
 
                     g.append('circle')
                         .attr('r', 50)
