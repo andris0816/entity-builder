@@ -78,27 +78,30 @@ export const useWorldStore = defineStore('world', {
             this.relationships.push(relationship);
         },
         removeSelectedItem(): void {
-            // TODO: refactor this to a lookup implementation
-           if (this.selectedItem === null) return;
-           const selectedId = this.selectedItem.id;
+            if (this.selectedItem === null) return;
+            const selectedId = this.selectedItem.id;
 
-           if (this.selectedItem.type === 'entity') {
-               const index = this.entities.findIndex((e: Entity) => e.id === selectedId);
+            const lookup: Record<'entity' | 'relationship', (id: number | string) => void> = {
+                entity: (id) => {
+                    const index = this.entities.findIndex((e: Entity) => e.id === id);
 
-               if (index !== -1) {
+                    if (index === -1) return;
+
                     this.entities.splice(index, 1);
 
                     this.relationships = this.relationships.filter((rel: Relationship) =>
-                        rel.target.id !== selectedId &&
-                        rel.source.id !== selectedId
+                        rel.target.id !== id &&
+                        rel.source.id !== id
+                    );
+                },
+                relationship: (id) => {
+                    this.relationships = this.relationships.filter((rel: Relationship) =>
+                        rel.id !== id
                     );
                 }
-            } else if (this.selectedItem.type === 'relationship') {
-               this.relationships = this.relationships.filter((rel: Relationship) =>
-                   rel.id !== selectedId
-               );
-           }
+            }
 
+            lookup[this.selectedItem.type]?.(selectedId);
             this.selectedItem = null;
         },
         updateSelectedEntity(formData: Partial<Entity>): void {
