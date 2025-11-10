@@ -104,19 +104,32 @@ export const useWorldStore = defineStore('world', {
             lookup[this.selectedItem.type]?.(selectedId);
             this.selectedItem = null;
         },
-        updateSelectedEntity(formData: Partial<Entity>): void {
-            const entity = this.entities.find(e => e.id === this.selectedItemId);
-            if (entity) Object.assign(entity, formData);
+        updateSelectedItem(formData: Partial<Entity | Relationship>): void {
+            if (this.selectedItem === null) return;
+            const selectedId = this.selectedItem.id;
 
-            for (const rel of this.relationships) {
-                if (rel.source.id === this.selectedItemId) {
-                    Object.assign(rel.source, formData);
-                }
+            const lookup = {
+                entity: (id) => {
+                    const entity = this.entities.find(e => e.id === id);
+                    if (entity) Object.assign(entity, formData);
 
-                if (rel.target.id === this.selectedItemId) {
-                    Object.assign(rel.target, formData);
+                    for (const rel of this.relationships) {
+                        if (rel.source.id === this.selectedItemId) {
+                            Object.assign(rel.source, formData);
+                        }
+
+                        if (rel.target.id === this.selectedItemId) {
+                            Object.assign(rel.target, formData);
+                        }
+                    }
+                },
+                relationship: (id) => {
+                    const relationship = this.relationships.find(e => e.id === id);
+                    if (relationship) Object.assign(relationship, formData);
                 }
             }
+
+            lookup[this.selectedItem.type]?.(selectedId);
         }
     },
 })
