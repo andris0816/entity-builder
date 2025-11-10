@@ -15,9 +15,9 @@ const props = defineProps<{
 const emit = defineEmits(['submit']);
 
 const form = ref({
-    entityFrom: null as number | null,
+    source: null as number | null,
     type: '',
-    entityTo: null as number | null,
+    target: null as number | null,
     desc: ''
 });
 
@@ -25,39 +25,39 @@ const submitForm = () => {
     emit('submit', {...form.value});
 
     form.value = {
-        entityFrom: null as number | null,
+        source: null as number | null,
         type: '',
-        entityTo: null as number | null,
+        target: null as number | null,
         desc: ''
     }
 }
 
 const filteredEntitiesTo = computed(() => {
     return props.entities.filter(entity =>
-        form.value.entityTo ? true : entity.id !== form.value.entityFrom
+        form.value.target ? true : entity.id !== form.value.source
     );
 })
 
 const filteredEntitiesFrom = computed(() => {
     return props.entities.filter(entity =>
-        form.value.entityFrom ? true : entity.id !== form.value.entityTo
+        form.value.source ? true : entity.id !== form.value.target
     );
 });
 
 watch(
-    () => form.value.entityFrom,
+    () => form.value.source,
     (newVal, oldVal) => {
-        if (newVal !== null && newVal === form.value.entityTo) {
-            form.value.entityTo = oldVal
+        if (newVal !== null && newVal === form.value.target) {
+            form.value.target = oldVal
         }
     }
 )
 
 watch(
-    () => form.value.entityTo,
+    () => form.value.target,
     (newVal, oldVal) => {
-        if (newVal !== null && form.value.entityFrom && newVal === form.value.entityFrom) {
-            form.value.entityFrom = oldVal
+        if (newVal !== null && form.value.source && newVal === form.value.source) {
+            form.value.source = oldVal
         }
     }
 )
@@ -68,11 +68,11 @@ watch(
     <form @submit.prevent="submitForm" method="POST">
         <div class="space-y-6">
             <SelectInput
-                v-model="form.entityFrom"
+                v-model="form.source"
                 :items="filteredEntitiesFrom"
                 placeholder="Select entity"
                 label="Entity From"
-                :error="props.errors?.entity_from?.[0]"
+                :error="props.errors?.source?.[0]"
             />
             <SelectInput
                 v-model="form.type"
@@ -82,11 +82,11 @@ watch(
                 :error="props.errors?.type?.[0]"
             />
             <SelectInput
-                v-model="form.entityTo"
+                v-model="form.target"
                 :items="filteredEntitiesTo"
                 placeholder="Select entity"
                 label="Entity To"
-                :error="props.errors?.entity_to?.[0]"
+                :error="props.errors?.target?.[0]"
             />
             <TextArea
                 v-model="form.desc"

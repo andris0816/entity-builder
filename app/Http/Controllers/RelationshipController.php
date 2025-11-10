@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRelationshipRequest;
 use App\Http\Resources\RelationshipResource;
 use App\Models\Relationship;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class RelationshipController extends Controller
@@ -28,14 +27,10 @@ class RelationshipController extends Controller
         return $relationship;
     }
 
-    public function update(Request $request, Relationship $relationship)
+    public function update(StoreRelationshipRequest $request, Relationship $relationship)
     {
-        $data = $request->validate([
-            'entity_from' => ['required', 'integer'],
-            'entity_to' => ['required', 'integer'],
-            'type' => ['required'],
-            'desc' => ['required'],
-        ]);
+        Gate::authorize('update', $relationship);
+        $data = $request->validated();
 
         $relationship->update($data);
 

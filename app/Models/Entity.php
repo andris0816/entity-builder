@@ -26,18 +26,18 @@ class Entity extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function relationshipsFrom(): HasMany
+    public function sourceRelationship(): HasMany
     {
-        return $this->hasMany(Relationship::class, 'entity_from');
+        return $this->hasMany(Relationship::class, 'source');
     }
 
-    public function relationshipsTo(): HasMany
+    public function targetRelationship(): HasMany
     {
-        return $this->hasMany(Relationship::class, 'entity_to');
+        return $this->hasMany(Relationship::class, 'target');
     }
 
     public function relatedEntities()
     {
-        return $this->relationshipsFrom->merge($this->relationshipsTo);
+        return $this->sourceRelationship->merge($this->targetRelationship);
     }
 }

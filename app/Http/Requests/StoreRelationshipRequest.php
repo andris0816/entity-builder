@@ -25,8 +25,8 @@ class StoreRelationshipRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'entity_from' => ['required', 'exists:entities,id', 'different:entity_to'],
-            'entity_to' => ['required', 'exists:entities,id', 'different:entity_from'],
+            'source' => ['required', 'exists:entities,id', 'different:target'],
+            'target' => ['required', 'exists:entities,id', 'different:source'],
             'type' => ['required', 'string'],
             'desc' => ['required'],
         ];
@@ -44,18 +44,18 @@ class StoreRelationshipRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
-            $from = $this->input('entity_from');
-            $to = $this->input('entity_to');
+            $from = $this->input('source');
+            $to = $this->input('target');
 
-            $exists = Relationship::where('entity_from', $from)
-                ->where('entity_to', $to)
-                ->orWhere('entity_from', $to)
-                ->where('entity_to', $from)
+            $exists = Relationship::where('source', $from)
+                ->where('target', $to)
+                ->orWhere('source', $to)
+                ->where('target', $from)
                 ->exists();
 
             if ($exists) {
                 $validator->errors()->add(
-                    'entity_from',
+                    'source',
                     'A relationship between these entities already exists.'
                 );
             }

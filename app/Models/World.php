@@ -31,7 +31,7 @@ class World extends Model
             Relationship::class,
             Entity::class,
             'world_id',
-            'entity_from',
+            'source',
             'id',
             'id'
         );

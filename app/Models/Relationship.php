@@ -9,18 +9,18 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 class Relationship extends Model
 {
     protected $fillable = [
-        'entity_from',
-        'entity_to',
+        'source', // Source Entity of the relationship
+        'target', // Target Entity of the relationship
         'type',
         'desc',
     ];
 
-    public function entityFrom(): BelongsTo
+    public function source(): BelongsTo
     {
         return $this->belongsTo(Entity::class);
     }
 
-    public function entityTo(): BelongsTo
+    public function target(): BelongsTo
     {
         return $this->belongsTo(Entity::class);
     }
@@ -32,7 +32,7 @@ class Relationship extends Model
             Entity::class,
             'id',
             'id',
-            'entity_from',
+            'source',
             'world_id'
         );
     }
