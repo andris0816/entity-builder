@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreWorldRequest;
 use App\Http\Resources\WorldMapResource;
 use App\Models\World;
 use Auth;
@@ -14,15 +15,10 @@ class WorldController extends Controller
         return World::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreWorldRequest $request)
     {
-        $data = $request->validate([
-            'name' => ['required'],
-            'desc' => ['required'],
-        ]);
-
         $user = Auth::user();
-
+        $data = $request->validated();
         $world = $user->worlds()->create($data)->loadCount('entities');
 
         return response()->json([

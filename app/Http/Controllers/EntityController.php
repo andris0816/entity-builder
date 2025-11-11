@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEntityRequest;
 use App\Models\Entity;
 use App\Models\World;
 use Illuminate\Http\Request;
@@ -14,14 +15,9 @@ class EntityController extends Controller
         return Entity::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreEntityRequest $request)
     {
-        $data = $request->validate([
-            'name' => ['required'],
-            'desc' => ['required'],
-            'type' => ['required'],
-            'world_id' => ['required', 'integer'],
-        ]);
+        $data = $request->validated();
 
         $world = World::find($data['world_id']);
         Gate::authorize('createEntity', $world);
