@@ -10,7 +10,14 @@
     const entities = computed(() => worldStore.entities);
     const relationships = computed(() => worldStore.relationships);
 
-    let simulation: any, svg: any, zoomG: any, link: any, nodeGroups: any, nodeLayer: any, linkLayer: any;
+    let simulation: any,
+        svg: any,
+        zoomG: any,
+        link: any,
+        nodeGroups: any,
+        nodeLayer: any,
+        linkLayer: any,
+        linkLabels: any;
 
     const width = 1200;
     const height = 900;
@@ -51,9 +58,18 @@
             .enter()
             .append('line')
             .attr('stroke', '#999')
+            .attr('stroke-dasharray', '10,5')
             .attr('class', 'relationship-group')
             .attr('style', 'cursor: pointer;')
-            .attr('stroke-width', 2);
+            .attr('stroke-width', 6);
+
+        linkLabels = linkLayer.selectAll('text')
+            .data(relationships.value)
+            .join('text')
+            .text(d => d.type)
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'white')
+            .attr('font-size', 14);
 
         nodeGroups = nodeLayer.selectAll('g.entity-group')
             .data(entities.value, d => d.id)
@@ -119,6 +135,10 @@
                 .attr('x2', d => d.target.x)
                 .attr('y2', d => d.target.y);
 
+            linkLabels
+                .attr('x', d => (d.source.x + d.target.x) / 2)
+                .attr('y', d => (d.source.y + d.target.y) / 2);
+
             nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
 
         });
@@ -138,7 +158,8 @@
             .join(
                 enter => enter.append('line')
                     .attr('stroke', '#999')
-                    .attr('stroke-width', 2)
+                    .attr('stroke-width', 6)
+                    .attr('stroke-dasharray', '12,5')
                     .attr('style', 'cursor: pointer;')
                     .on('click', function(event, d) {
                         nodeGroups.classed('selected', false);
@@ -147,6 +168,18 @@
                         worldStore.selectItem('relationship', d.id);
                     }),
                 update => update,
+                exit => exit.remove()
+            );
+
+        linkLabels = linkLayer.selectAll('text')
+            .data(newRelationships.slice(), d => `${d.source.id}-${d.target.id}`)
+            .join(
+                enter => enter.append('text')
+                    .text(d => d.type)
+                    .attr('text-anchor', 'middle')
+                    .attr('fill', 'white')
+                    .attr('font-size', 14),
+                update => update.text(d => d.type),
                 exit => exit.remove()
             );
 
