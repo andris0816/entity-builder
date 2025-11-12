@@ -18,11 +18,11 @@ export const entities: Entity[] = [
     {
         title: 'Item',
         subtitle: 'Artifacts & Tools',
-        gradient: 'from-orange-400 to-orange-600'
+        gradient: 'from-yellow-400 to-yellow-600'
     },
     {
         title: 'Event',
         subtitle: 'Battles & Moments',
-        gradient: 'from-purple-400 to-purple-600'
+        gradient: 'from-orange-400 to-orange-600'
     }
 ];

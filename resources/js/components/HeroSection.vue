@@ -67,13 +67,13 @@ const props = defineProps<Props>();
                             <div class="flex-1 border-t-2 border-dashed border-gray-600 relative">
                                 <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900 px-2 text-xs text-gray-400">owns</span>
                             </div>
-                            <div class="h-16 w-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl p-6 flex items-center justify-center">
+                            <div class="h-16 w-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl p-6 flex items-center justify-center">
                                 <span class="text-white text-xs">Sword</span>
                             </div>
                             <div class="flex-1 border-t-2 border-dashed border-gray-600 relative">
                                 <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900 px-2 text-xs text-gray-400">used in</span>
                             </div>
-                            <div class="h-16 w-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl p-6 flex items-center justify-center">
+                            <div class="h-16 w-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl p-6 flex items-center justify-center">
                                 <span class="text-white text-xs">Battle</span>
                             </div>
                         </div>
