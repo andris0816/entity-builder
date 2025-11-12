@@ -5,14 +5,15 @@ import Modal from "../Modal.vue";
 import CustomButton from "../CustomButton.vue";
 import TextArea from "../TextArea.vue";
 import {ref} from "vue";
-import {useAuthStore} from "../../auth";
 import {World} from "../../types/world";
 import {apiFetch} from "../../utils/api";
+import {ValidationErrors} from "../../types/ValidationErrors";
 
 const name = ref('');
 const desc = ref('');
 const formRef = ref(null);
 let showModal = ref(false);
+const errors = ref<ValidationErrors>({});
 
 const emit = defineEmits<{
     (e: 'saved', newWorld: World): void
@@ -23,6 +24,8 @@ function submitForm() {
 }
 
 const saveWorld = async () => {
+    errors.value = {};
+
     try {
         const response = await apiFetch('/world', {
             method: "POST",
@@ -33,6 +36,16 @@ const saveWorld = async () => {
         });
 
         const data = await response.json();
+
+        if (!response.ok) {
+            if (response.status === 422) {
+                errors.value = data.errors || {};
+            } else {
+                console.error('Server error:', data.message || data);
+            }
+            return;
+        }
+
         emit('saved', data.world);
 
         showModal.value = false;

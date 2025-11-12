@@ -4,18 +4,19 @@ import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
 import {ref} from "vue";
 import {useAuthStore} from "../auth";
+import {ValidationErrors} from "../types/ValidationErrors";
 
 const authStore = useAuthStore();
 
 const email = ref('');
 const password = ref('');
-const errorMessage = ref('');
+const errors = ref<ValidationErrors>({});
 
 const handleLogin = async () => {
     await authStore.login(email.value, password.value);
 
     if (authStore.error !== null) {
-        errorMessage.value = authStore.error;
+        errors.value = authStore.error;
     }
 }
 </script>
@@ -42,6 +43,7 @@ const handleLogin = async () => {
                             type="email"
                             label="Email Address"
                             placeholder="Your email"
+                            :error="errors?.email?.[0]"
                             required
                         />
                         <TextInput
@@ -49,6 +51,7 @@ const handleLogin = async () => {
                             type="password"
                             label="Password"
                             placeholder="*******"
+                            :error="errors?.password?.[0]"
                             required
                         />
                         <CustomButton
@@ -58,9 +61,6 @@ const handleLogin = async () => {
                         >
                             Sign In
                         </CustomButton>
-                        <p v-if="errorMessage" class="text-red-700 mt-2 text-medium">
-                            {{ errorMessage }}
-                        </p>
                     </div>
                 </form>
                 <div class="flex justify-center">

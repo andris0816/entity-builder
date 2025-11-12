@@ -67,7 +67,7 @@ watch(selectedEntity, (newSelectedEntity) => {
     <Teleport to="body">
         <Modal :show="showModal" @close="showModal = false">
             <template #header>
-                <h2 class="text-white text-lg leading-none font-semibold">Create New World</h2>
+                <h2 class="text-white text-lg leading-none font-semibold">Edit Entity</h2>
                 <p class="text-gray-400 text-sm mt-2">Start building a new fictional universe</p>
             </template>
             <template #default>

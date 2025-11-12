@@ -9,8 +9,6 @@ import DeleteButton from "./DeleteButton.vue";
 const worldStore = useWorldStore();
 const selectedRelationship = computed(() => worldStore.selectedItemObject);
 
-// TODO: complete refactor
-
 let showModal = ref(false);
 
 const deleteRelationship = async() => {

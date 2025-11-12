@@ -3,14 +3,14 @@ import TextInput from "../components/TextInput.vue";
 import Card from "../components/Card.vue";
 import CustomButton from "../components/CustomButton.vue";
 import {ref} from "vue";
-import {useRouter} from "vue-router";
+import {ValidationErrors} from "../types/ValidationErrors";
 import {useAuthStore} from "../auth";
 
 const name = ref('');
 const email = ref('');
 const password = ref('');
 const passwordConfirmation = ref('');
-const errorMessage = ref('');
+const errorMessage = ref<ValidationErrors>({});
 const authStore = useAuthStore();
 
 const handleRegister = async () => {
@@ -44,6 +44,7 @@ const handleRegister = async () => {
                             type="text"
                             label="Name"
                             placeholder="Your Name"
+                            :error="errorMessage?.name?.[0]"
                             required
                         />
                         <TextInput
@@ -51,6 +52,7 @@ const handleRegister = async () => {
                             type="email"
                             label="Email Address"
                             placeholder="Your email"
+                            :error="errorMessage?.email?.[0]"
                             required
                         />
                         <TextInput
@@ -58,6 +60,7 @@ const handleRegister = async () => {
                             type="password"
                             label="Password"
                             placeholder="*******"
+                            :error="errorMessage?.password?.[0]"
                             required
                         />
                         <TextInput
@@ -65,6 +68,7 @@ const handleRegister = async () => {
                             type="password"
                             label="Password"
                             placeholder="*******"
+                            :error="errorMessage?.passwordConfirmation?.[0]"
                             required
                         />
                         <CustomButton
@@ -74,9 +78,6 @@ const handleRegister = async () => {
                         >
                             Create Account
                         </CustomButton>
-                        <p v-if="errorMessage" class="text-red-700 mt-2 text-medium">
-                            {{ errorMessage }}
-                        </p>
                     </div>
                 </form>
                 <div class="flex justify-center">

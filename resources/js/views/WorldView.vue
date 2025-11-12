@@ -18,6 +18,8 @@ onBeforeMount(async() => {
 });
 
 const saveEntity = async (formData: any) => {
+    errors.value = {};
+
     try {
         formData.world_id = route.params.id;
         const response = await apiFetch('/entity', {
@@ -25,9 +27,16 @@ const saveEntity = async (formData: any) => {
             body: JSON.stringify(formData)
         });
 
-        if (!response.ok) throw new Error('Failed to save entity');
-
         const data = await response.json();
+
+        if (!response.ok) {
+            if (response.status === 422) {
+                errors.value = data.errors || {};
+            } else {
+                console.error('Server error:', data.message || data);
+            }
+            return;
+        }
 
         worldStore.addEntity(data);
     } catch (err) {
@@ -57,7 +66,6 @@ const saveRelationship = async (formData: any) => {
         }
 
         worldStore.addRelationship(data);
-        errors.value = {};
     } catch (err) {
         console.error(err);
     }

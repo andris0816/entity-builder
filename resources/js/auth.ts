@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import {apiFetch} from "./utils/api";
+import {ValidationErrors} from "./types/ValidationErrors";
 
 interface User {
     id: bigint;
@@ -16,7 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(null);
     const token = ref<string | null>(localStorage.getItem('auth_token'));
     const loading = ref(false);
-    const error = ref<string | null>(null);
+    const error = ref<ValidationErrors>(null);
     const router = useRouter();
 
     const login = async (email: string, password: string) => {

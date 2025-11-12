@@ -12,8 +12,6 @@ const selectedEntity = computed(() => worldStore.selectedItemObject);
 
 let showModal = ref(false);
 
-// TODO: complete refactor
-
 const deleteEntity = async() => {
     try {
         const response = await apiFetch(`/entity/${selectedEntity.value.id}`, {
