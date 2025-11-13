@@ -4,6 +4,8 @@
     import {useWorldStore} from "../../stores/world";
     import {colorHexCodes} from "../../data/entityColor";
 
+    const NODE_RADIUS = 40;
+    const NEUTRAL_FILL = '#1F2937';
     const graphContainer = ref(null);
     const worldStore = useWorldStore();
 
@@ -16,10 +18,9 @@
         link: any,
         nodeGroups: any,
         nodeLayer: any,
-        linkLayer: any,
-        linkLabels: any;
+        linkLayer: any;
 
-    const width = 1200;
+    const width = 1320;
     const height = 900;
 
     const dragBehavior = d3.drag();
@@ -41,7 +42,6 @@
         event.subject.fy = null;
     });
 
-
     function initializeGraph() {
         svg = d3.select(graphContainer.value)
             .append('svg')
@@ -52,24 +52,22 @@
         linkLayer = zoomG.append('g').attr('class', 'links');
         nodeLayer = zoomG.append('g').attr('class', 'nodes');
 
-        link = linkLayer.append('g')
-            .selectAll('line')
+        link = linkLayer.selectAll('g.link-group')
             .data(relationships.value)
             .enter()
-            .append('line')
-            .attr('stroke', '#999')
-            .attr('stroke-dasharray', '10,5')
-            .attr('class', 'relationship-group')
-            .attr('style', 'cursor: pointer;')
-            .attr('stroke-width', 6);
+            .append('g')
+            .attr('class', 'link-group relationship-group')
 
-        linkLabels = linkLayer.selectAll('text')
-            .data(relationships.value)
-            .join('text')
-            .text(d => d.type)
-            .attr('text-anchor', 'middle')
-            .attr('fill', 'white')
-            .attr('font-size', 14);
+        link.append('line')
+            .attr('class', 'hit-line')
+            .attr('stroke', 'transparent')
+            .attr('stroke-width', 20)
+            .style('cursor', 'pointer');
+
+        link.append('line')
+            .attr('class', 'visible-line')
+            .attr('stroke', '#6B7280')
+            .attr('stroke-width', 2);
 
         nodeGroups = nodeLayer.selectAll('g.entity-group')
             .data(entities.value, d => d.id)
@@ -79,8 +77,10 @@
             .attr('style', 'cursor: pointer;');
 
         nodeGroups.append('circle')
-            .attr('r', 50)
-            .attr('fill', d => colorHexCodes[d.type])
+            .attr('r', NODE_RADIUS)
+            .attr('fill', NEUTRAL_FILL)
+            .attr('stroke', d => colorHexCodes[d.type])
+            .attr('stroke-width', 3)
             .join('circle');
 
         nodeGroups.append('text')
@@ -117,8 +117,8 @@
         });
 
         link.on('click', function(event, d) {
-            nodeGroups.classed('selected', false);
             link.classed('selected', false);
+            nodeGroups.classed('selected', false);
             d3.select(this).classed('selected', true);
 
             worldStore.selectItem('relationship', d.id);
@@ -129,15 +129,17 @@
 
     function ticked() {
         requestAnimationFrame(() => {
-            link
+            link.select('.hit-line')
                 .attr('x1', d => d.source.x)
                 .attr('y1', d => d.source.y)
                 .attr('x2', d => d.target.x)
                 .attr('y2', d => d.target.y);
 
-            linkLabels
-                .attr('x', d => (d.source.x + d.target.x) / 2)
-                .attr('y', d => (d.source.y + d.target.y) / 2);
+            link.select('.visible-line')
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
 
             nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
 
@@ -153,33 +155,33 @@
     });
 
     watch([entities, relationships], ([newEntities, newRelationships]) => {
-        link = linkLayer.selectAll('line')
+        link = linkLayer.selectAll('g.link-group')
             .data(newRelationships.slice(), d => `${d.source.id}-${d.target.id}`)
             .join(
-                enter => enter.append('line')
-                    .attr('stroke', '#999')
-                    .attr('stroke-width', 6)
-                    .attr('stroke-dasharray', '12,5')
-                    .attr('style', 'cursor: pointer;')
-                    .on('click', function(event, d) {
-                        nodeGroups.classed('selected', false);
-                        link.classed('selected', false);
-                        d3.select(this).classed('selected', true);
-                        worldStore.selectItem('relationship', d.id);
-                    }),
-                update => update,
-                exit => exit.remove()
-            );
+                enter => {
+                    const g = enter.append('g')
+                        .attr('class', 'link-group relationship-group');
 
-        linkLabels = linkLayer.selectAll('text')
-            .data(newRelationships.slice(), d => `${d.source.id}-${d.target.id}`)
-            .join(
-                enter => enter.append('text')
-                    .text(d => d.type)
-                    .attr('text-anchor', 'middle')
-                    .attr('fill', 'white')
-                    .attr('font-size', 14),
-                update => update.text(d => d.type),
+                    g.append('line')
+                        .attr('class', 'hit-line')
+                        .attr('stroke', 'transparent')
+                        .attr('stroke-width', 10)
+                        .style('cursor', 'pointer')
+                        .on('click', (event, d) => {
+                            nodeGroups.classed('selected', false);
+                            link.classed('selected', false);
+                            d3.select(this).classed('selected', true);
+                            worldStore.selectItem('relationship', d.id);
+                        });
+
+                    g.append('line')
+                        .attr('class', 'visible-line')
+                        .attr('stroke', '#6B7280')
+                        .attr('stroke-width', 2);
+
+                    return g;
+                },
+                update => update,
                 exit => exit.remove()
             );
 
@@ -190,18 +192,20 @@
                     const g = enter.append('g');
 
                     g.attr('class', 'entity-group')
-                        .attr('style', 'cursor: pointer;')
-                        .call(dragBehavior)
-                        .on('click', function(event, d) {
-                            nodeGroups.classed('selected', false);
-                            link.classed('selected', false);
-                            d3.select(this).classed('selected', true);
-                            worldStore.selectItem('entity', d.id)
-                        });
+                    .attr('style', 'cursor: pointer;')
+                    .call(dragBehavior)
+                    .on('click', function (event, d) {
+                        nodeGroups.classed('selected', false);
+                        link.classed('selected', false);
+                        d3.select(this).classed('selected', true);
+                        worldStore.selectItem('entity', d.id);
+                    });
 
                     g.append('circle')
-                        .attr('r', 50)
-                        .attr('fill', (d: any) => colorHexCodes[d.type]);
+                        .attr('r', NODE_RADIUS)
+                        .attr('fill', NEUTRAL_FILL)
+                        .attr('stroke', d => colorHexCodes[d.type])
+                        .attr('stroke-width', 3);
 
                     g.append('text')
                         .text(d => d.name)
@@ -213,8 +217,10 @@
                 },
                 update => {
                     update.select('circle')
-                        .attr('r', 50)
-                        .attr('fill', d => colorHexCodes[d.type]);
+                        .attr('r', NODE_RADIUS)
+                        .attr('fill', NEUTRAL_FILL)
+                        .attr('stroke', d => colorHexCodes[d.type])
+                        .attr('stroke-width', 3);
 
                     update.select('text')
                         .text(d => d.name)

@@ -45,9 +45,13 @@
     transition: all 0.2s ease;
 }
 
-.relationship-group.selected {
-    stroke: blue;
-    stroke-width: 6;
+.link-group.selected .visible-line {
+    stroke: #87F7FF;
+    stroke-width: 4;
+}
+
+.links .visible-line:not(.selected) {
+    opacity: 0.5;
 }
 
 
