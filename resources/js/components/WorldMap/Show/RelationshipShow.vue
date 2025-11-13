@@ -5,6 +5,7 @@ import RelatedEntities from "../../RelatedEntities.vue";
 import {Relationship} from "../../../types/relationship";
 import RelationshipDelete from "../RelationshipDelete.vue";
 import RelationshipEdit from "../RelationshipEdit.vue";
+import EntityType from "../../EntityType.vue";
 
 const worldStore = useWorldStore();
 
@@ -23,11 +24,19 @@ const selectedRelationship = computed(() => worldStore.selectedItemObject);
         </div>
     </div>
     <div class="space-y-2">
-        <h4 class="text-gray-400">From</h4>
+        <h4 class="text-gray-400">Type</h4>
+        <div class="p-3 rounded-lg bg-gray-800/50 border border-gray-700 space-y-1">
+            <div class="flex items-center justify-between">
+                <p class="text-sm">{{ selectedRelationship.type }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="space-y-2">
+        <h4 class="text-gray-400">Source</h4>
         <RelatedEntities :entity="(selectedRelationship as Relationship).source" />
     </div>
     <div class="space-y-2">
-        <h4 class="text-gray-400">To</h4>
+        <h4 class="text-gray-400">Target</h4>
         <RelatedEntities :entity="(selectedRelationship as Relationship).target" />
     </div>
 </template>
