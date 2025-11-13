@@ -17,16 +17,35 @@ const worldStore = useWorldStore();
 const selectedRelationship = computed(() => worldStore.selectedItemObject);
 
 const filteredEntitiesTo = computed(() => {
-    return worldStore.simplifiedEntities.filter(entity =>
-        form.value.target ? true : entity.id !== form.value.source
-    );
+    const sourceId = form.value.source;
+
+    return worldStore.simplifiedEntities.filter(entity => {
+        if (entity.id === form.value.target) return true;
+
+        if (sourceId === entity.id) return false;
+
+        return !(sourceId && relationshipExists(sourceId as number, entity.id));
+    });
 })
 
 const filteredEntitiesFrom = computed(() => {
-    return worldStore.simplifiedEntities.filter(entity =>
-        form.value.source ? true : entity.id !== form.value.target
-    );
+    const targetId = form.value.target;
+
+    return worldStore.simplifiedEntities.filter(entity => {
+        if (entity.id === form.value.source) return true;
+
+        if (targetId === entity.id) return false;
+
+        return !(targetId && relationshipExists(entity.id, targetId as number));
+    });
 });
+
+const relationshipExists = (a: number, b: number) => {
+    return worldStore.relationships.some(rel =>
+        (rel.source.id === a && rel.target.id === b) ||
+        (rel.source.id === b && rel.target.id === a)
+    );
+}
 
 const form = ref({
     source: (selectedRelationship.value as Relationship)?.source.id || '',
@@ -110,7 +129,7 @@ watch(
                     <div class="space-y-6">
                         <SelectInput
                             v-model="form.source"
-                            :items="filteredEntitiesTo"
+                            :items="filteredEntitiesFrom"
                             placeholder="Event B"
                             label="From Entity"
                             :error="errors?.type?.[0]"
@@ -124,7 +143,7 @@ watch(
                         />
                         <SelectInput
                             v-model="form.target"
-                            :items="filteredEntitiesFrom"
+                            :items="filteredEntitiesTo"
                             placeholder="Character C"
                             label="To Entity"
                             :error="errors?.type?.[0]"

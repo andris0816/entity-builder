@@ -125,7 +125,20 @@ export const useWorldStore = defineStore('world', {
                 },
                 relationship: (id) => {
                     const relationship = this.relationships.find(e => e.id === id);
-                    if (relationship) Object.assign(relationship, formData);
+                    if (!relationship) return;
+
+                    Object.assign(relationship, formData);
+                    if (isRelationshipUpdate(formData)) {
+                        if (formData.source) {
+                            const newSource = this.entities.find(e => e.id === formData.source!.id)
+                            if (newSource) relationship.source = { ...newSource };
+                        }
+
+                        if (formData.target) {
+                            const newTarget = this.entities.find(e => e.id === formData.target!.id)
+                            if (newTarget) relationship.target = { ...newTarget };
+                        }
+                    }
                 }
             }
 
@@ -133,3 +146,10 @@ export const useWorldStore = defineStore('world', {
         }
     },
 })
+
+// Type Guard Helper
+function isRelationshipUpdate(
+    data: Partial<Entity> | Partial<Relationship>
+): data is Partial<Relationship> {
+    return 'source' in data || 'target' in data;
+}
