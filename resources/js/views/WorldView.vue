@@ -8,6 +8,7 @@ import RelationshipCreate from "../components/WorldMap/RelationshipCreate.vue";
 import {ValidationErrors} from "../types/ValidationErrors";
 import {useWorldStore} from "../stores/world";
 import ItemShow from "../components/WorldMap/Show/ItemShow.vue";
+import {toast} from "../utils/toast";
 
 const route = useRoute();
 const errors = ref<ValidationErrors>({});
@@ -39,6 +40,7 @@ const saveEntity = async (formData: any) => {
         }
 
         worldStore.addEntity(data);
+        toast.success("Entity added successfully!");
     } catch (err) {
         console.error(err);
     }
@@ -66,6 +68,7 @@ const saveRelationship = async (formData: any) => {
         }
 
         worldStore.addRelationship(data);
+        toast.success("Relationship added successfully!");
     } catch (err) {
         console.error(err);
     }

@@ -6,6 +6,7 @@ import CustomButton from "../CustomButton.vue";
 import {apiFetch} from "../../utils/api";
 import {Entity} from "../../types/entity";
 import DeleteButton from "./DeleteButton.vue";
+import {toast} from "../../utils/toast";
 
 const worldStore = useWorldStore();
 const selectedEntity = computed(() => worldStore.selectedItemObject);
@@ -27,6 +28,7 @@ const deleteEntity = async() => {
         }
 
         worldStore.removeSelectedItem();
+        toast.success("Entity deleted successfully!");
     } catch (err) {
         console.error('Error while deleting entity', err)
     }

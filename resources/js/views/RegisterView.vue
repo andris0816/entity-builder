@@ -5,6 +5,7 @@ import CustomButton from "../components/CustomButton.vue";
 import {ref} from "vue";
 import {ValidationErrors} from "../types/ValidationErrors";
 import {useAuthStore} from "../auth";
+import {toast} from "../utils/toast";
 
 const name = ref('');
 const email = ref('');
@@ -15,12 +16,22 @@ const authStore = useAuthStore();
 
 const handleRegister = async () => {
     errors.value = {};
-    await authStore.register(name.value, email.value, password.value, passwordConfirmation.value);
 
-    if (authStore.error !== null) {
-        errors.value = authStore.error;
+    try {
+        await authStore.register(
+            name.value,
+            email.value,
+            password.value,
+            passwordConfirmation.value
+        );
+
+        if (authStore.error) {
+            errors.value = authStore.error;
+        }
+    } catch (e) {
+        toast.error("Unexpected error occurred");
     }
-}
+};
 </script>
 
 <template>

@@ -11,6 +11,7 @@ import {entityTypes} from "../../data/entityTypes";
 import {apiFetch} from "../../utils/api";
 import {Entity} from "../../types/entity";
 import EditButton from "./EditButton.vue";
+import {toast} from "../../utils/toast";
 
 const worldStore = useWorldStore();
 
@@ -44,6 +45,7 @@ const updateEntity = async() => {
         }
 
         worldStore.updateSelectedItem(form.value);
+        toast.success("Entity updated successfully!");
 
         showModal.value = false;
     } catch (err) {

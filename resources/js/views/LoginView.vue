@@ -2,9 +2,10 @@
 import CustomButton from "../components/CustomButton.vue";
 import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useAuthStore} from "../auth";
 import {ValidationErrors} from "../types/ValidationErrors";
+import {toast} from "../utils/toast";
 
 const authStore = useAuthStore();
 
@@ -14,10 +15,15 @@ const errors = ref<ValidationErrors>({});
 
 const handleLogin = async () => {
     errors.value = {};
-    await authStore.login(email.value, password.value);
 
-    if (authStore.error !== null) {
-        errors.value = authStore.error;
+    try {
+        await authStore.login(email.value, password.value);
+
+        if (authStore.error) {
+            errors.value = authStore.error;
+        }
+    } catch (e) {
+        toast.error("Unexpected error occurred");
     }
 }
 </script>

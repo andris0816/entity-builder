@@ -10,6 +10,7 @@ import {relationshipTypes} from "../../data/relationshipTypes";
 import {apiFetch} from "../../utils/api";
 import EditButton from "./EditButton.vue";
 import {Relationship} from "../../types/relationship";
+import {toast} from "../../utils/toast";
 
 const worldStore = useWorldStore();
 
@@ -56,6 +57,7 @@ const updateRelationship = async() => {
         }
 
         worldStore.updateSelectedItem(form.value);
+        toast.success("Relationship updated successfully");
 
         showModal.value = false;
     } catch (err) {

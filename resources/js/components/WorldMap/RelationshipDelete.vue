@@ -5,6 +5,7 @@ import Modal from "../Modal.vue";
 import CustomButton from "../CustomButton.vue";
 import {apiFetch} from "../../utils/api";
 import DeleteButton from "./DeleteButton.vue";
+import {toast} from "../../utils/toast";
 
 const worldStore = useWorldStore();
 const selectedRelationship = computed(() => worldStore.selectedItemObject);
@@ -26,6 +27,7 @@ const deleteRelationship = async() => {
         }
 
         worldStore.removeSelectedItem();
+        toast.success("Relationship deleted successfully!");
     } catch (err) {
         console.error('Error while deleting relationship', err)
     }
