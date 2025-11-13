@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class SessionController extends Controller
@@ -23,9 +24,9 @@ class SessionController extends Controller
             ]);
         }
 
-        return response()->json([
-            'message' => "Invalid credentials"
-        ], 401);
+        throw ValidationException::withMessages([
+            'email' => ['These credentials do not match our records.'],
+        ]);
     }
 
     public function destroy(Request $request)

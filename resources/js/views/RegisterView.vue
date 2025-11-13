@@ -10,14 +10,15 @@ const name = ref('');
 const email = ref('');
 const password = ref('');
 const passwordConfirmation = ref('');
-const errorMessage = ref<ValidationErrors>({});
+const errors = ref<ValidationErrors>({});
 const authStore = useAuthStore();
 
 const handleRegister = async () => {
+    errors.value = {};
     await authStore.register(name.value, email.value, password.value, passwordConfirmation.value);
 
     if (authStore.error !== null) {
-        errorMessage.value = authStore.error;
+        errors.value = authStore.error;
     }
 }
 </script>
@@ -44,7 +45,7 @@ const handleRegister = async () => {
                             type="text"
                             label="Name"
                             placeholder="Your Name"
-                            :error="errorMessage?.name?.[0]"
+                            :error="errors?.name?.[0]"
                             required
                         />
                         <TextInput
@@ -52,7 +53,7 @@ const handleRegister = async () => {
                             type="email"
                             label="Email Address"
                             placeholder="Your email"
-                            :error="errorMessage?.email?.[0]"
+                            :error="errors?.email?.[0]"
                             required
                         />
                         <TextInput
@@ -60,7 +61,7 @@ const handleRegister = async () => {
                             type="password"
                             label="Password"
                             placeholder="*******"
-                            :error="errorMessage?.password?.[0]"
+                            :error="errors?.password?.[0]"
                             required
                         />
                         <TextInput
@@ -68,7 +69,7 @@ const handleRegister = async () => {
                             type="password"
                             label="Password"
                             placeholder="*******"
-                            :error="errorMessage?.passwordConfirmation?.[0]"
+                            :error="errors?.passwordConfirmation?.[0]"
                             required
                         />
                         <CustomButton

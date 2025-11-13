@@ -22,58 +22,62 @@ export const useAuthStore = defineStore('auth', () => {
 
     const login = async (email: string, password: string) => {
         loading.value = true;
-        error.value = null;
-        try {
-            const response = await apiFetch('/login', {
-                method: 'POST',
-                body: JSON.stringify({ email, password }),
-            });
+        error.value = {};
+        const response = await apiFetch('/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+        });
 
-            const data = await response.json();
+        const data = await response.json();
 
-            if (!response.ok) throw new Error(data.message);
-
-            localStorage.setItem('auth_token', data.token);
-            token.value = data.token;
-            user.value = data.user;
-
-            await router.push('/dashboard');
-        } catch (err: any) {
-            error.value = err.message;
-        } finally {
-            loading.value = false;
+        if (!response.ok) {
+            if (response.status === 422 || response.status === 401) {
+                error.value = data.errors || {};
+            } else {
+                console.error('Server error:', data.message || data);
+            }
+            return;
         }
+
+        localStorage.setItem('auth_token', data.token);
+        token.value = data.token;
+        user.value = data.user;
+
+        await router.push('/dashboard');
+
+        loading.value = false;
     };
 
     const register = async (name: string, email: string, password: string, passwordConfirmation: string) => {
         loading.value = true;
-        error.value = null;
-        try {
-            const response = await apiFetch('/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password,
-                    password_confirmation: passwordConfirmation
-                }),
-            });
+        error.value = {};
+        const response = await apiFetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+                password_confirmation: passwordConfirmation
+            }),
+        });
 
-            const data = await response.json();
+        const data = await response.json();
 
-            if (!response.ok) throw new Error(data.message);
-
-            localStorage.setItem('auth_token', data.token);
-            token.value = data.token;
-            user.value = data.user;
-
-            await router.push('/dashboard');
-        } catch (err: any) {
-            error.value = err.message;
-        } finally {
-            loading.value = false;
+        if (!response.ok) {
+            if (response.status === 422 || response.status === 401) {
+                error.value = data.errors || {};
+            } else {
+                console.error('Server error:', data.message || data);
+            }
+            return;
         }
+
+        localStorage.setItem('auth_token', data.token);
+        token.value = data.token;
+        user.value = data.user;
+
+        await router.push('/dashboard');
     };
 
     const logout = async () => {

@@ -95,12 +95,12 @@ const saveWorld = async () => {
                         <TextInput
                             v-model="name"
                             type="text"
-                            label="World Name"
+                            label="Name"
                             placeholder="The Forgotten Shores" required
                         />
                         <TextArea
                             v-model="desc"
-                            label="World Description"
+                            label="Description"
                             placeholder="A brief description of your world..."
                             rows="3"
                             required

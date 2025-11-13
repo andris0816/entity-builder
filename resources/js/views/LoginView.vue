@@ -13,6 +13,7 @@ const password = ref('');
 const errors = ref<ValidationErrors>({});
 
 const handleLogin = async () => {
+    errors.value = {};
     await authStore.login(email.value, password.value);
 
     if (authStore.error !== null) {
