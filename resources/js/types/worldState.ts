@@ -13,6 +13,4 @@ export interface WorldState {
     relationships: Relationship[];
     selectedItem: SelectedItem;
     isLoading: boolean;
-    viewport: ViewPort;
-    dragInProgress: boolean
 }

@@ -12,9 +12,7 @@ export const useWorldStore = defineStore('world', {
         entities: [],
         relationships: [],
         selectedItem: null as SelectedItem,
-        viewport: {x: 0, y: 0, zoom: 1},
         isLoading: false,
-        dragInProgress: false,
     }),
     getters: {
         selectedItemObject: (state): Entity | Relationship | undefined => {
@@ -67,9 +65,6 @@ export const useWorldStore = defineStore('world', {
         },
         clearItemSelection(): void {
             this.selectedItem = null as SelectedItem;
-        },
-        updateViewport(viewport: Partial<ViewPort>): void {
-            this.viewport = { ...this.viewport, ...viewport };
         },
         addEntity(entity: Entity): void {
             this.entities.push(entity);
