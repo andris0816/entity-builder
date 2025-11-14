@@ -19,7 +19,7 @@ class EntityFactory extends Factory
         return [
             'world_id' => null,
             'name' => $this->faker->firstName(),
-            'description' => $this->faker->sentence(),
+            'desc' => $this->faker->sentence(),
             'type' => $this->faker->randomElement(['Character', 'Location', 'Item', 'Event']),
         ];
     }

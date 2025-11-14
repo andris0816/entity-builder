@@ -19,7 +19,7 @@ class RelationshipFactory extends Factory
         return [
             'source' => null,
             'target' => null,
-            'description' => $this->faker->sentence(),
+            'desc' => $this->faker->sentence(),
             'type' => $this->faker->randomElement(['Allies with', 'Located in', 'Own', 'Fights', 'Occurs in']),
         ];
     }
