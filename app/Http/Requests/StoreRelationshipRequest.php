@@ -44,13 +44,23 @@ class StoreRelationshipRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
+
+            $relationship = $this->route('relationship');
             $from = $this->input('source');
             $to = $this->input('target');
 
-            $exists = Relationship::where('source', $from)
-                ->where('target', $to)
-                ->orWhere('source', $to)
-                ->where('target', $from)
+            $exists = Relationship::where(function ($q) use ($from, $to) {
+                $q->where(function ($q) use ($from, $to) {
+                    $q->where('source', $from)
+                        ->where('target', $to);
+                })->orWhere(function ($q) use ($from, $to) {
+                    $q->where('source', $to)
+                        ->where('target', $from);
+                });
+            })->when(
+                $relationship, fn ($q) =>
+                    $q->where('id', '!=', $relationship->getKey())
+                )
                 ->exists();
 
             if ($exists) {
