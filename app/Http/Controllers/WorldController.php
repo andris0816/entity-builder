@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWorldRequest;
 use App\Http\Resources\WorldMapResource;
+use App\Http\Resources\WorldResource;
 use App\Models\World;
 use Auth;
 use Illuminate\Http\Request;
@@ -31,12 +32,8 @@ class WorldController extends Controller
     {
         $user = $request->user();
 
-        $worlds = $user->worlds()
-            ->withCount('entities')
-            ->get();
-
         return response()->json([
-            'worlds' => $worlds
+            'worlds' => WorldResource::collection($user->worlds()->withCount('entities')->get())
         ]);
     }
 
