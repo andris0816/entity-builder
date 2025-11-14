@@ -61,7 +61,7 @@ import { useAuthStore } from "../auth";
                 </div>
             </RouterLink>
 
-            <div class="flex items-center gap-6">
+            <div class="flex ml-auto items-center gap-6">
                 <RouterLink v-for="link in filteredLinks" :key="link.path" :to="link.path">
                     {{ link.title }}
                 </RouterLink>
@@ -69,7 +69,7 @@ import { useAuthStore } from "../auth";
             <button
                 v-if="authStore.user"
                 @click="handleLogout"
-                class="cursor-pointer"
+                class="cursor-pointer ml-8"
             >
                 Logout
             </button>
