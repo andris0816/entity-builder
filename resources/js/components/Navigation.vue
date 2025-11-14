@@ -76,6 +76,7 @@ import { useAuthStore } from "../auth";
                 class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                 type="button"
                 @click="toggleMenu"
+                :aria-expanded="menuOpen"
                 aria-controls="nav-links"
                 aria-label="Toggle navigation"
             >
@@ -117,7 +118,7 @@ import { useAuthStore } from "../auth";
                     @click="handleLogout"
                     type="button"
                     aria-label="Log out"
-                    class="block md:ml-6"
+                    class="block md:ml-6 cursor-pointer"
                 >
                     Logout
                 </button>

@@ -40,7 +40,7 @@ const handleLogin = async () => {
             </div>
             <Card>
                 <div class="mb-6 px-6">
-                    <h4 class="leading-none card-title text-medium">Create an account</h4>
+                    <h4 class="leading-none card-title text-medium">Sign in</h4>
                     <p class="card-desc">Start mapping your stories today</p>
                 </div>
                 <form @submit.prevent="handleLogin" method="POST">

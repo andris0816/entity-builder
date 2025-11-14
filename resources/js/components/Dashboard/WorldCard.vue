@@ -18,31 +18,32 @@
 </script>
 
 <template>
-    <Card customClass="hover:border-gray-700 transition-all cursor-pointer group flex flex-col gap-6">
-        <div class="h-full pb-4">
-            <div :class="`w-full h-32 ${gradientClass} rounded-lg mb-4 flex items-center justify-center group-hover:scale-105 transition-transform`">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-book w-12 h-12 text-white opacity-80"
-                    aria-hidden="true"
-                >
-                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"></path>
-                </svg>
+    <button role="button" :aria-label="`${world.name}, ${world.entitiesCount}`">
+        <Card customClass="hover:border-gray-700 transition-all cursor-pointer group flex flex-col gap-6">
+            <div class="h-full pb-4">
+                <div :class="`w-full h-32 ${gradientClass} rounded-lg mb-4 flex items-center justify-center group-hover:scale-105 transition-transform`">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-book w-12 h-12 text-white opacity-80"
+                        aria-hidden="true"
+                    >
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"></path>
+                    </svg>
+                </div>
+                <h4 class="text-white mb-1">{{ world.name }}</h4>
+                <p class="text-gray-400">{{ world.desc }}</p>
             </div>
-            <h4 class="text-white mb-1">{{ world.name }}</h4>
-            <p class="text-gray-400">{{ world.desc }}</p>
-        </div>
-        <div class="mt-auto">
-            <div class="flex items-center gap-4 text-sm text-gray-400">
-                <div class="flex items-center gap-1">
+            <div class="mt-auto">
+                <div class="flex items-center gap-4 text-sm text-gray-400">
+                    <div class="flex items-center gap-1">
                     <span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -61,11 +62,11 @@
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
                     </span>
-                    <span>
+                        <span>
                         {{ world.entitiesCount }}
                     </span>
-                </div>
-                <div class="flex items-center gap-1">
+                    </div>
+                    <div class="flex items-center gap-1">
                     <span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -86,13 +87,14 @@
                             <path d="M3 10h18"></path>
                         </svg>
                     </span>
-                    <span>
+                        <span>
                         {{ timeAgo(world.createdAt) }}
                     </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </Card>
+        </Card>
+    </button>
 </template>
 
 <style scoped>
