@@ -38,7 +38,7 @@ const deleteRelationship = async() => {
     <DeleteButton @click="showModal = true" />
 
     <Teleport to="body">
-        <Modal :show="showModal" @close="showModal = false">
+        <Modal id="relationshipDeleteModal" :show="showModal" @close="showModal = false" aria-labelledby="relationshipDeleteModal">
             <template #header>
                 <h2 class="text-white text-lg leading-none font-semibold">Deleting Relationship</h2>
                 <p class="text-gray-400 text-sm mt-2">Are you sure you want to delete this relationship?</p>

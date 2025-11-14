@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CustomButton from "./CustomButton.vue";
 import Card from "./Card.vue";
+import {onBeforeUnmount, onMounted} from "vue";
 
 interface Props {
     show: boolean;
@@ -8,6 +9,22 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
    show: false,
+});
+
+const emit = defineEmits(["close"]);
+
+const handleEscape = (e: any) => {
+    if (e.key === "Escape") {
+        emit("close");
+    }
+}
+
+onMounted(() => {
+    window.addEventListener("keydown", handleEscape);
+});
+
+onBeforeUnmount(() => {
+    window.addEventListener("keydown", handleEscape);
 });
 
 </script>

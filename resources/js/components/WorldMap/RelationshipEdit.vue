@@ -117,7 +117,7 @@ watch(
     <EditButton @click="showModal = true" />
 
     <Teleport to="body">
-        <Modal :show="showModal" @close="showModal = false">
+        <Modal id="relationshipEditModal" :show="showModal" @close="showModal = false" aria-labelledby="relationshipEditModal">
             <template #header>
                 <h2 class="text-white text-lg leading-none font-semibold">Edit Relationship</h2>
                 <p class="text-gray-400 text-sm mt-2">

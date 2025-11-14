@@ -39,7 +39,7 @@ const deleteEntity = async() => {
     <DeleteButton @click="showModal = true" />
 
     <Teleport to="body">
-        <Modal :show="showModal" @close="showModal = false">
+        <Modal id="entityDeleteModal" :show="showModal" @close="showModal = false" aria-labelledby="entityDeleteModal">
             <template #header>
                 <h2 class="text-white text-lg leading-none font-semibold">Deleting Entity</h2>
                 <p class="text-gray-400 text-sm mt-2">Are you sure you want to delete {{ (selectedEntity as Entity).name }} entity?</p>

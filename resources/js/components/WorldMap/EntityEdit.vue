@@ -67,7 +67,7 @@ watch(selectedEntity, (newSelectedEntity) => {
     <EditButton @click="showModal = true" />
 
     <Teleport to="body">
-        <Modal :show="showModal" @close="showModal = false">
+        <Modal id="entityEditModal" :show="showModal" @close="showModal = false" aria-labelledby="entityEditModal">
             <template #header>
                 <h2 class="text-white text-lg leading-none font-semibold">Edit Entity</h2>
                 <p class="text-gray-400 text-sm mt-2">Start building a new fictional universe</p>

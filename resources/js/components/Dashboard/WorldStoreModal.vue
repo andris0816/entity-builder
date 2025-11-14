@@ -84,7 +84,7 @@ const saveWorld = async () => {
     </CustomButton>
 
     <Teleport to="body">
-        <Modal :show="showModal" @close="showModal = false">
+        <Modal id="worldStoreModal" :show="showModal" @close="showModal = false" aria-labelledby="worldStoreModal">
             <template #header>
                 <h2 class="text-white text-lg leading-none font-semibold">Create New World</h2>
                 <p class="text-gray-400 text-sm mt-2">Start building a new fictional universe</p>
