@@ -38,20 +38,27 @@
     .gradient-rose { @apply bg-gradient-to-br from-rose-300 to-rose-500; }
 }
 
+:root {
+    --accent: #87F7FF;
+}
+
 .entity-group.selected circle {
+    r: 54px;
     stroke: white;
     stroke-width: 4;
-    r: 54px;
     transition: all 0.2s ease;
 }
 
-.link-group.selected .visible-line {
-    stroke: #87F7FF;
-    stroke-width: 4;
+.entity-group,
+.links .visible-line {
+    opacity: 1;
+    transition: opacity 0.2s ease, stroke-width 0.2s ease, stroke 0.2s ease;
 }
 
-.links .visible-line:not(.selected) {
-    opacity: 0.5;
+.link-group.selected .visible-line {
+    stroke: var(--accent, #87F7FF);
+    stroke-width: 5;
+    opacity: 1;
 }
 
 
