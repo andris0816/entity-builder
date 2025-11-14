@@ -24,6 +24,8 @@ const props = withDefaults(defineProps<Props>(), {
         <div
             v-if="show"
             class="fixed inset-0 bg-black/[.6] grid place-items-center"
+            role="dialog"
+            aria-modal="true"
         >
             <Card customClass="w-9/12 max-w-lg " @click.stop>
                 <header class="text-xl mb-4">

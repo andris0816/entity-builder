@@ -34,7 +34,7 @@ const submitForm = () => {
 <template>
     <h2>Add Entity</h2>
     <form @submit.prevent="submitForm" method="POST">
-        <div class="space-y-6">
+        <div class="space-y-6 w-full max-w-md">
             <TextInput
                 v-model="form.name"
                 type="text"

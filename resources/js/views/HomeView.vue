@@ -18,7 +18,7 @@
                 <p class="text-gray-400 mb-12">
                     Just a simple tool for organizing your fictional stuff. Nothing fancy.
                 </p>
-                <div class="grid md:grid-cols-2 gap-6">
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
                     <Card v-for="card in cardData" customClass="hover:border-gray-700">
                         <h3 class="card-title">{{ card.title }}</h3>
                         <p class="card-desc">

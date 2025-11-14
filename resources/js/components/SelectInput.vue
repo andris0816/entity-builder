@@ -143,7 +143,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
             </li>
         </ul>
 
-        <div v-if="error" class="text-sm text-red-500 mt-1">
+        <div v-if="error" class="text-sm text-red-500 mt-1" aria-live="polite">
             {{ error }}
         </div>
     </div>

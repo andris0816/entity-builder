@@ -19,6 +19,7 @@
             stroke-linejoin="round"
             class="lucide lucide-trash2 lucide-trash-2 w-4 h-4"
             aria-hidden="true"
+            aria-label="Delete"
         >
             <path d="M10 11v6"></path>
             <path d="M14 11v6"></path>

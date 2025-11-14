@@ -83,7 +83,7 @@
         :class="inputClasses"
     />
 
-    <div v-if="error" class="text-sm text-red-500">{{ error }}</div>
+    <div v-if="error" class="text-sm text-red-500" aria-live="polite">{{ error }}</div>
 </template>
 
 <style scoped>

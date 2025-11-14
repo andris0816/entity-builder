@@ -62,7 +62,7 @@
                         </svg>
                     </span>
                     <span>
-                        {{ world.entities_count }}
+                        {{ world.entitiesCount }}
                     </span>
                 </div>
                 <div class="flex items-center gap-1">
@@ -87,7 +87,7 @@
                         </svg>
                     </span>
                     <span>
-                        {{ timeAgo(world.created_at) }}
+                        {{ timeAgo(world.createdAt) }}
                     </span>
                 </div>
             </div>

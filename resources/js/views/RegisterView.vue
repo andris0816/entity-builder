@@ -78,7 +78,7 @@ const handleRegister = async () => {
                         <TextInput
                             v-model="passwordConfirmation"
                             type="password"
-                            label="Password"
+                            label="Password Confirmation"
                             placeholder="*******"
                             :error="errors?.passwordConfirmation?.[0]"
                             required
