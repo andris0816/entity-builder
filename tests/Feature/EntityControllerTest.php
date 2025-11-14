@@ -34,7 +34,8 @@ class EntityControllerTest extends TestCase
     public function test_user_can_not_create_entity_in_other_world()
     {
         Sanctum::actingAs($user = User::factory()->create());
-        $otherWorld = World::factory()->create(['name' => 'Hogwarts', 'desc' => '…']);
+        $otherUser = User::factory()->create();
+        $otherWorld = World::factory()->for($otherUser)->create();
         $response = $this->postJson('/api/entity', [
             'name'     => 'Harry',
             'desc'     => 'Wizard',

@@ -17,15 +17,15 @@ class WorldControllerTest extends TestCase
      */
     public function test_store_requires_authentication()
     {
-        $response = $this->postJson('/api/worlds', ['name' => 'Narnia', 'desc' => 'Magic world']);
+        $response = $this->postJson('/api/world', ['name' => 'Narnia', 'desc' => 'Magic world']);
         $response->assertStatus(401);
     }
 
     public function test_authenticated_user_can_store_world()
     {
         Sanctum::actingAs($user = User::factory()->create());
-        $response = $this->postJson('/api/worlds', ['name' => 'Narnia', 'desc' => 'Magic world']);
-        $response->assertStatus(201)->assertJson(['message' => 'world created']);
+        $response = $this->postJson('/api/world', ['name' => 'Narnia', 'desc' => 'Magic world']);
+        $response->assertStatus(201)->assertJson(['message' => 'World created']);
         $this->assertDatabaseHas('worlds', [
             'name'    => 'Narnia',
             'user_id' => $user->getKey(),
