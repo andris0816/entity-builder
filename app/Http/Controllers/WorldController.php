@@ -25,7 +25,7 @@ class WorldController extends Controller
 
         return response()->json([
             'message' => 'World created',
-            'world' => $world
+            'world' => WorldResource::make($world)
         ], 201);
     }
 
