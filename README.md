@@ -1,18 +1,23 @@
 # Entity Builder
+https://entity-builder-production.up.railway.app/
 
+![Hero Section](docs/images/hero-section.png)
 Entity Builder is a full‑stack web application that helps you design and explore fictional worlds. You can create your own worlds, populate them with characters, locations, items and events, and define relationships between them (e.g., characters own items, events occur in locations). 
 An interactive force‑directed graph built with D3 lets you visualise these entities and their relationships. This project is both a learning exercise and a portfolio piece demonstrating modern Laravel and Vue 3 development.
 
 ## Key Features
 
 ### User authentication 
+![Login Page](docs/images/login.png)
 - Registration, login and logout using Laravel Sanctum.
 
 ### World, entity and relationship CRUD
+![Edit Entity Modal](docs/images/edit-entity.png)
 - Create, read, update and delete worlds, entities and relationships. Validation rules ensure required fields are present
 and only the creator of a world can modify its contents because of policy checks.
 
 ### Interactive graph visualiser 
+![World Visualiser](docs/images/world-map.png)
 - A D3‑powered force‑directed graph shows entities as nodes and relationships as links. The graph supports panning, zooming, drag‑and‑drop nodes, and keyboard selection. Links have enlarged hit areas for easy clicking.
 
 ### Responsive and accessible 
@@ -89,17 +94,12 @@ and only the creator of a world can modify its contents because of policy checks
   The Vitest suite covers Pinia store mutations and Vue component rendering and events.
 
 ## Usage
-1. Register for an account and log in.
-
-2. Create a new world with a name and description.
-
-3. Add entities (characters, locations, items or events) to the world. Entities are colour‑coded by type, and only the creator of the world can add or modify entities.
-
-4. Create relationships between entities (e.g., a character owns an item). Validation prevents duplicate relationships and ensures entities are different.
-
-5. Explore your world on the interactive map: zoom, pan, drag nodes and click or keyboard‑select nodes/relationships to view details. The right‑hand panel displays full details and offers edit/delete actions.
-
-6. Edit or delete worlds, entities and relationships via the side panel.
+1. Register and log in.
+2. Create a world with a name and description.
+3. Add entities (characters, locations, items, events) — each type is colour-coded.
+4. Create relationships between entities (e.g., a character owns an item).
+5. Explore the interactive graph: zoom, pan, drag nodes and click to view details.
+6. Edit or delete worlds, entities and relationships from the side panel.
 
 ## Future Improvements
 - Advanced filtering and search to focus on subsets of the graph.
@@ -107,3 +107,13 @@ and only the creator of a world can modify its contents because of policy checks
 - Customisable entity and relationship types.
 - Integration with social login providers (Google, GitHub, etc.).
 - Continuous integration (CI) configuration and more comprehensive tests.
+
+## Architecture Overview
+- Laravel backend (REST API) with Sanctum for authentication
+- Vue 3 SPA served by Vite
+- Pinia for client-side state management
+- D3.js for real-time graph rendering
+- Policy-based authorisation in Laravel
+
+## License
+This project is open-source and available under the [MIT License](LICENSE).
