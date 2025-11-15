@@ -9,6 +9,7 @@ use App\Policies\EntityPolicy;
 use App\Policies\RelationshipPolicy;
 use App\Policies\WorldPolicy;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        URL::forceScheme('https');
         Gate::policy(Entity::class, EntityPolicy::class);
         Gate::policy(World::class, WorldPolicy::class);
         Gate::policy(Relationship::class, RelationshipPolicy::class);
