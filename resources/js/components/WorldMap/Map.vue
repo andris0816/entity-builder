@@ -53,7 +53,7 @@
             .attr('aria-label', 'Network graph showing entities and their relationships')
             .attr('aria-describedby', 'graph-desc');
 
-        svg.append('title').text('Lore Explorer network graph');
+        svg.append('title').text('Entity Builder network graph');
         svg.append('desc')
             .attr('id', 'graph-desc')
             .text('This graph shows characters, locations, items and events as nodes, with lines indicating relationships between them.');

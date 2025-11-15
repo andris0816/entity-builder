@@ -49,7 +49,7 @@
                     Ready to Start Building?
                 </h2>
                 <p class="text-gray-400 text-xl mb-6">
-                    Join creators worldwide who use Lore Explorer to bring their fictional worlds to life.
+                    Join creators worldwide who use Entity Builder to bring their fictional worlds to life.
                 </p>
                 <ButtonLink v-if="! authStore.user"
                     href="/register"
