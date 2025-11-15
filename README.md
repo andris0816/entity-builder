@@ -79,12 +79,12 @@ and only the creator of a world can modify its contents because of policy checks
 ### Running tests
 - Laravel tests:
     ```bash
-    php artisan serve
+    ./vendor/bin/pest
     ```
   These feature and unit tests verify authentication, CRUD endpoints, authorisation via policies and validation rules.
 - Frontend tests:
     ```bash
-  npm run dev
+  npm run test
   ```
   The Vitest suite covers Pinia store mutations and Vue component rendering and events.
 
