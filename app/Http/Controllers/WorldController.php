@@ -8,6 +8,7 @@ use App\Http\Resources\WorldResource;
 use App\Models\World;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class WorldController extends Controller
 {
@@ -42,14 +43,10 @@ class WorldController extends Controller
         return new WorldMapResource($world->load('entities', 'relationships'));
     }
 
-    public function update(Request $request, World $world)
+    public function update(StoreWorldRequest $request, World $world)
     {
-        $data = $request->validate([
-            'name' => ['required'],
-            'desc' => ['required'],
-            'user_id' => ['required', 'integer'],
-        ]);
-
+        Gate::authorize('update', $world);
+        $data = $request->validated();
         $world->update($data);
 
         return $world;
@@ -57,6 +54,7 @@ class WorldController extends Controller
 
     public function destroy(World $world)
     {
+        Gate::authorize('destroy', $world);
         $world->delete();
 
         return response()->json();
