@@ -1,4 +1,10 @@
 # Entity Builder
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?logo=laravel&logoColor=white)
+![Vue](https://img.shields.io/badge/Vue-42b883?logo=vue.js&logoColor=white)
+![D3](https://img.shields.io/badge/D3.js-F9A03C?logo=d3.js&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?logo=tailwindcss&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+
 https://entity-builder-production.up.railway.app/
 
 ![Hero Section](docs/images/hero-section.png)
