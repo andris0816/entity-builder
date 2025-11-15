@@ -40,6 +40,29 @@ describe('world store', () => {
         expect(store.entities).toEqual([entity2]);
         expect(store.relationships.length).toBe(0);
     });
+
+    it("updates the selected entity", () => {
+        const store = useWorldStore();
+        const entity = createTestEntity();
+        store.addEntity(entity);
+        store.selectItem('entity', entity.id);
+
+        const originalRef = store.selectedItemObject;
+
+        store.updateSelectedItem({
+           name: 'Updated',
+           desc: 'Updated desc',
+           type: 'Event',
+        });
+
+        expect(store.selectedItemObject).toBe(originalRef);
+
+        expect(store.selectedItemObject).toMatchObject({
+            name: "Updated",
+            desc: "Updated desc",
+            type: "Event",
+        });
+    });
 })
 
 function createTestEntity(): Entity {
