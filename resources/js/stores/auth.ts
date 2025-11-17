@@ -94,6 +94,12 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     const fetchUser = async () => {
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+            user.value = null;
+            return;
+        }
+
         try {
             const response = await apiFetch('/user');
             user.value = response.ok ? await response.json() : null;
