@@ -2,9 +2,9 @@
 
 import Card from "./Card.vue";
 import EntityCard from "./EntityCard.vue";
-import type { Entity } from "../data/entityData.ts"
+import type { Entity } from "../data/entity-data.ts"
 import ButtonLink from "./ButtonLink.vue";
-import {useAuthStore} from "../auth";
+import {useAuthStore} from "../stores/auth";
 
 const authStore = useAuthStore();
 

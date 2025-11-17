@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import {getButtonClasses} from "../data/buttonClasses";
+    import {getButtonClasses} from "../data/button-classes";
     import {computed} from "vue";
 
     interface Props {

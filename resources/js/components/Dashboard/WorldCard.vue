@@ -2,7 +2,7 @@
     import Card from "../Card.vue";
     import {getRandomGradient} from "../../utils/gradient";
     import {World} from "../../types/world";
-    import {timeAgo} from "../../utils/timeAgo";
+    import {timeAgo} from "../../utils/time-ago";
     import EditButton from "../WorldMap/EditButton.vue";
     import DeleteButton from "../WorldMap/DeleteButton.vue";
 

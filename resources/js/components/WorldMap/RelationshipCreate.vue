@@ -4,8 +4,8 @@ import CustomButton from "../CustomButton.vue";
 import SelectInput from "../SelectInput.vue";
 import {computed, ref, watch} from "vue";
 import TextArea from "../TextArea.vue";
-import {ValidationErrors} from "../../types/ValidationErrors";
-import {relationshipTypes} from "../../data/relationshipTypes";
+import {ValidationErrors} from "../../types/validation-errors";
+import {relationshipTypes} from "../../data/relationship-types";
 
 const props = defineProps<{
     entities: { id: number; name: string }[];

@@ -2,7 +2,7 @@
     import * as d3 from 'd3';
     import {computed, onMounted, onUnmounted, ref, watch} from "vue";
     import {useWorldStore} from "../../stores/world";
-    import {colorHexCodes} from "../../data/entityColor";
+    import {colorHexCodes} from "../../data/entity-colors";
 
     const NODE_RADIUS = 40;
     const NEUTRAL_FILL = '#1F2937';

@@ -5,7 +5,7 @@ import {apiFetch} from "../utils/api";
 import {useRoute} from "vue-router";
 import Map from "../components/WorldMap/Map.vue";
 import RelationshipCreate from "../components/WorldMap/RelationshipCreate.vue";
-import {ValidationErrors} from "../types/ValidationErrors";
+import {ValidationErrors} from "../types/validation-errors";
 import {useWorldStore} from "../stores/world";
 import ItemShow from "../components/WorldMap/Show/ItemShow.vue";
 import {toast} from "../utils/toast";

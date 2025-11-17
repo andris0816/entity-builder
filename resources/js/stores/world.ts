@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {SelectedItem, WorldState} from "../types/worldState";
+import {SelectedItem, WorldState} from "../types/world-state";
 import {Relationship} from "../types/relationship";
 import {Entity} from "../types/entity";
 import {apiFetch} from "../utils/api";

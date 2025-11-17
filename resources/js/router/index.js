@@ -45,7 +45,7 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-    const {useAuthStore} = await import('../auth');
+    const {useAuthStore} = await import('../stores/auth.js');
     const authStore = useAuthStore();
 
     const token = localStorage.getItem('auth_token');

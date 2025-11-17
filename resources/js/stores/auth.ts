@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import {apiFetch} from "./utils/api";
-import {ValidationErrors} from "./types/ValidationErrors";
+import {apiFetch} from "../utils/api";
+import {ValidationErrors} from "../types/validation-errors";
 
 interface User {
     id: bigint;

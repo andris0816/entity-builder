@@ -3,8 +3,8 @@ import CustomButton from "../components/CustomButton.vue";
 import Card from "../components/Card.vue";
 import TextInput from "../components/TextInput.vue";
 import {onMounted, ref} from "vue";
-import {useAuthStore} from "../auth";
-import {ValidationErrors} from "../types/ValidationErrors";
+import {useAuthStore} from "../stores/auth";
+import {ValidationErrors} from "../types/validation-errors";
 import {toast} from "../utils/toast";
 
 const authStore = useAuthStore();

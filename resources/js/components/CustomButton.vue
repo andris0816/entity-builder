@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import {computed} from "vue";
-    import {getButtonClasses} from "../data/buttonClasses";
+    import {getButtonClasses} from "../data/button-classes";
 
     interface Props {
         type?: 'button' | 'submit' | 'reset';

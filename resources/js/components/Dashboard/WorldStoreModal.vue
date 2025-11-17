@@ -7,7 +7,7 @@ import TextArea from "../TextArea.vue";
 import {ref} from "vue";
 import {World} from "../../types/world";
 import {apiFetch} from "../../utils/api";
-import {ValidationErrors} from "../../types/ValidationErrors";
+import {ValidationErrors} from "../../types/validation-errors";
 
 const name = ref('');
 const desc = ref('');

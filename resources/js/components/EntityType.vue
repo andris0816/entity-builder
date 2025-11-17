@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defaultColorClasses, entityColorClasses} from "../data/entityColor";
+import {defaultColorClasses, entityColorClasses} from "../data/entity-colors";
 import {computed} from "vue";
 
 const props = defineProps<{

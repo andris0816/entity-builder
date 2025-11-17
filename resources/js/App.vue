@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
     import Navigation from "./components/Navigation.vue";
-    import {useAuthStore} from "./auth";
+    import {useAuthStore} from "./stores/auth";
     import {onMounted} from "vue";
 
 

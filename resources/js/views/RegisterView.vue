@@ -3,8 +3,8 @@ import TextInput from "../components/TextInput.vue";
 import Card from "../components/Card.vue";
 import CustomButton from "../components/CustomButton.vue";
 import {ref} from "vue";
-import {ValidationErrors} from "../types/ValidationErrors";
-import {useAuthStore} from "../auth";
+import {ValidationErrors} from "../types/validation-errors";
+import {useAuthStore} from "../stores/auth";
 import {toast} from "../utils/toast";
 
 const name = ref('');

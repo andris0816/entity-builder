@@ -1,6 +1,5 @@
 import {Entity} from "./entity";
 import {Relationship} from "./relationship";
-import {ViewPort} from "./ViewPort";
 
 export type SelectedItem =
     | {type: 'entity'; id: number}

@@ -1,10 +1,10 @@
 <script setup lang="ts">
     import Card from "../components/Card.vue";
-    import {entities} from "../data/entityData";
+    import {entities} from "../data/entity-data";
     import HeroSection from "../components/HeroSection.vue";
-    import {cardData} from "../data/homeCardData";
+    import {cardData} from "../data/home-card-data";
     import ButtonLink from "../components/ButtonLink.vue";
-    import {useAuthStore} from "../auth";
+    import {useAuthStore} from "../stores/auth";
 
     const authStore = useAuthStore();
 </script>

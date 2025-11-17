@@ -5,8 +5,8 @@ import TextArea from "../TextArea.vue";
 import CustomButton from "../CustomButton.vue";
 import {ref} from "vue";
 import SelectInput from "../SelectInput.vue";
-import { ValidationErrors } from "../../types/ValidationErrors";
-import {entityTypes} from "../../data/entityTypes";
+import { ValidationErrors } from "../../types/validation-errors";
+import {entityTypes} from "../../data/entity-types";
 
 const form = ref({
     name: '',
